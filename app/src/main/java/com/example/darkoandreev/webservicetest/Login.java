@@ -15,15 +15,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.darkoandreev.webservicetest.DocumentsModel.Documents;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
-import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 //var url = "../rest/accounts/" + $.QueryString["account"] + "/statement";
 //var url = "../rest/accounts/" + $.QueryString["account"] + "/invoices/" + $.QueryString["doc"];
@@ -96,10 +100,9 @@ public class Login extends AppCompatActivity {
 }
 
 
-class RetrieveFeedTask extends AsyncTask<String, Void, String> {
+class RetrieveFeedTask extends AsyncTask<String, String, List<Documents>> {
     private String user, pass;
     private Context context;
-    private JSONArray jsonArray = null;
 
     public RetrieveFeedTask (Context context, String username, String password) {
         this.user = username;
@@ -109,8 +112,8 @@ class RetrieveFeedTask extends AsyncTask<String, Void, String> {
 
 
     @Override
-    protected String doInBackground(String... urls) {
-
+    protected List<Documents> doInBackground(String... urls) {
+        Documents doc = new Documents();
         String credentials = this.user + ":" + this.pass;
         Log.d("User: ", this.user);
         Log.d("Pass: ", this.pass);
@@ -124,7 +127,7 @@ class RetrieveFeedTask extends AsyncTask<String, Void, String> {
             httpGet.setHeader("Authorization", "Basic " + credBase64);
             httpGet.setHeader("Accept", "application/json;q=0.9,*/*;q=0.8");
             httpGet.setHeader("Accept-Encoding", "gzip, deflate");
-         //   httpGet.setHeader("Content-Type", "application/json");
+            httpGet.setHeader("Content-Type", "application/json");
 
             try {
                 HttpResponse execute = client.execute(httpGet);
@@ -132,25 +135,86 @@ class RetrieveFeedTask extends AsyncTask<String, Void, String> {
                 String status = execute.getStatusLine().toString();
                 Log.d("Status", status);
 
-                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-               // String s = "";
-                while ((s = buffer.readLine()) != null) {
-                   builder.append(s);
+                BufferedReader bufferReader = new BufferedReader(new InputStreamReader(content));
+                StringBuffer buffer = new StringBuffer();
+                // String s = "";
+                while ((s = bufferReader.readLine()) != null) {
+                    buffer.append(s);
                     Log.d("Response", String.valueOf(builder));
                 }
+
+                String finalJson = buffer.toString();
+                JSONObject parentObject = new JSONObject(finalJson);
+                JSONObject accountObject = parentObject.getJSONObject("cssc:AccountStatement");
+                JSONArray parentArray = accountObject.getJSONArray("cssc:Documents");
+
+                List<Documents> documentsList = new ArrayList<>();
+
+
+                JSONObject dolar;
+                for (int i = 1; i < parentArray.length(); i++) {
+                    JSONObject issueDate = parentArray.getJSONObject(i);
+                    dolar = issueDate.getJSONObject("ft:IssueDate");
+                    doc.setIssueDate(dolar.getString("$"));
+                    Log.d("IssueDate", dolar.getString("$"));
+
+                    JSONObject dueDate = parentArray.getJSONObject(i);
+                    dolar = dueDate.getJSONObject("ft:DueDate");
+                    doc.setDueDate(dolar.getString("$"));
+                    Log.d("dueDate", dolar.getString("$"));
+
+                    JSONObject amount = parentArray.getJSONObject(i);
+                    dolar = amount.getJSONObject("ft:Amount");
+                    doc.setAmount(dolar.getString("$"));
+                    Log.d("amount", dolar.getString("$"));
+
+                    JSONObject documentNumber = parentArray.getJSONObject(i);
+                    dolar = documentNumber.getJSONObject("ft:DocumentNumber");
+                    doc.setDocumentNumber(dolar.getString("$"));
+                    Log.d("documentNumber", dolar.getString("$"));
+
+                    JSONObject statusType = parentArray.getJSONObject(i);
+                    dolar = statusType.getJSONObject("ft:Applied");
+                    doc.setDocumentNumber(dolar.getString("$"));
+                    Log.d("statusType", dolar.getString("$"));
+
+                    JSONObject vat = parentArray.getJSONObject(i);
+                    dolar = vat.getJSONObject("ft:VAT");
+                    doc.setVat(dolar.getString("$"));
+                    Log.d("vat", dolar.getString("$"));
+
+                    JSONObject totalAmount = parentArray.getJSONObject(i);
+                    dolar = totalAmount.getJSONObject("ft:TotalAmount");
+                    doc.setTotalAmount(dolar.getString("$"));
+                    Log.d("totalAmount", dolar.getString("$"));
+
+                    JSONObject balance = parentArray.getJSONObject(i);
+                    dolar = balance.getJSONObject("ct:Balance");
+                    doc.setBalance(dolar.getString("$"));
+                    Log.d("balance", dolar.getString("$"));
+
+                    JSONObject totalDiscount = parentArray.getJSONObject(i);
+                    dolar = totalDiscount.getJSONObject("ft:TotalDiscount");
+                    doc.setTotalDiscount(dolar.getString("$"));
+                    Log.d("totalDiscount", dolar.getString("$"));
+
+
+                    JSONObject forwardBalance = parentArray.getJSONObject(i);
+                    dolar = forwardBalance.getJSONObject("ft:Type");
+                    doc.setForwardBalance(dolar.getString("$"));
+                    Log.d("forwardBalance", dolar.getString("$"));
+
+                    documentsList.add(doc);
+                }
+
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            try {
-                jsonArray = new JSONArray(builder.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
         }
 
-        return String.valueOf(jsonArray);
+        return null;
+
     }
 
 }
