@@ -6,7 +6,6 @@ package com.example.darkoandreev.webservicetest.DocumentsModel;
 
 public class Documents  {
 
-
     private String issueDate;
     private String dueDate;
     private String documentNumber;
@@ -16,6 +15,16 @@ public class Documents  {
     private String balance;
     private String totalDiscount;
     private String forwardBalance;
+    private String statusType;
+
+
+    public String getStatusType() {
+        return issueDate;
+    }
+
+    public void setStatusType(String statusType) {
+        this.statusType = statusType;
+    }
 
     public String getIssueDate() {
         return issueDate;
