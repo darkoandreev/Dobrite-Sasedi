@@ -6,16 +6,16 @@ package com.example.darkoandreev.webservicetest.DocumentsModel;
 
 public class Documents  {
 
-    private String issueDate;
-    private String dueDate;
-    private String documentNumber;
-    private String amount;
-    private String vat;
-    private String totalAmount;
-    private String balance;
-    private String totalDiscount;
-    private String forwardBalance;
-    private String statusType;
+    public String issueDate;
+    public String dueDate;
+    public String documentNumber;
+    public String amount;
+    public String vat;
+    public String totalAmount;
+    public String balance;
+    public String totalDiscount;
+    public String forwardBalance;
+    public String statusType;
 
 
     public String getStatusType() {

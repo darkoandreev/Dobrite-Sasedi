@@ -25,7 +25,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
+import java.util.ArrayList;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -101,21 +101,19 @@ public class Login extends AppCompatActivity {
 }
 
 
-class RetrieveFeedTask extends AsyncTask<String, String, List<Documents>> {
+class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<Documents>> {
     private String user, pass;
     private Context context;
-    Property property = new Property();
-    String finalJson;
+    public String finalJson;
 
     public RetrieveFeedTask (Context context, String username, String password) {
         this.user = username;
         this.pass = password;
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
-
     @Override
-    protected List<Documents> doInBackground(String... urls) {
+    protected ArrayList<Documents> doInBackground(String... urls) {
 
         String credentials = this.user + ":" + this.pass;
         Log.d("User: ", this.user);
@@ -145,17 +143,21 @@ class RetrieveFeedTask extends AsyncTask<String, String, List<Documents>> {
                     BufferedReader bufferReader = new BufferedReader(new InputStreamReader(content));
                     StringBuffer buffer = new StringBuffer();
 
+
                     while ((s = bufferReader.readLine()) != null) {
                         buffer.append(s);
                         Log.d("Response", String.valueOf(builder));
                     }
 
                     finalJson = buffer.toString();
+
                 }
+
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
         }
 
         return null;
@@ -163,10 +165,13 @@ class RetrieveFeedTask extends AsyncTask<String, String, List<Documents>> {
     }
 
     @Override
-    protected void onPostExecute(List<Documents> documentsList) {
-        super.onPostExecute(documentsList);
-        property.documentJSONParse(finalJson);
+    protected void onPostExecute(ArrayList<Documents> documentsList) {
 
+            Intent intent = new Intent(this.context, Property.class);
+            intent.putExtra("finalJson", finalJson);
+            context.startActivity(intent);
+
+        super.onPostExecute(documentsList);
     }
 }
 
