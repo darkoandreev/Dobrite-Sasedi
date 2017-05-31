@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.darkoandreev.webservicetest.DocumentsModel.Documents;
@@ -14,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static com.example.darkoandreev.webservicetest.R.layout.client_documents;
@@ -36,6 +36,8 @@ public class Property extends AppCompatActivity implements AdapterView.OnItemCli
     private String balance;
     private String totalDiscount;
     private String forwardBalance;
+
+    TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText;
 
     private List<Documents> documentsList = new ArrayList<>();
 
@@ -63,11 +65,20 @@ public class Property extends AppCompatActivity implements AdapterView.OnItemCli
     }
 
 
-    HashMap<String, String> map = new HashMap<>();
-
     public void documentJSONParse () {
 
+        tekushtoSaldo = (TextView) findViewById(R.id.tekushtoSaldo);
+        nachalnaData = (TextView) findViewById(R.id.nachalnaData);
+        krainaData = (TextView) findViewById(R.id.krainaData);
+        saldoNachalo = (TextView) findViewById(R.id.saldoNachalo);
+        saldoKraq = (TextView) findViewById(R.id.saldoVKraq);
+        textView12 = (TextView) findViewById(R.id.textView12);
+        userIDText = (TextView) findViewById(R.id.userID);
+
+
         String extras = getIntent().getStringExtra("finalJson");
+        String userID = getIntent().getStringExtra("userID");
+        userIDText.setText(userID);
 
         try {
             JSONObject parentObject = new JSONObject(extras);
@@ -82,63 +93,60 @@ public class Property extends AppCompatActivity implements AdapterView.OnItemCli
                 JSONObject issueDate = parentArray.getJSONObject(i);
                 dolar = issueDate.getJSONObject("ft:IssueDate");
                 doc.setIssueDate(dolar.getString("$"));
-                map.put("IssueDate", doc.getIssueDate());
+                nachalnaData.setText(doc.getIssueDate());
                 Log.d("IssueDate", dolar.getString("$"));
 
                 JSONObject dueDate = parentArray.getJSONObject(i);
                 dolar = dueDate.getJSONObject("ft:DueDate");
                 doc.setDueDate(dolar.getString("$"));
-                map.put("DueDate", doc.getDueDate());
+                krainaData.setText(doc.getDueDate());
                 Log.d("dueDate", dolar.getString("$"));
 
                 JSONObject documentNumber = parentArray.getJSONObject(i);
                 dolar = documentNumber.getJSONObject("ft:DocumentNumber");
                 doc.setDocumentNumber(dolar.getString("$"));
-                map.put("DocumentNumber", doc.getDocumentNumber());
                 Log.d("documentNumber", dolar.getString("$"));
 
                 JSONObject amount = parentArray.getJSONObject(i);
                 dolar = amount.getJSONObject("ft:Amount");
                 doc.setAmount(dolar.getString("$"));
-                map.put("Amount", doc.getAmount());
+                saldoNachalo.setText(doc.getAmount());
+
                 Log.d("amount", dolar.getString("$"));
 
 
                 JSONObject statusType = parentArray.getJSONObject(i);
                 dolar = statusType.getJSONObject("ft:Applied");
                 doc.setStatusType(dolar.getString("$"));
-                map.put("StatusType", doc.getStatusType());
                 Log.d("statusType", dolar.getString("$"));
 
                 JSONObject vat = parentArray.getJSONObject(i);
                 dolar = vat.getJSONObject("ft:VAT");
                 doc.setVat(dolar.getString("$"));
-                map.put("VAT", doc.getVat());
                 Log.d("vat", dolar.getString("$"));
 
                 JSONObject totalAmount = parentArray.getJSONObject(i);
                 dolar = totalAmount.getJSONObject("ft:TotalAmount");
                 doc.setTotalAmount(dolar.getString("$"));
-                map.put("TotalAmount", doc.getTotalAmount());
                 Log.d("totalAmount", dolar.getString("$"));
 
                 JSONObject balance = parentArray.getJSONObject(i);
                 dolar = balance.getJSONObject("ct:Balance");
                 doc.setBalance(dolar.getString("$"));
-                map.put("Balance", doc.getBalance());
+                tekushtoSaldo.setText(doc.getBalance());
+                saldoKraq.setText(doc.getBalance());
+
                 Log.d("balance", dolar.getString("$"));
 
                 JSONObject totalDiscount = parentArray.getJSONObject(i);
                 dolar = totalDiscount.getJSONObject("ft:TotalDiscount");
                 doc.setTotalDiscount(dolar.getString("$"));
-                map.put("TotalDiscount", doc.getTotalDiscount());
                 Log.d("totalDiscount", dolar.getString("$"));
 
 
                 JSONObject forwardBalance = parentArray.getJSONObject(i);
                 dolar = forwardBalance.getJSONObject("ft:Type");
                 doc.setForwardBalance(dolar.getString("$"));
-                map.put("ForwardBalance", doc.getForwardBalance());
                 Log.d("forwardBalance", dolar.getString("$"));
 
                 arrayOfDocuments.add(doc);
@@ -147,6 +155,7 @@ public class Property extends AppCompatActivity implements AdapterView.OnItemCli
         }catch (Exception e) {
             e.printStackTrace();
         }
+
 
     }
 

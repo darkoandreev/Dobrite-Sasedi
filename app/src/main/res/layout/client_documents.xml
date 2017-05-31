@@ -14,36 +14,43 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Активна: "
-            android:textSize="20sp" />
+            android:text="User: "
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold" />
+
             <TextView
-                android:id="@+id/isActive"
+                android:id="@+id/userID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Текущо салдо:"
-            android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Текущо салдо:"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tekushtoSaldo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp" />
-            </LinearLayout>
+                android:layout_marginLeft="50dp"
+                android:layout_weight="1"
+                android:text="tekushto saldo" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -140,49 +147,56 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/textView13"
-            android:layout_width="wrap_content"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:text="Документ"
-            android:background="@color/colorAccent"
             android:layout_marginLeft="20dp"
-            android:textSize="17sp"
+            android:background="@color/colorAccent"
             android:clickable="true"
-            android:onClick="onClick"/>
+            android:onClick="onClick"
+            android:text="Документ"
+            android:textAlignment="center"
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="50dp"
+            android:background="@color/colorAccent"
             android:clickable="true"
             android:onClick="onClick"
-            android:background="@color/colorAccent"
-            android:textSize="17sp"
-            android:text="Тотал" />
+            android:text="Тотал"
+            android:textAlignment="center"
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/textView12"
-            android:layout_width="wrap_content"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:text="147.72 лв."
             android:layout_marginLeft="80dp"
-            android:textSize="17sp"
-            android:clickable="true"
             android:background="@color/colorAccent"
-            android:onClick="onClick"/>
+            android:clickable="true"
+            android:onClick="onClick"
+            android:text="147.72 лв."
+            android:textAlignment="center"
+            android:textSize="17sp"
+            android:layout_weight="0.22" />
+
     </LinearLayout>
 
     <ListView
         android:id="@+id/documentsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:fastScrollEnabled="true"/>
 
 </LinearLayout>

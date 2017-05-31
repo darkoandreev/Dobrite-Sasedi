@@ -1,6 +1,7 @@
 package com.example.darkoandreev.webservicetest;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,12 +35,27 @@ public class MyAdapter extends ArrayAdapter<Documents> {
         TextView documentNumber = (TextView) convertView.findViewById(R.id.documentNumber);
         TextView totalAmount = (TextView) convertView.findViewById(R.id.totalAmount);
         TextView balance = (TextView) convertView.findViewById(R.id.balance);
+        TextView status = (TextView) convertView.findViewById(R.id.statusType);
+        TextView invoice = (TextView) convertView.findViewById(R.id.inovice);
+        TextView data = (TextView) convertView.findViewById(R.id.data);
 
         documentNumber.setText(documents.documentNumber);
         totalAmount.setText(documents.totalAmount);
         balance.setText(documents.balance);
+        status.setText(documents.statusType);
+
+        if(status.getText().toString().equals("NotPaid")) {
+            status.setTextColor(Color.RED);
+        } else {
+            status.setTextColor(Color.GREEN);
+        }
+
+        invoice.setText(documents.forwardBalance);
+        data.setText(documents.issueDate);
 
 
         return convertView;
     }
+
+
 }

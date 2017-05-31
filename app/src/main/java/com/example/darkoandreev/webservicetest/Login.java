@@ -38,6 +38,7 @@ public class Login extends AppCompatActivity {
     private Boolean saveLogin;
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
+    SharedPreferences.Editor edit;
 
 
 
@@ -70,6 +71,8 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 String user = username.getText().toString();
                 String pass = password.getText().toString();
+
+
                 if(v == loginButton) {
                     if(checkBox.isChecked()) {
                         RetrieveFeedTask task = new RetrieveFeedTask(Login.this, user, pass);
@@ -79,9 +82,7 @@ public class Login extends AppCompatActivity {
                         loginPrefsEditor.commit();
 
                         task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/100010002001/statement"});
-                        opetBatches();
                         Toast.makeText(Login.this, "Logged in", LENGTH_SHORT).show();
-
 
                     } else {
                         loginPrefsEditor.clear();
@@ -91,11 +92,6 @@ public class Login extends AppCompatActivity {
 
             }
         });
-    }
-
-    public void opetBatches () {
-        Intent intent = new Intent(Login.this, Property.class);
-        startActivity(intent);
     }
 
 }
@@ -118,6 +114,7 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<Documents>> {
         String credentials = this.user + ":" + this.pass;
         Log.d("User: ", this.user);
         Log.d("Pass: ", this.pass);
+
         String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
 
         String s = "";
@@ -169,6 +166,8 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<Documents>> {
 
             Intent intent = new Intent(this.context, Property.class);
             intent.putExtra("finalJson", finalJson);
+            intent.putExtra("userID", this.user);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
 
         super.onPostExecute(documentsList);
