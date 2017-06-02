@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.darkoandreev.webservicetest.DocumentsModel.Documents;
+//import com.example.darkoandreev.webservicetest.DocumentsModel.Documents;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -31,16 +31,14 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 
 public class Login extends AppCompatActivity {
-    private TextView username, password;
+    public TextView username, password;
+    public String user, pass;
     private ImageView logo;
     private Button loginButton;
     private CheckBox checkBox;
     private Boolean saveLogin;
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
-    SharedPreferences.Editor edit;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,36 +67,34 @@ public class Login extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user = username.getText().toString();
-                String pass = password.getText().toString();
 
+                user = username.getText().toString();
+                pass = password.getText().toString();
 
                 if(v == loginButton) {
-                    if(checkBox.isChecked()) {
-                        RetrieveFeedTask task = new RetrieveFeedTask(Login.this, user, pass);
-                        loginPrefsEditor.putBoolean("saveLogin", true);
-                        loginPrefsEditor.putString("username", user);
-                        loginPrefsEditor.putString("password", pass);
-                        loginPrefsEditor.commit();
 
-                        task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/100010002001/statement"});
-                        Toast.makeText(Login.this, "Logged in", LENGTH_SHORT).show();
+                    loginPrefsEditor.putBoolean("saveLogin", true);
+                    loginPrefsEditor.putString("username", user);
+                    loginPrefsEditor.putString("password", pass);
+                    loginPrefsEditor.commit();
 
-                    } else {
-                        loginPrefsEditor.clear();
-                        loginPrefsEditor.commit();
-                    }
+                    RetrieveFeedTask task = new RetrieveFeedTask(Login.this, user, pass);
+
+                    task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts"});
+                    Toast.makeText(Login.this, "Logged in", LENGTH_SHORT).show();
+
+                     }
+
                 }
 
-            }
-        });
+            });
+        }
     }
 
-}
 
 
-class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<Documents>> {
-    private String user, pass;
+class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>> {
+    public String user, pass;
     private Context context;
     public String finalJson;
 
@@ -108,8 +104,9 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<Documents>> {
         this.context = context.getApplicationContext();
     }
 
+
     @Override
-    protected ArrayList<Documents> doInBackground(String... urls) {
+    protected ArrayList<PartidiInfo> doInBackground(String... urls) {
 
         String credentials = this.user + ":" + this.pass;
         Log.d("User: ", this.user);
@@ -162,16 +159,21 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<Documents>> {
     }
 
     @Override
-    protected void onPostExecute(ArrayList<Documents> documentsList) {
+    protected void onPostExecute(ArrayList<PartidiInfo> partidiInfos) {
 
-            Intent intent = new Intent(this.context, Property.class);
+            Intent intent = new Intent(this.context, PartidiView.class);
             intent.putExtra("finalJson", finalJson);
-            intent.putExtra("userID", this.user);
+            intent.putExtra("username", this.user);
+            intent.putExtra("password", this.pass);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
             context.startActivity(intent);
 
-        super.onPostExecute(documentsList);
-    }
-}
+            super.onPostExecute(partidiInfos);
+        }
+ }
+
+
+
 
 

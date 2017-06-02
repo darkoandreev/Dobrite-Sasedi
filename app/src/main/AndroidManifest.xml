@@ -18,7 +18,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Property"
+            android:name=".ClientDocuments"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".PartidiView"
             android:label="@string/app_name">
         </activity>
 

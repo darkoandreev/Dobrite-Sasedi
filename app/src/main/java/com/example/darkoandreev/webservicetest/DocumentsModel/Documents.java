@@ -16,7 +16,15 @@ public class Documents  {
     public String totalDiscount;
     public String forwardBalance;
     public String statusType;
+    public String partidaID;
 
+    public String getPartidaID() {
+        return partidaID;
+    }
+
+    public void setPartidaID(String partidaID) {
+        this.partidaID = partidaID;
+    }
 
     public String getStatusType() {
         return issueDate;

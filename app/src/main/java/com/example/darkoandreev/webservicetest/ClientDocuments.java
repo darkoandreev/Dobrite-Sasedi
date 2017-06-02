@@ -23,7 +23,7 @@ import static com.example.darkoandreev.webservicetest.R.layout.client_documents;
  * Created by darko.andreev on 5/23/2017.
  */
 
-public class Property extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ClientDocuments extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ListView listView;
     private String issueDate;
@@ -52,9 +52,8 @@ public class Property extends AppCompatActivity implements AdapterView.OnItemCli
         setContentView(client_documents);
         listView = (ListView) findViewById(R.id.documentsList);
 
-        MyAdapter adapter = new MyAdapter(this, arrayOfDocuments);
+        MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
         listView.setAdapter(adapter);
-
 
         documentJSONParse();
     }
@@ -75,19 +74,33 @@ public class Property extends AppCompatActivity implements AdapterView.OnItemCli
         textView12 = (TextView) findViewById(R.id.textView12);
         userIDText = (TextView) findViewById(R.id.userID);
 
+        JSONObject dolar;
 
-        String extras = getIntent().getStringExtra("finalJson");
+        String extras = getIntent().getStringExtra("finalPartidiJson");
         String userID = getIntent().getStringExtra("userID");
         userIDText.setText(userID);
 
+        Documents documents = new Documents();
+        String partidaId = null;
         try {
             JSONObject parentObject = new JSONObject(extras);
             JSONObject accountObject = parentObject.getJSONObject("cssc:AccountStatement");
             JSONArray parentArray = accountObject.getJSONArray("cssc:Documents");
 
+            JSONObject Accounts = accountObject.getJSONObject("cssc:Account");
+            JSONArray partidaID = Accounts.getJSONArray("cssc:Uid");
+            for (int k = 0; k < partidaID.length(); k++) {
+                dolar = partidaID.getJSONObject(k);
+                documents.setPartidaID(dolar.getString("$"));
+                partidaId = dolar.getString("$");
+
+                Log.d("partidaID", dolar.getString("$"));
+
+            }
+
             for (int i = 1; i < parentArray.length(); i++) {
 
-                JSONObject dolar;
+
                 Documents doc = new Documents();
 
                 JSONObject issueDate = parentArray.getJSONObject(i);

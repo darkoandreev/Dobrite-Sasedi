@@ -16,9 +16,9 @@ import java.util.ArrayList;
  * Created by darko.andreev on 5/29/2017.
  */
 
-public class MyAdapter extends ArrayAdapter<Documents> {
+public class MyDocumentsAdapter extends ArrayAdapter<Documents> {
 
-   public MyAdapter (Context context, ArrayList<Documents> documents) {
+   public MyDocumentsAdapter (Context context, ArrayList<Documents> documents) {
        super(context, 0, documents);
    }
 
