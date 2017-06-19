@@ -54,12 +54,10 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
         partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DocumentsTask task = new DocumentsTask(PartidiView.this);
-
+                    DocumentsTask task = new DocumentsTask(PartidiView.this);
                     task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/100010002001/statement"});
             }
         });
-
 
         partidiJSONParse();
     }
