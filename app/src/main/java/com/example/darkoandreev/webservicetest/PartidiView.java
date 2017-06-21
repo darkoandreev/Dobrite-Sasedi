@@ -2,6 +2,7 @@ package com.example.darkoandreev.webservicetest;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -44,61 +45,68 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(property);
-        partidaList = (ListView) findViewById(R.id.partidaList);
 
-        MyPartidiAdapter adapter = new MyPartidiAdapter(this, arrayOfDocuments);
-        partidaList.setAdapter(adapter);
+            super.onCreate(savedInstanceState);
+            setContentView(property);
+            partidaList = (ListView) findViewById(R.id.partidaList);
+            MyPartidiAdapter adapter = new MyPartidiAdapter(this, arrayOfDocuments);
+            partidaList.setAdapter(adapter);
 
-        partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            partidiJSONParse();
+
+            partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     DocumentsTask task = new DocumentsTask(PartidiView.this);
-                    task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/100010002001/statement"});
-            }
-        });
+                    task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidaNomerJson + "/statement"});
+                }
+            });
 
-        partidiJSONParse();
+
     }
 
 
     public void partidiJSONParse () {
+        
+        SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
+        boolean hasLoggedIn = sp.getBoolean("hasLoggedIn", false);
+        String extras = null;
+        if(hasLoggedIn) {
+            extras = sp.getString("finalJson", null);
+        }
 
-        partidaNomer = (TextView) findViewById(R.id.partidaNomer);
-        partidaBalance = (TextView) findViewById(R.id.partidaBalance);
-        partidaProperyRefs = (TextView) findViewById(R.id.partidaPropertyRefs);
+            partidaNomer = (TextView) findViewById(R.id.partidaNomer);
+            partidaBalance = (TextView) findViewById(R.id.partidaBalance);
+            partidaProperyRefs = (TextView) findViewById(R.id.partidaPropertyRefs);
 
-        String extras = getIntent().getStringExtra("finalJson");
-        String userID = getIntent().getStringExtra("userID");
+            try {
+                JSONObject parentObject = new JSONObject(extras);
+                JSONObject accountObject = parentObject.getJSONObject("cssc:AccountsWithUser");
+                JSONArray parentArray = accountObject.getJSONArray("cssc:Account");
 
+                for (int i = 0; i < parentArray.length(); i++) {
 
-        try {
-            JSONObject parentObject = new JSONObject(extras);
-            JSONObject accountObject = parentObject.getJSONObject("cssc:AccountsWithUser");
-            JSONArray parentArray = accountObject.getJSONArray("cssc:Account");
-
-            for (int i = 0; i < parentArray.length(); i++) {
-
-                JSONObject dolar;
-                JSONArray dolarArray;
-                PartidiInfo info = new PartidiInfo();
+                    JSONObject dolar;
+                    JSONArray dolarArray;
+                    PartidiInfo info = new PartidiInfo();
 
 
-                JSONObject partidaNomerObject = parentArray.getJSONObject(i);
-                dolarArray = partidaNomerObject.getJSONArray("cssc:Uid");
-                for (int j = 0; j < dolarArray.length(); j++) {
-                    dolar = dolarArray.getJSONObject(j);
-                    info.setPartidaNomer(dolar.getString("$"));
-                    //partidaNomer.setText(info.getPartidaNomer());
-                    Log.d("NomerPartida", dolar.getString("$"));
-                }
+                    JSONObject partidaNomerObject = parentArray.getJSONObject(i);
+                    dolarArray = partidaNomerObject.getJSONArray("cssc:Uid");
+                    for (int j = 0; j < dolarArray.length(); j++) {
+                        dolar = dolarArray.getJSONObject(j);
+                        info.setPartidaNomer(dolar.getString("$"));
+                        partidaNomerJson = dolar.getString("$");
+                        //partidaNomer.setText(info.getPartidaNomer());
+                        Log.d("NomerPartida", dolar.getString("$"));
+                    }
 
-                JSONObject partidaBalanceObject = parentArray.getJSONObject(i);
-                dolar = partidaBalanceObject.getJSONObject("ct:Balance");
-                info.setPartidaBalance(dolar.getString("$"));
- //               partidaBalance.setText(info.getPartidaBalance());
-                Log.d("Balance", dolar.getString("$"));
+
+                    JSONObject partidaBalanceObject = parentArray.getJSONObject(i);
+                    dolar = partidaBalanceObject.getJSONObject("ct:Balance");
+                    info.setPartidaBalance(dolar.getString("$"));
+                    // partidaBalance.setText(info.getPartidaBalance());
+                    Log.d("Balance", dolar.getString("$"));
 
                 /*
                 JSONObject partidaPropertyRefsObject = parentArray.getJSONObject(i);
@@ -107,17 +115,18 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                 JSONObject refObject = dolar.getJSONObject("ct:Ref");
                 JSONObject uIDObject = refObject.getJSONObject("ct:Uid");
                 info.setPartidaPropertyRefs(uIDObject.getString("$"));
-//                partidaProperyRefs.setText(info.getPartidaPropertyRefs());
+                partidaProperyRefs.setText(info.getPartidaPropertyRefs());
                 Log.d("Refs:", dolar.getString("$"));
                 */
 
 
-                arrayOfDocuments.add(info);
+                    arrayOfDocuments.add(info);
 
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
 
     }
@@ -136,10 +145,16 @@ class DocumentsTask extends AsyncTask<String, String, ArrayList<Documents>> {
 
     }
 
+    String unm, pass;
     @Override
     protected ArrayList<Documents> doInBackground(String... urls) {
 
-        String credentials = "test.2@gm.com" + ":" + "qwerty";
+        SharedPreferences sp1 = context.getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+         unm = sp1.getString("username", null);
+         pass = sp1.getString("password", null);
+
+        String credentials = unm + ":" + pass;
 
 
         String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
@@ -194,7 +209,7 @@ class DocumentsTask extends AsyncTask<String, String, ArrayList<Documents>> {
 
         Intent intent = new Intent(this.context, ClientDocuments.class);
         intent.putExtra("finalPartidiJson", finalJsonDocuments);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("username", unm);
 
         context.startActivity(intent);
 

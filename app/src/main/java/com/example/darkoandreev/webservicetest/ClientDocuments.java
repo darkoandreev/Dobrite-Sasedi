@@ -77,8 +77,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         JSONObject dolar;
 
         String extras = getIntent().getStringExtra("finalPartidiJson");
-        String userID = getIntent().getStringExtra("userID");
-        userIDText.setText(userID);
+        String user = getIntent().getStringExtra("username");
+        userIDText.setText(user);
 
         Documents documents = new Documents();
         String partidaId = null;
@@ -88,15 +88,16 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             JSONArray parentArray = accountObject.getJSONArray("cssc:Documents");
 
             JSONObject Accounts = accountObject.getJSONObject("cssc:Account");
+
             JSONArray partidaID = Accounts.getJSONArray("cssc:Uid");
             for (int k = 0; k < partidaID.length(); k++) {
                 dolar = partidaID.getJSONObject(k);
                 documents.setPartidaID(dolar.getString("$"));
                 partidaId = dolar.getString("$");
-
                 Log.d("partidaID", dolar.getString("$"));
 
             }
+
 
             for (int i = 1; i < parentArray.length(); i++) {
 

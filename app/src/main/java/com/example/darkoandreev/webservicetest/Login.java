@@ -15,8 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.example.darkoandreev.webservicetest.DocumentsModel.Documents;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpGet;
@@ -28,6 +26,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import static android.widget.Toast.LENGTH_SHORT;
+
+//import com.example.darkoandreev.webservicetest.DocumentsModel.Documents;
 
 
 public class Login extends AppCompatActivity {
@@ -42,61 +42,61 @@ public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.login);
-        super.onCreate(savedInstanceState);
-
-        loginButton = (Button) findViewById(R.id.button);
-        username = (TextView)findViewById(R.id.username);
-        password = (TextView)findViewById(R.id.password);
-        logo = (ImageView) findViewById(R.id.logo);
-        checkBox = (CheckBox) findViewById(R.id.saveLoginCheckBox);
-
-        logo.setImageResource(R.drawable.logo_eng);
 
         loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
         loginPrefsEditor = loginPreferences.edit();
 
-        saveLogin = loginPreferences.getBoolean("saveLogin", true);
+        saveLogin = loginPreferences.getBoolean("saveLogin", false);
 
-        if (saveLogin == true) {
-            username.setText(loginPreferences.getString("username", ""));
-            password.setText(loginPreferences.getString("password", ""));
-            checkBox.setChecked(true);
+
+        if (saveLogin) {
+            Intent intent = new Intent(Login.this, PartidiView.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
         }
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            setContentView(R.layout.login);
+            super.onCreate(savedInstanceState);
 
-                user = username.getText().toString();
-                pass = password.getText().toString();
+            loginButton = (Button) findViewById(R.id.button);
+            username = (TextView) findViewById(R.id.username);
+            password = (TextView) findViewById(R.id.password);
+            logo = (ImageView) findViewById(R.id.logo);
+            checkBox = (CheckBox) findViewById(R.id.saveLoginCheckBox);
 
-                if(v == loginButton) {
+            logo.setImageResource(R.drawable.logo_eng);
 
-                    loginPrefsEditor.putBoolean("saveLogin", true);
-                    loginPrefsEditor.putString("username", user);
-                    loginPrefsEditor.putString("password", pass);
-                    loginPrefsEditor.commit();
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                    RetrieveFeedTask task = new RetrieveFeedTask(Login.this, user, pass);
+                    user = username.getText().toString();
+                    pass = password.getText().toString();
 
-                    task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts"});
-                    Toast.makeText(Login.this, "Logged in", LENGTH_SHORT).show();
+                    if (v == loginButton) {
 
-                     }
+                        RetrieveFeedTask task = new RetrieveFeedTask(Login.this, user, pass);
+                        task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts"});
+
+                        Toast.makeText(Login.this, "Logged in", LENGTH_SHORT).show();
+
+                    }
 
                 }
 
             });
+
         }
     }
-
 
 
 class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>> {
     public String user, pass;
     private Context context;
     public String finalJson;
+
+    private SharedPreferences.Editor loginPrefsEditor;
 
     public RetrieveFeedTask (Context context, String username, String password) {
         this.user = username;
@@ -161,15 +161,19 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
     @Override
     protected void onPostExecute(ArrayList<PartidiInfo> partidiInfos) {
 
-            Intent intent = new Intent(this.context, PartidiView.class);
-            intent.putExtra("finalJson", finalJson);
-            intent.putExtra("username", this.user);
-            intent.putExtra("password", this.pass);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = new Intent(this.context, PartidiView.class);
+        context.startActivity(intent);
 
-            context.startActivity(intent);
 
-            super.onPostExecute(partidiInfos);
+        SharedPreferences sp = context.getSharedPreferences("Login", Context.MODE_PRIVATE);
+        SharedPreferences.Editor loginPrefsEditor = sp.edit();
+        loginPrefsEditor.putBoolean("hasLoggedIn", true);
+        loginPrefsEditor.putString("username", user);
+        loginPrefsEditor.putString("password", pass);
+        loginPrefsEditor.putString("finalJson", finalJson);
+        loginPrefsEditor.commit();
+
+        super.onPostExecute(partidiInfos);
         }
  }
 
