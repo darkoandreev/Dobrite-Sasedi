@@ -25,11 +25,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import static android.widget.Toast.LENGTH_SHORT;
-
-//import com.example.darkoandreev.webservicetest.DocumentsModel.Documents;
-
-
 public class Login extends AppCompatActivity {
     public TextView username, password;
     public String user, pass;
@@ -46,8 +41,7 @@ public class Login extends AppCompatActivity {
         loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
         loginPrefsEditor = loginPreferences.edit();
 
-        saveLogin = loginPreferences.getBoolean("saveLogin", false);
-
+        saveLogin = loginPreferences.getBoolean("hasLoggedIn", true);
 
         if (saveLogin) {
             Intent intent = new Intent(Login.this, PartidiView.class);
@@ -75,30 +69,32 @@ public class Login extends AppCompatActivity {
                     pass = password.getText().toString();
 
                     if (v == loginButton) {
-
+                        if (user.trim().length() > 0 && pass.trim().length() > 0) {
                         RetrieveFeedTask task = new RetrieveFeedTask(Login.this, user, pass);
                         task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts"});
 
-                        Toast.makeText(Login.this, "Logged in", LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Login.this, "Error!", Toast.LENGTH_SHORT).show();
 
                     }
 
                 }
 
-            });
+            }
 
-        }
+        });
+
     }
+}
 
 
 class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>> {
     public String user, pass;
     private Context context;
     public String finalJson;
+    public int statusCode;
 
-    private SharedPreferences.Editor loginPrefsEditor;
-
-    public RetrieveFeedTask (Context context, String username, String password) {
+    public RetrieveFeedTask(Context context, String username, String password) {
         this.user = username;
         this.pass = password;
         this.context = context.getApplicationContext();
@@ -127,16 +123,15 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
             try {
                 HttpResponse execute = client.execute(httpGet);
                 StatusLine statusLine = execute.getStatusLine();
-                int statusCode = statusLine.getStatusCode();
+                statusCode = statusLine.getStatusCode();
 
-                if(statusCode == 200) {
+                if (statusCode == 200) {
                     InputStream content = execute.getEntity().getContent();
                     String status = execute.getStatusLine().toString();
                     Log.d("Status", status);
 
                     BufferedReader bufferReader = new BufferedReader(new InputStreamReader(content));
                     StringBuffer buffer = new StringBuffer();
-
 
                     while ((s = bufferReader.readLine()) != null) {
                         buffer.append(s);
@@ -146,7 +141,6 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
                     finalJson = buffer.toString();
 
                 }
-
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -158,24 +152,29 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
 
     }
 
+
     @Override
     protected void onPostExecute(ArrayList<PartidiInfo> partidiInfos) {
 
-        Intent intent = new Intent(this.context, PartidiView.class);
-        context.startActivity(intent);
+        if (statusCode == 200) {
+            Intent intent = new Intent(this.context, PartidiView.class);
+            context.startActivity(intent);
 
+            SharedPreferences sp = context.getSharedPreferences("Login", Context.MODE_PRIVATE);
+            SharedPreferences.Editor loginPrefsEditor = sp.edit();
+            loginPrefsEditor.putBoolean("hasLoggedIn", true);
+            loginPrefsEditor.putString("username", user);
+            loginPrefsEditor.putString("password", pass);
+            loginPrefsEditor.putString("finalJson", finalJson);
+            loginPrefsEditor.commit();
 
-        SharedPreferences sp = context.getSharedPreferences("Login", Context.MODE_PRIVATE);
-        SharedPreferences.Editor loginPrefsEditor = sp.edit();
-        loginPrefsEditor.putBoolean("hasLoggedIn", true);
-        loginPrefsEditor.putString("username", user);
-        loginPrefsEditor.putString("password", pass);
-        loginPrefsEditor.putString("finalJson", finalJson);
-        loginPrefsEditor.commit();
-
-        super.onPostExecute(partidiInfos);
+            super.onPostExecute(partidiInfos);
+        } else {
+            Toast.makeText(this.context, "Invalid username/password", Toast.LENGTH_LONG).show();
+            }
         }
- }
+    }
+
 
 
 

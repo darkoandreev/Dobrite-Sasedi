@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -40,6 +43,8 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     private String partidaNomerJson;
     private String partidaBalanceJson;
     private String partidaPropertyRefsJson;
+    private String [] partidi;
+    private boolean hasLoggedIn;
 
     ArrayList<PartidiInfo> arrayOfDocuments = new ArrayList<PartidiInfo>();
 
@@ -58,18 +63,38 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     DocumentsTask task = new DocumentsTask(PartidiView.this);
-                    task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidaNomerJson + "/statement"});
+                    task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidi[position] + "/statement"});
                 }
             });
 
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.logout_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.logout_id) {
+
+            Intent intent = new Intent(PartidiView.this, Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+            finish();
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public void partidiJSONParse () {
         
         SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
-        boolean hasLoggedIn = sp.getBoolean("hasLoggedIn", false);
+        hasLoggedIn = sp.getBoolean("hasLoggedIn", false);
         String extras = null;
         if(hasLoggedIn) {
             extras = sp.getString("finalJson", null);
@@ -83,6 +108,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                 JSONObject parentObject = new JSONObject(extras);
                 JSONObject accountObject = parentObject.getJSONObject("cssc:AccountsWithUser");
                 JSONArray parentArray = accountObject.getJSONArray("cssc:Account");
+                partidi = new String [parentArray.length()];
 
                 for (int i = 0; i < parentArray.length(); i++) {
 
@@ -93,10 +119,12 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
 
                     JSONObject partidaNomerObject = parentArray.getJSONObject(i);
                     dolarArray = partidaNomerObject.getJSONArray("cssc:Uid");
+
                     for (int j = 0; j < dolarArray.length(); j++) {
                         dolar = dolarArray.getJSONObject(j);
                         info.setPartidaNomer(dolar.getString("$"));
                         partidaNomerJson = dolar.getString("$");
+                        partidi[i] = partidaNomerJson;
                         //partidaNomer.setText(info.getPartidaNomer());
                         Log.d("NomerPartida", dolar.getString("$"));
                     }
