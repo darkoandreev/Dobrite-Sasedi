@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/partidaID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Партида: "
+        android:textSize="17sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/titulqrID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Титуляр: "
+        android:textSize="17sp"
+        android:layout_below="@+id/partidaID"
+        android:layout_alignLeft="@+id/partidaID"
+        android:layout_alignStart="@+id/partidaID" />
+
+    <TextView
+        android:id="@+id/plashtaneID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/titulqrID"
+        android:layout_alignStart="@+id/titulqrID"
+        android:layout_below="@+id/titulqrID"
+        android:text="Плащане №:"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/dataID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/plashtaneID"
+        android:layout_alignStart="@+id/plashtaneID"
+        android:layout_below="@+id/plashtaneID"
+        android:text="Дата: "
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/sumaID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dataID"
+        android:layout_alignStart="@+id/dataID"
+        android:layout_below="@+id/dataID"
+        android:text="Сума: "
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/metodID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sumaID"
+        android:layout_alignStart="@+id/sumaID"
+        android:layout_below="@+id/sumaID"
+        android:text="Метод: "
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/referenciqID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/metodID"
+        android:layout_alignStart="@+id/metodID"
+        android:layout_below="@+id/metodID"
+        android:text="Референция: "
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/neusvoeniID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/referenciqID"
+        android:layout_alignStart="@+id/referenciqID"
+        android:layout_below="@+id/referenciqID"
+        android:text="Неусвоени: "
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/neusvoeniKreditID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Неусв, кредит: "
+        android:textSize="17sp"
+        android:layout_below="@+id/neusvoeniID"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/partidiText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:layout_marginRight="81dp"
+        android:layout_marginEnd="81dp"
+        android:layout_alignBottom="@+id/partidaID"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/titulqrText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/plashtaneID"
+        android:layout_alignLeft="@+id/partidiText"
+        android:layout_alignStart="@+id/partidiText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/plashtaneText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/plashtaneID"
+        android:layout_alignLeft="@+id/titulqrText"
+        android:layout_alignStart="@+id/titulqrText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/dataText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:layout_above="@+id/sumaText"
+        android:layout_alignLeft="@+id/plashtaneText"
+        android:layout_alignStart="@+id/plashtaneText" />
+
+    <TextView
+        android:id="@+id/sumaText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/metodID"
+        android:layout_alignLeft="@+id/dataText"
+        android:layout_alignStart="@+id/dataText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/metodText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/referenciqID"
+        android:layout_alignLeft="@+id/sumaText"
+        android:layout_alignStart="@+id/sumaText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/referenciqText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/referenciqID"
+        android:layout_alignLeft="@+id/metodText"
+        android:layout_alignStart="@+id/metodText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/neusvoeniText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/neusvoeniKreditID"
+        android:layout_alignLeft="@+id/referenciqText"
+        android:layout_alignStart="@+id/referenciqText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/neusvKreditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/neusvoeniKreditID"
+        android:layout_alignLeft="@+id/neusvoeniText"
+        android:layout_alignStart="@+id/neusvoeniText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <ListView
+        android:id="@+id/invoicesList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="52dp"
+        android:layout_below="@+id/neusvoeniKreditID"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/idAndSum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/neusvoeniKreditID"
+        android:layout_marginTop="26dp"
+        android:text="ID и сума"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:layout_alignRight="@+id/plashtaneID"
+        android:layout_alignEnd="@+id/plashtaneID" />
+
+    <TextView
+        android:id="@+id/kreditID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/idAndSum"
+        android:layout_centerHorizontal="true"
+        android:text="Кредит"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/platenoID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/kreditID"
+        android:layout_alignBottom="@+id/kreditID"
+        android:layout_marginLeft="44dp"
+        android:layout_marginStart="44dp"
+        android:layout_toEndOf="@+id/neusvKreditText"
+        android:layout_toRightOf="@+id/neusvKreditText"
+        android:text="Платено"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

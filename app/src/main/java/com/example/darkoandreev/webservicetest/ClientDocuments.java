@@ -1,8 +1,12 @@
 package com.example.darkoandreev.webservicetest;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,9 +19,16 @@ import android.widget.Toast;
 
 import com.example.darkoandreev.webservicetest.DocumentsModel.Documents;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +51,10 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     private String balance;
     private String totalDiscount;
     private String forwardBalance;
-
+    private String [] type;
+    private String [] documentArray;
+    private String partidaNum;
+    public Documents doc;
     TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText;
 
     private List<Documents> documentsList = new ArrayList<>();
@@ -55,11 +69,23 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(client_documents);
         listView = (ListView) findViewById(R.id.documentsList);
-
         MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
         listView.setAdapter(adapter);
 
         documentJSONParse();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PaymentsTask task = new PaymentsTask(ClientDocuments.this);
+                InvoicesTask invoiceTask = new InvoicesTask(ClientDocuments.this);
+                    if (type[position+1].equals("Payment")) {
+                        task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidaNum + "/payments/" + documentArray[position+1]});
+                    } else {
+                        invoiceTask.execute(new String[]{"http://vrod.dobritesasedi.bg//rest/accounts/" + partidaNum + "/invoices/" + documentArray[position+1]});
+                    }
+            }
+        });
     }
 
     @Override
@@ -94,7 +120,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         krainaData = (TextView) findViewById(R.id.krainaData);
         saldoNachalo = (TextView) findViewById(R.id.saldoNachalo);
         saldoKraq = (TextView) findViewById(R.id.saldoVKraq);
-        textView12 = (TextView) findViewById(R.id.textView12);
+        textView12 = (TextView) findViewById(R.id.grupa);
         userIDText = (TextView) findViewById(R.id.userID);
 
         JSONObject dolar;
@@ -112,20 +138,24 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
             JSONObject Accounts = accountObject.getJSONObject("cssc:Account");
 
+
             JSONArray partidaID = Accounts.getJSONArray("cssc:Uid");
+
             for (int k = 0; k < partidaID.length(); k++) {
                 dolar = partidaID.getJSONObject(k);
                 documents.setPartidaID(dolar.getString("$"));
                 partidaId = dolar.getString("$");
+                partidaNum = partidaId;
                 Log.d("partidaID", dolar.getString("$"));
 
             }
 
+            type = new String [parentArray.length()];
+            documentArray = new String [parentArray.length()];
 
             for (int i = 1; i < parentArray.length(); i++) {
+                doc = new Documents();
 
-
-                Documents doc = new Documents();
 
                 JSONObject issueDate = parentArray.getJSONObject(i);
                 dolar = issueDate.getJSONObject("ft:IssueDate");
@@ -142,6 +172,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 JSONObject documentNumber = parentArray.getJSONObject(i);
                 dolar = documentNumber.getJSONObject("ft:DocumentNumber");
                 doc.setDocumentNumber(dolar.getString("$"));
+                String documentNum = dolar.getString("$");
                 Log.d("documentNumber", dolar.getString("$"));
 
                 JSONObject amount = parentArray.getJSONObject(i);
@@ -186,6 +217,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 doc.setForwardBalance(dolar.getString("$"));
                 Log.d("forwardBalance", dolar.getString("$"));
 
+                type [i] = dolar.getString("$");
+                documentArray[i] = documentNum;
                 arrayOfDocuments.add(doc);
 
             }
@@ -201,10 +234,171 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         Toast.makeText(this, arrayOfDocuments.get(position).toString(), Toast.LENGTH_LONG).show();
 
     }
-
-
-
 }
+
+class PaymentsTask extends AsyncTask<String, String, ArrayList<PaymentsInfo>> {
+    private Context context;
+    public String finalJsonPayments;
+    public PaymentsTask (Context context) {
+        this.context = context.getApplicationContext();
+
+    }
+
+    String unm, pass;
+    @Override
+    protected ArrayList<PaymentsInfo> doInBackground(String... urls) {
+
+        SharedPreferences sp1 = context.getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+        unm = sp1.getString("username", null);
+        pass = sp1.getString("password", null);
+
+        String credentials = unm + ":" + pass;
+
+
+        String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
+
+        String s = "";
+        for (String url : urls) {
+            DefaultHttpClient client = new DefaultHttpClient();
+            StringBuilder builder = new StringBuilder();
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.setHeader("Authorization", "Basic " + credBase64);
+            httpGet.setHeader("Accept", "application/json;q=0.9,*/*;q=0.8");
+            httpGet.setHeader("Accept-Encoding", "gzip, deflate");
+            httpGet.setHeader("Content-Type", "application/json");
+
+            try {
+                HttpResponse execute = client.execute(httpGet);
+                StatusLine statusLine = execute.getStatusLine();
+                int statusCode = statusLine.getStatusCode();
+
+                if(statusCode == 200) {
+                    InputStream content = execute.getEntity().getContent();
+
+                    String status = execute.getStatusLine().toString();
+                    Log.d("Status", status);
+
+                    BufferedReader bufferReader = new BufferedReader(new InputStreamReader(content));
+                    StringBuffer buffer = new StringBuffer();
+
+
+                    while ((s = bufferReader.readLine()) != null) {
+                        buffer.append(s);
+                        Log.d("Response", String.valueOf(builder));
+                    }
+
+                    finalJsonPayments = buffer.toString();
+
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return null;
+
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<PaymentsInfo> payments) {
+
+        Intent intent = new Intent(this.context, PaymentsView.class);
+        intent.putExtra("finalPaymentsJson", finalJsonPayments);
+        intent.putExtra("username", unm);
+
+        context.startActivity(intent);
+
+        super.onPostExecute(payments);
+    }
+}
+
+class InvoicesTask extends AsyncTask<String, String, ArrayList<InvoicesInfo>> {
+    private Context context;
+    public String finalJsonInvoices;
+    public InvoicesTask (Context context) {
+        this.context = context.getApplicationContext();
+
+    }
+
+    String unm, pass;
+    @Override
+    protected ArrayList<InvoicesInfo> doInBackground(String... urls) {
+
+        SharedPreferences sp1 = context.getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+        unm = sp1.getString("username", null);
+        pass = sp1.getString("password", null);
+
+        String credentials = unm + ":" + pass;
+
+
+        String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
+
+        String s = "";
+        for (String url : urls) {
+            DefaultHttpClient client = new DefaultHttpClient();
+            StringBuilder builder = new StringBuilder();
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.setHeader("Authorization", "Basic " + credBase64);
+            httpGet.setHeader("Accept", "application/json;q=0.9,*/*;q=0.8");
+            httpGet.setHeader("Accept-Encoding", "gzip, deflate");
+            httpGet.setHeader("Content-Type", "application/json");
+
+            try {
+                HttpResponse execute = client.execute(httpGet);
+                StatusLine statusLine = execute.getStatusLine();
+                int statusCode = statusLine.getStatusCode();
+
+                if(statusCode == 200) {
+                    InputStream content = execute.getEntity().getContent();
+
+                    String status = execute.getStatusLine().toString();
+                    Log.d("Status", status);
+
+                    BufferedReader bufferReader = new BufferedReader(new InputStreamReader(content));
+                    StringBuffer buffer = new StringBuffer();
+
+
+                    while ((s = bufferReader.readLine()) != null) {
+                        buffer.append(s);
+                        Log.d("Response", String.valueOf(builder));
+                    }
+
+                    finalJsonInvoices = buffer.toString();
+
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return null;
+
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<InvoicesInfo> invoices) {
+
+        Intent intent = new Intent(this.context, InvoicesView.class);
+        intent.putExtra("finalInvoicesJson", finalJsonInvoices);
+        intent.putExtra("username", unm);
+
+        context.startActivity(intent);
+
+        super.onPostExecute(invoices);
+    }
+}
+
+
+
+
 
 
 

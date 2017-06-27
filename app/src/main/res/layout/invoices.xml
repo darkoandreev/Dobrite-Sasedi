@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/partidaInvoiceID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Партида: "
+        android:textSize="17sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/titulqrInvoiceID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Титуляр: "
+        android:textSize="17sp"
+        android:layout_below="@+id/partidaInvoiceID"
+        android:layout_alignLeft="@+id/partidaInvoiceID"
+        android:layout_alignStart="@+id/partidaInvoiceID" />
+
+    <TextView
+        android:id="@+id/documentID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/titulqrInvoiceID"
+        android:layout_alignStart="@+id/titulqrInvoiceID"
+        android:layout_below="@+id/titulqrInvoiceID"
+        android:text="Документ №:"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/izdadenaID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/documentID"
+        android:layout_alignStart="@+id/documentID"
+        android:layout_below="@+id/documentID"
+        android:text="Издадена на: "
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/statusID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/izdadenaID"
+        android:layout_alignStart="@+id/izdadenaID"
+        android:layout_below="@+id/izdadenaID"
+        android:text="Статус: "
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/stoinostID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/statusID"
+        android:layout_alignStart="@+id/statusID"
+        android:layout_below="@+id/statusID"
+        android:text="Стойност: "
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/ddsID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/stoinostID"
+        android:layout_alignStart="@+id/stoinostID"
+        android:layout_below="@+id/stoinostID"
+        android:text="ДДС: "
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/totalID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ddsID"
+        android:layout_alignStart="@+id/ddsID"
+        android:layout_below="@+id/ddsID"
+        android:text="Тотал: "
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/platimaDoId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Платима до: "
+        android:textSize="17sp"
+        android:layout_below="@+id/totalID"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+
+    <ListView
+        android:id="@+id/invoicesList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="49dp"
+        android:layout_below="@+id/platimaDoId"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/partidaIdInvoiceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/partidaInvoiceID"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/titulqrInvoiceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/documentID"
+        android:layout_alignLeft="@+id/partidaIdInvoiceText"
+        android:layout_alignStart="@+id/partidaIdInvoiceText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/dokumentInvoiceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/izdadenaID"
+        android:layout_alignLeft="@+id/titulqrInvoiceText"
+        android:layout_alignStart="@+id/titulqrInvoiceText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/izdadenaInvoiceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/izdadenaID"
+        android:layout_alignLeft="@+id/dokumentInvoiceText"
+        android:layout_alignStart="@+id/dokumentInvoiceText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/statusInvoiceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/stoinostID"
+        android:layout_alignLeft="@+id/izdadenaInvoiceText"
+        android:layout_alignStart="@+id/izdadenaInvoiceText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/stoinostInvoiceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/stoinostID"
+        android:layout_alignLeft="@+id/statusInvoiceText"
+        android:layout_alignStart="@+id/statusInvoiceText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/ddsInvoiceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/totalID"
+        android:layout_alignLeft="@+id/stoinostInvoiceText"
+        android:layout_alignStart="@+id/stoinostInvoiceText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/totalInvoiceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/platimaDoId"
+        android:layout_alignLeft="@+id/ddsInvoiceText"
+        android:layout_alignStart="@+id/ddsInvoiceText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/platimaInvoiceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/invoicesList"
+        android:layout_alignLeft="@+id/totalInvoiceText"
+        android:layout_alignStart="@+id/totalInvoiceText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/productID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Продукт и описание"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/platimaDoId"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/quantityID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Количество"
+        android:textAlignment="center"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:layout_marginRight="26dp"
+        android:layout_marginEnd="26dp"
+        android:layout_alignTop="@+id/productID"
+        android:layout_alignRight="@+id/platimaInvoiceText"
+        android:layout_alignEnd="@+id/platimaInvoiceText" />
+
+    <TextView
+        android:id="@+id/totalPriceID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/quantityID"
+        android:layout_alignBottom="@+id/quantityID"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="Тотал"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

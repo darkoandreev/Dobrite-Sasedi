@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/paymentID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        android:text="500001174"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/kreditID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/paymentID"
+        android:layout_centerHorizontal="true"
+        android:text="0.00"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/platenoID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="790.41"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/textView17"
+        android:layout_alignBottom="@+id/textView17"
+        android:layout_toLeftOf="@+id/textView16"
+        android:layout_toStartOf="@+id/textView16" />
+
+    <TextView
+        android:id="@+id/sumaID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="790.41"
+        android:layout_below="@+id/paymentID"
+        android:layout_alignLeft="@+id/paymentID"
+        android:layout_alignStart="@+id/paymentID" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/sumaID"
+        android:layout_toEndOf="@+id/sumaID"
+        android:layout_toRightOf="@+id/sumaID"
+        android:text="лв." />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="лв."
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_alignBaseline="@+id/platenoID"
+        android:layout_alignBottom="@+id/platenoID"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/kreditID"
+        android:layout_toEndOf="@+id/kreditID"
+        android:layout_toRightOf="@+id/kreditID"
+        android:text="лв."
+        android:textSize="20sp"
+        android:textStyle="bold" />
+</RelativeLayout>

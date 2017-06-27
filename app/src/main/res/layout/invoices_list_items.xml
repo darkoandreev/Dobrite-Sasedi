@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/obshtaOhranaID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="15dp"
+        android:text="Обща поддръжка и охрана"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/kolichestvoID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.0"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginRight="33dp"
+        android:layout_marginEnd="33dp"
+        android:layout_centerInParent="true"
+        android:layout_alignBaseline="@+id/obshtaOhranaID"
+        android:layout_alignBottom="@+id/obshtaOhranaID"
+        android:layout_toLeftOf="@+id/totalListInvoiceID"
+        android:layout_toStartOf="@+id/totalListInvoiceID" />
+
+    <TextView
+        android:id="@+id/totalListInvoiceID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/kolichestvoID"
+        android:layout_alignBottom="@+id/kolichestvoID"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="49dp"
+        android:layout_marginRight="49dp"
+        android:text="93.76"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lvID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/totalListInvoiceID"
+        android:layout_alignBottom="@+id/totalListInvoiceID"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="29dp"
+        android:layout_marginRight="29dp"
+        android:text="лв."
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/obshtaOhranaID"
+        android:layout_alignStart="@+id/obshtaOhranaID"
+        android:layout_below="@+id/obshtaOhranaID"
+        android:text="Общо Поддръжка и охрана, м.02.2017, Оф.02"
+        android:textSize="9sp" />
+
+</RelativeLayout>

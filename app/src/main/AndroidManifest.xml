@@ -19,11 +19,21 @@
         </activity>
         <activity
             android:name=".ClientDocuments"
-            android:label="@string/app_name">
+            android:label="@string/client_doc">
         </activity>
         <activity
             android:name=".PartidiView"
-            android:label="@string/app_name">
+            android:label="@string/partidi_string">
+        </activity>
+
+        <activity
+            android:name=".PaymentsView"
+            android:label="@string/plashtane_string">
+        </activity>
+
+        <activity
+            android:name=".InvoicesView"
+            android:label="Фактура">
         </activity>
 
     </application>

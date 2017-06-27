@@ -238,7 +238,7 @@ class DocumentsTask extends AsyncTask<String, String, ArrayList<Documents>> {
         Intent intent = new Intent(this.context, ClientDocuments.class);
         intent.putExtra("finalPartidiJson", finalJsonDocuments);
         intent.putExtra("username", unm);
-
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
 
         super.onPostExecute(documents);
