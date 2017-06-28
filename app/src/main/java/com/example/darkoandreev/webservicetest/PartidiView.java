@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.darkoandreev.webservicetest.DocumentsModel.Documents;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -45,27 +47,75 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     private String partidaPropertyRefsJson;
     private String [] partidi;
     private boolean hasLoggedIn;
+    private MaterialSearchView searchView;
 
     ArrayList<PartidiInfo> arrayOfDocuments = new ArrayList<PartidiInfo>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-            super.onCreate(savedInstanceState);
-            setContentView(property);
-            partidaList = (ListView) findViewById(R.id.partidaList);
-            MyPartidiAdapter adapter = new MyPartidiAdapter(this, arrayOfDocuments);
-            partidaList.setAdapter(adapter);
+        super.onCreate(savedInstanceState);
+        setContentView(property);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-            partidiJSONParse();
+        searchView = (MaterialSearchView) findViewById(R.id.searchBar);
 
-            partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    DocumentsTask task = new DocumentsTask(PartidiView.this);
-                    task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidi[position] + "/statement"});
+        partidaList = (ListView) findViewById(R.id.partidaList);
+        MyPartidiAdapter adapter = new MyPartidiAdapter(this, arrayOfDocuments);
+        partidaList.setAdapter(adapter);
+
+        partidiJSONParse();
+
+        partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DocumentsTask task = new DocumentsTask(PartidiView.this);
+                task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidi[position] + "/statement"});
+            }
+        });
+
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+
+                partidaList = (ListView) findViewById(R.id.partidaList);
+                MyPartidiAdapter adapter = new MyPartidiAdapter(PartidiView.this, arrayOfDocuments);
+                partidaList.setAdapter(adapter);
+
+            }
+        });
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText != null && !newText.isEmpty()) {
+                    ArrayList<PartidiInfo> foundList = new ArrayList<>();
+                    for(PartidiInfo info : arrayOfDocuments) {
+                        if(info.getPartidaNomer().contains(newText) || info.getPartidaBalance().contains(newText))
+                            foundList.add(info);
+                    }
+
+                    MyPartidiAdapter adapter = new MyPartidiAdapter(PartidiView.this, foundList);
+                    partidaList.setAdapter(adapter);
+
+                } else {
+                    MyPartidiAdapter adapter = new MyPartidiAdapter(PartidiView.this, arrayOfDocuments);
+                    partidaList.setAdapter(adapter);
                 }
-            });
+                return true;
+            }
+        });
 
 
     }
@@ -74,7 +124,9 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.logout_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        MenuItem item = menu.findItem(R.id.searchItem);
+        searchView.setMenuItem(item);
+        return true;
     }
 
     @Override

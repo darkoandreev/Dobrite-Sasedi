@@ -19,6 +19,7 @@ public class MyPartidiAdapter extends ArrayAdapter<PartidiInfo> {
         super(context, 0, partidiInfo);
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

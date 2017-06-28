@@ -8,5 +8,12 @@
         android:icon="@drawable/ic_exit_to_app_black_24dp"
         app:showAsAction="always"
         />
+    <item
+        android:id="@+id/searchItem"
+        android:icon="@drawable/search"
+        android:orderInCategory="100"
+        android:title="Search..."
+        app:showAsAction="always"
+        />
 
 </menu>
