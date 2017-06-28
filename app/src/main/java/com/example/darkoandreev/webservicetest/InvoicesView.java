@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,8 +33,10 @@ public class InvoicesView extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.invoices);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.invoices_toolbar);
+        setSupportActionBar(toolbar);
 
         invoicesListView = (ListView) findViewById(R.id.invoicesList);
 
@@ -160,12 +163,12 @@ public class InvoicesView extends AppCompatActivity {
                     info.setKolichestvoInvoices(dolar.getString("$"));
                     Log.d("Kolichestvo", dolar.getString("$"));
 
-                    /*
+
                     JSONObject priceInvoices = lineArray.getJSONObject(k);
                     dolar = priceInvoices.getJSONObject("ft:Price");
-                    info.setTotalListInvoices(dolar.getString("$"));
+                    info.setTotalListInvoices("0");
                     Log.d("TotalList", dolar.getString("$"));
-                    */
+
 
              //       JSONObject ddsInvoices = lineArray.getJSONObject(k);
              //       dolar = ddsInvoices.getJSONObject("ft:VAT");

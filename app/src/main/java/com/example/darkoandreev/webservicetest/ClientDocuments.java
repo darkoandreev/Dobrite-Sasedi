@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -68,6 +69,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(client_documents);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.documents_toolbar);
+        setSupportActionBar(toolbar);
         listView = (ListView) findViewById(R.id.documentsList);
         MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
         listView.setAdapter(adapter);

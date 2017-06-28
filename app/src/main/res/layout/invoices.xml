@@ -3,14 +3,20 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/invoices_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:title="Фактура"/>
+
     <TextView
         android:id="@+id/partidaInvoiceID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
         android:text="Партида: "
         android:textSize="17sp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/invoices_toolbar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -103,7 +109,9 @@
         android:layout_marginTop="49dp"
         android:layout_below="@+id/platimaDoId"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:divider="#806326"
+        android:dividerHeight="1dp"/>
 
     <TextView
         android:id="@+id/partidaIdInvoiceText"

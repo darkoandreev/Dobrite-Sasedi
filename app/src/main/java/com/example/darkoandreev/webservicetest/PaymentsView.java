@@ -3,6 +3,7 @@ package com.example.darkoandreev.webservicetest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,6 +30,9 @@ public class PaymentsView extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payments);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.payments_toolbar);
+        setSupportActionBar(toolbar);
 
         paymentsListView = (ListView) findViewById(R.id.invoicesList);
 
@@ -135,6 +139,11 @@ public class PaymentsView extends AppCompatActivity {
                     dolar = invoiceAmount.getJSONObject("ft:InvoiceAmount");
                     info.setPlatenoID(dolar.getString("$"));
                     Log.d("Plateno ID", dolar.getString("$"));
+
+                   // JSONObject appliedCredits = lineArray.getJSONObject(k);
+                   // dolar = appliedCredits.getJSONObject("ft:AppliedCredits");
+                   // info.setKreditID(dolar.getString("$"));
+                  //  Log.d("Kredit", dolar.getString("$"));
 
                     JSONObject paymentAmount = lineArray.getJSONObject(k);
                     dolar = paymentAmount.getJSONObject("ft:Payment");

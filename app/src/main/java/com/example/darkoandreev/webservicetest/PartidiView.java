@@ -46,6 +46,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     private String partidaBalanceJson;
     private String partidaPropertyRefsJson;
     private String [] partidi;
+    private String [] searchPartidi;
     private boolean hasLoggedIn;
     private MaterialSearchView searchView;
 
@@ -65,7 +66,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
         MyPartidiAdapter adapter = new MyPartidiAdapter(this, arrayOfDocuments);
         partidaList.setAdapter(adapter);
 
-        partidiJSONParse();
+
 
         partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -74,6 +75,8 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                 task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidi[position] + "/statement"});
             }
         });
+
+        partidiJSONParse();
 
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
@@ -100,11 +103,19 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
             @Override
             public boolean onQueryTextChange(String newText) {
                 if(newText != null && !newText.isEmpty()) {
-                    ArrayList<PartidiInfo> foundList = new ArrayList<>();
-                    for(PartidiInfo info : arrayOfDocuments) {
+                    final ArrayList<PartidiInfo> foundList = new ArrayList<>();
+                    for(PartidiInfo info  : arrayOfDocuments) {
                         if(info.getPartidaNomer().contains(newText) || info.getPartidaBalance().contains(newText))
                             foundList.add(info);
                     }
+
+                    partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            DocumentsTask task = new DocumentsTask(PartidiView.this);
+                            task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + foundList.get(position).getPartidaNomer().toString() + "/statement"});
+                            }
+                        });
 
                     MyPartidiAdapter adapter = new MyPartidiAdapter(PartidiView.this, foundList);
                     partidaList.setAdapter(adapter);
@@ -112,11 +123,12 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                 } else {
                     MyPartidiAdapter adapter = new MyPartidiAdapter(PartidiView.this, arrayOfDocuments);
                     partidaList.setAdapter(adapter);
+
                 }
+
                 return true;
             }
         });
-
 
     }
 
@@ -144,7 +156,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     }
 
     public void partidiJSONParse () {
-        
+
         SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
         hasLoggedIn = sp.getBoolean("hasLoggedIn", false);
         String extras = null;
@@ -182,11 +194,11 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                     }
 
 
-                    JSONObject partidaBalanceObject = parentArray.getJSONObject(i);
-                    dolar = partidaBalanceObject.getJSONObject("ct:Balance");
-                    info.setPartidaBalance(dolar.getString("$"));
-                    // partidaBalance.setText(info.getPartidaBalance());
-                    Log.d("Balance", dolar.getString("$"));
+                JSONObject partidaBalanceObject = parentArray.getJSONObject(i);
+                dolar = partidaBalanceObject.getJSONObject("ct:Balance");
+                info.setPartidaBalance(dolar.getString("$"));
+                // partidaBalance.setText(info.getPartidaBalance());
+                Log.d("Balance", dolar.getString("$"));
 
                 /*
                 JSONObject partidaPropertyRefsObject = parentArray.getJSONObject(i);
@@ -194,13 +206,12 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                 dolar = refArray.getJSONObject(i);
                 JSONObject refObject = dolar.getJSONObject("ct:Ref");
                 JSONObject uIDObject = refObject.getJSONObject("ct:Uid");
-                info.setPartidaPropertyRefs(uIDObject.getString("$"));
-                partidaProperyRefs.setText(info.getPartidaPropertyRefs());
+                //partidaProperyRefs.setText(info.getPartidaPropertyRefs());
                 Log.d("Refs:", dolar.getString("$"));
                 */
 
 
-                    arrayOfDocuments.add(info);
+                arrayOfDocuments.add(info);
 
                 }
             } catch (Exception e) {

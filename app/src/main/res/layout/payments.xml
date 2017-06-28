@@ -5,15 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/payments_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:title="@string/plashtane_string"/>
+
 
     <TextView
         android:id="@+id/partidaID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
         android:text="Партида: "
         android:textSize="17sp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/payments_toolbar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -196,6 +202,8 @@
         android:layout_marginTop="52dp"
         android:layout_below="@+id/neusvoeniKreditID"
         android:layout_alignParentRight="true"
+        android:divider="#806326"
+        android:dividerHeight="1dp"
         android:layout_alignParentEnd="true" />
 
     <TextView
