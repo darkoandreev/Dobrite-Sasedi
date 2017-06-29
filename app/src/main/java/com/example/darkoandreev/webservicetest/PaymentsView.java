@@ -43,7 +43,7 @@ public class PaymentsView extends AppCompatActivity {
         MyPaymentsAdapter paymentsAdapter = new MyPaymentsAdapter(this, arrayOfPayments);
         paymentsListView.setAdapter(paymentsAdapter);
 
-        paymentsJSONParse();
+            paymentsJSONParse();
 
     }
 
