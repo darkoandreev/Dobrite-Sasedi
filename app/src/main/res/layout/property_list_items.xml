@@ -10,19 +10,22 @@
         android:id="@+id/documentNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="5000001026"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="23dp"
-        android:layout_marginStart="23dp" />
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp" />
 
     <TextView
         android:id="@+id/totalAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_centerHorizontal="true"
         android:layout_alignBaseline="@+id/documentNumber"
         android:layout_alignBottom="@+id/documentNumber"
         android:layout_marginEnd="39dp"
@@ -36,19 +39,21 @@
         android:id="@+id/balance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginEnd="19dp"
+        android:layout_marginRight="19dp"
+        android:text="937.15 lv."
+        android:textSize="17sp"
         android:layout_alignBaseline="@+id/totalAmount"
         android:layout_alignBottom="@+id/totalAmount"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="26dp"
-        android:layout_marginRight="26dp"
-        android:text="937.15 lv."
-        android:textSize="17sp" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/inovice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="Invoice"
         android:layout_below="@+id/documentNumber"
         android:layout_alignLeft="@+id/documentNumber"
@@ -58,18 +63,20 @@
         android:id="@+id/data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="data"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_below="@+id/documentNumber"
         android:layout_toRightOf="@+id/inovice"
-        android:layout_toEndOf="@+id/inovice"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp" />
+        android:layout_toEndOf="@+id/inovice" />
 
 
     <TextView
         android:id="@+id/statusType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="PAID"
         android:layout_below="@+id/inovice"
         android:layout_alignLeft="@+id/inovice"

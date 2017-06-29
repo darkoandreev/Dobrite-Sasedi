@@ -1,10 +1,14 @@
 package com.example.darkoandreev.webservicetest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,6 +45,25 @@ public class PaymentsView extends AppCompatActivity {
 
         paymentsJSONParse();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.logout_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.logout_id) {
+            Intent intent = new Intent(PaymentsView.this, Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void paymentsJSONParse() {
@@ -128,7 +151,7 @@ public class PaymentsView extends AppCompatActivity {
                 JSONObject paymentsArrayObject = paymentsArray.getJSONObject(j);
                 JSONArray lineArray = paymentsArrayObject.getJSONArray("ft:Line");
                 for (int k = 0; k < lineArray.length(); k++) {
-                     info = new PaymentsInfo();
+                    info = new PaymentsInfo();
 
                     JSONObject invoiceNumber = lineArray.getJSONObject(k);
                     dolar = invoiceNumber.getJSONObject("ft:InvoiceNumber");
@@ -140,10 +163,10 @@ public class PaymentsView extends AppCompatActivity {
                     info.setPlatenoID(dolar.getString("$"));
                     Log.d("Plateno ID", dolar.getString("$"));
 
-                   // JSONObject appliedCredits = lineArray.getJSONObject(k);
-                   // dolar = appliedCredits.getJSONObject("ft:AppliedCredits");
-                   // info.setKreditID(dolar.getString("$"));
-                  //  Log.d("Kredit", dolar.getString("$"));
+                    JSONObject appliedCredits = lineArray.getJSONObject(k);
+                    dolar = appliedCredits.getJSONObject("ft:AppliedCredits");
+                    info.setKreditID(dolar.getString("$"));
+                    Log.d("Kredit", dolar.getString("$"));
 
                     JSONObject paymentAmount = lineArray.getJSONObject(k);
                     dolar = paymentAmount.getJSONObject("ft:Payment");

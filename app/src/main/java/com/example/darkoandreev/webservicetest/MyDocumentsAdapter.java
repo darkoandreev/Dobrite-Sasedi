@@ -44,7 +44,7 @@ public class MyDocumentsAdapter extends ArrayAdapter<Documents> {
         balance.setText(documents.balance);
         status.setText(documents.statusType);
 
-        if(status.getText().toString().equals("NotPaid")) {
+        if(status.getText().toString().equals("NotPaid") || status.getText().toString().equals("No status")) {
             status.setTextColor(Color.RED);
         } else {
             status.setTextColor(Color.GREEN);

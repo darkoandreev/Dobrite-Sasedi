@@ -46,7 +46,6 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     private String partidaBalanceJson;
     private String partidaPropertyRefsJson;
     private String [] partidi;
-    private String [] searchPartidi;
     private boolean hasLoggedIn;
     private MaterialSearchView searchView;
 
@@ -63,10 +62,8 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
         searchView = (MaterialSearchView) findViewById(R.id.searchBar);
 
         partidaList = (ListView) findViewById(R.id.partidaList);
-        MyPartidiAdapter adapter = new MyPartidiAdapter(this, arrayOfDocuments);
+        final MyPartidiAdapter adapter = new MyPartidiAdapter(this, arrayOfDocuments);
         partidaList.setAdapter(adapter);
-
-
 
         partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -121,6 +118,13 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                     partidaList.setAdapter(adapter);
 
                 } else {
+                    partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            DocumentsTask task = new DocumentsTask(PartidiView.this);
+                            task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidi[position] + "/statement"});
+                        }
+                    });
                     MyPartidiAdapter adapter = new MyPartidiAdapter(PartidiView.this, arrayOfDocuments);
                     partidaList.setAdapter(adapter);
 
@@ -130,6 +134,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
             }
         });
 
+
     }
 
     @Override
@@ -138,6 +143,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
         inflater.inflate(R.menu.logout_menu, menu);
         MenuItem item = menu.findItem(R.id.searchItem);
         searchView.setMenuItem(item);
+
         return true;
     }
 

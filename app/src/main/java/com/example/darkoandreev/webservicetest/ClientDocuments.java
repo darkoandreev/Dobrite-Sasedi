@@ -54,9 +54,10 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     private String forwardBalance;
     private String [] type;
     private String [] documentArray;
+    private double [] testArray;
     private String partidaNum;
     public Documents doc;
-    TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText;
+    TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText, textView11;
 
     private List<Documents> documentsList = new ArrayList<>();
 
@@ -82,10 +83,10 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PaymentsTask task = new PaymentsTask(ClientDocuments.this);
                 InvoicesTask invoiceTask = new InvoicesTask(ClientDocuments.this);
-                    if (type[position+1].equals("Payment")) {
-                        task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidaNum + "/payments/" + documentArray[position+1]});
+                    if (type[position].equals("Payment")) {
+                        task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidaNum + "/payments/" + documentArray[position]});
                     } else {
-                        invoiceTask.execute(new String[]{"http://vrod.dobritesasedi.bg//rest/accounts/" + partidaNum + "/invoices/" + documentArray[position+1]});
+                        invoiceTask.execute(new String[]{"http://vrod.dobritesasedi.bg//rest/accounts/" + partidaNum + "/invoices/" + documentArray[position]});
                     }
             }
         });
@@ -125,6 +126,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         saldoKraq = (TextView) findViewById(R.id.saldoVKraq);
         textView12 = (TextView) findViewById(R.id.grupa);
         userIDText = (TextView) findViewById(R.id.userID);
+        textView11 = (TextView) findViewById(R.id.textView11);
+
 
         JSONObject dolar;
 
@@ -155,8 +158,9 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
             type = new String [parentArray.length()];
             documentArray = new String [parentArray.length()];
+            testArray = new double [parentArray.length()];
 
-            for (int i = 1; i < parentArray.length(); i++) {
+            for (int i = 0; i < parentArray.length(); i++) {
                 doc = new Documents();
 
 
@@ -181,15 +185,19 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 JSONObject amount = parentArray.getJSONObject(i);
                 dolar = amount.getJSONObject("ft:Amount");
                 doc.setAmount(dolar.getString("$"));
-                saldoNachalo.setText(doc.getAmount());
+                //saldoNachalo.setText(doc.getAmount());
 
                 Log.d("amount", dolar.getString("$"));
 
 
                 JSONObject statusType = parentArray.getJSONObject(i);
-                dolar = statusType.getJSONObject("ft:Applied");
-                doc.setStatusType(dolar.getString("$"));
-                Log.d("statusType", dolar.getString("$"));
+                if(!statusType.has("ft:Applied")) {
+                    doc.setStatusType("No status");
+                } else {
+                    dolar = statusType.getJSONObject("ft:Applied");
+                    doc.setStatusType(dolar.getString("$"));
+                    Log.d("statusType", dolar.getString("$"));
+                }
 
                 JSONObject vat = parentArray.getJSONObject(i);
                 dolar = vat.getJSONObject("ft:VAT");
@@ -204,10 +212,10 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 JSONObject balance = parentArray.getJSONObject(i);
                 dolar = balance.getJSONObject("ct:Balance");
                 doc.setBalance(dolar.getString("$"));
+                testArray[i] = Double.parseDouble(dolar.getString("$"));
                 tekushtoSaldo.setText(doc.getBalance());
-                saldoKraq.setText(doc.getBalance());
-
                 Log.d("balance", dolar.getString("$"));
+                Log.d("Double Balance", String.valueOf(testArray[i]));
 
                 JSONObject totalDiscount = parentArray.getJSONObject(i);
                 dolar = totalDiscount.getJSONObject("ft:TotalDiscount");
@@ -218,7 +226,26 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 JSONObject forwardBalance = parentArray.getJSONObject(i);
                 dolar = forwardBalance.getJSONObject("ft:Type");
                 doc.setForwardBalance(dolar.getString("$"));
+                String test = dolar.getString("$");
                 Log.d("forwardBalance", dolar.getString("$"));
+
+
+                if(test.equals("ForwardBalance")) {
+                    saldoNachalo.setText(doc.getBalance());
+                    textView11.setText(doc.getBalance());
+                }
+                double maxBalance = Double.MIN_VALUE;
+
+                for (int counter = 1; counter < testArray.length; counter++)
+                {
+                    if (testArray[counter] > maxBalance)
+                    {
+                        maxBalance = testArray[counter];
+                    }
+                }
+                saldoKraq.setText(String.valueOf(maxBalance));
+
+
 
                 type [i] = dolar.getString("$");
                 documentArray[i] = documentNum;
@@ -312,6 +339,7 @@ class PaymentsTask extends AsyncTask<String, String, ArrayList<PaymentsInfo>> {
         Intent intent = new Intent(this.context, PaymentsView.class);
         intent.putExtra("finalPaymentsJson", finalJsonPayments);
         intent.putExtra("username", unm);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         context.startActivity(intent);
 
@@ -392,7 +420,7 @@ class InvoicesTask extends AsyncTask<String, String, ArrayList<InvoicesInfo>> {
         Intent intent = new Intent(this.context, InvoicesView.class);
         intent.putExtra("finalInvoicesJson", finalJsonInvoices);
         intent.putExtra("username", unm);
-
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
 
         super.onPostExecute(invoices);

@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" >
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary" />
+        android:background="@color/colorPrimary"
+        android:titleTextColor="#FFFFFF"/>
 
     <com.miguelcatalan.materialsearchview.MaterialSearchView
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         />
-
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Партида"
             android:textSize="25sp"
-            android:layout_marginLeft="19dp"
-            android:id="@+id/textView4"
-            android:layout_marginStart="19dp"
+            android:layout_marginLeft="13dp"
+            android:id="@+id/partida"
+            android:layout_marginStart="13dp"
             android:layout_alignBaseline="@+id/textView9"
             android:layout_alignBottom="@+id/textView9"
             android:layout_alignParentLeft="true"
@@ -33,18 +33,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Имот"
             android:textSize="25sp"
-            android:layout_weight="0.16"
             android:id="@+id/textView9"
             android:layout_alignBaseline="@+id/textView2"
             android:layout_alignBottom="@+id/textView2"
-            android:layout_centerHorizontal="true" />
+            android:layout_toLeftOf="@+id/textView2"
+            android:layout_toStartOf="@+id/textView2"
+            android:layout_marginRight="55dp"
+            android:layout_marginEnd="55dp" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Салдо"
             android:textSize="25sp"
             android:layout_marginRight="22dp"

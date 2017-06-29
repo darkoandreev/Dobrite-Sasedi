@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
-        android:title="@string/plashtane_string"/>
+        android:title="@string/plashtane_string"
+        android:titleTextColor="#FFFFFF"/>
 
 
     <TextView
