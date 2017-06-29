@@ -57,6 +57,7 @@ public class Login extends AppCompatActivity {
         password = (TextView) findViewById(R.id.password);
         logo = (ImageView) findViewById(R.id.logo);
         checkBox = (CheckBox) findViewById(R.id.saveLoginCheckBox);
+        checkBox.setChecked(true);
 
         logo.setImageResource(R.drawable.logo_eng);
 
@@ -74,7 +75,6 @@ public class Login extends AppCompatActivity {
             }
 
         });
-
     }
 }
 

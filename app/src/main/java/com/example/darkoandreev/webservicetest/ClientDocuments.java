@@ -42,16 +42,6 @@ import static com.example.darkoandreev.webservicetest.R.layout.client_documents;
 public class ClientDocuments extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ListView listView;
-    private String issueDate;
-    private String dueDate;
-    private String documentNumber;
-    private String amount;
-    private String vat;
-    private String totalAmount;
-    private String statusType;
-    private String balance;
-    private String totalDiscount;
-    private String forwardBalance;
     private String [] type;
     private String [] documentArray;
     private double [] testArray;
