@@ -31,6 +31,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import static com.example.darkoandreev.webservicetest.R.layout.property;
 
@@ -48,6 +49,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     private String [] partidi;
     private boolean hasLoggedIn;
     private MaterialSearchView searchView;
+    private TextView partida;
 
     ArrayList<PartidiInfo> arrayOfDocuments = new ArrayList<PartidiInfo>();
 
@@ -134,7 +136,19 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
             }
         });
 
+        partida = (TextView) findViewById(R.id.partida);
+        partida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.sort( new Comparator<PartidiInfo>() {
+                    @Override
+                    public int compare(PartidiInfo o1, PartidiInfo o2) {
 
+                        return o1.getPartidaNomer().compareTo(o2.getPartidaNomer());
+                    }
+                });
+            }
+        }) ;
     }
 
     @Override
@@ -163,6 +177,10 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
 
     public void partidiJSONParse () {
 
+        partidaNomer = (TextView) findViewById(R.id.partidaNomer);
+        partidaBalance = (TextView) findViewById(R.id.partidaBalance);
+        partidaProperyRefs = (TextView) findViewById(R.id.partidaPropertyRefs);
+
         SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
         hasLoggedIn = sp.getBoolean("hasLoggedIn", false);
         String extras = null;
@@ -170,60 +188,70 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
             extras = sp.getString("finalJson", null);
         }
 
-            partidaNomer = (TextView) findViewById(R.id.partidaNomer);
-            partidaBalance = (TextView) findViewById(R.id.partidaBalance);
-            partidaProperyRefs = (TextView) findViewById(R.id.partidaPropertyRefs);
+
 
             try {
                 JSONObject parentObject = new JSONObject(extras);
                 JSONObject accountObject = parentObject.getJSONObject("cssc:AccountsWithUser");
                 JSONArray parentArray = accountObject.getJSONArray("cssc:Account");
-                partidi = new String [parentArray.length()];
 
-                for (int i = 0; i < parentArray.length(); i++) {
+                    partidi = new String[parentArray.length()];
 
-                    JSONObject dolar;
-                    JSONArray dolarArray;
-                    PartidiInfo info = new PartidiInfo();
+                    for (int i = 0; i < parentArray.length(); i++) {
 
-
-                    JSONObject partidaNomerObject = parentArray.getJSONObject(i);
-                    dolarArray = partidaNomerObject.getJSONArray("cssc:Uid");
-
-                    for (int j = 0; j < dolarArray.length(); j++) {
-                        dolar = dolarArray.getJSONObject(j);
-                        info.setPartidaNomer(dolar.getString("$"));
-                        partidaNomerJson = dolar.getString("$");
-                        partidi[i] = partidaNomerJson;
-                        //partidaNomer.setText(info.getPartidaNomer());
-                        Log.d("NomerPartida", dolar.getString("$"));
-                    }
+                        JSONObject dolar;
+                        JSONArray dolarArray;
+                        PartidiInfo info = new PartidiInfo();
 
 
-                JSONObject partidaBalanceObject = parentArray.getJSONObject(i);
-                dolar = partidaBalanceObject.getJSONObject("ct:Balance");
-                info.setPartidaBalance(dolar.getString("$"));
-                // partidaBalance.setText(info.getPartidaBalance());
-                Log.d("Balance", dolar.getString("$"));
+                        JSONObject partidaNomerObject = parentArray.getJSONObject(i);
+                        dolarArray = partidaNomerObject.getJSONArray("cssc:Uid");
 
-                /*
-                JSONObject partidaPropertyRefsObject = parentArray.getJSONObject(i);
-                JSONArray refArray = partidaPropertyRefsObject.getJSONArray("cssc:PropertyRefs");
-                dolar = refArray.getJSONObject(i);
-                JSONObject refObject = dolar.getJSONObject("ct:Ref");
-                JSONObject uIDObject = refObject.getJSONObject("ct:Uid");
-                //partidaProperyRefs.setText(info.getPartidaPropertyRefs());
-                Log.d("Refs:", dolar.getString("$"));
-                */
+                        JSONObject active = partidaNomerObject.getJSONObject("ct:Active");
+                        Log.d("Active", active.getString("$"));
 
 
-                arrayOfDocuments.add(info);
+                            for (int j = 0; j < dolarArray.length(); j++) {
 
+                                dolar = dolarArray.getJSONObject(j);
+                                info.setPartidaNomer(dolar.getString("$"));
+                                partidaNomerJson = dolar.getString("$");
+                                partidi[i] = partidaNomerJson;
+                                //partidaNomer.setText(info.getPartidaNomer());
+                                Log.d("NomerPartida", dolar.getString("$"));
+
+                            }
+
+
+                            JSONObject partidaBalanceObject = parentArray.getJSONObject(i);
+                            dolar = partidaBalanceObject.getJSONObject("ct:Balance");
+                            info.setPartidaBalance(dolar.getString("$"));
+                            // partidaBalance.setText(info.getPartidaBalance());
+                            Log.d("Balance", dolar.getString("$"));
+
+                            JSONObject partidaPropertyRefsObject = parentArray.getJSONObject(i);
+                            if (!partidaPropertyRefsObject.has("cssc:PropertyRefs")) {
+                                info.setPartidaPropertyRefs("Null");
+                            } else {
+                                JSONArray refArray = partidaPropertyRefsObject.getJSONArray("cssc:PropertyRefs");
+                                for (int k = 0; k < refArray.length(); k++) {
+                                    dolar = refArray.getJSONObject(k);
+                                    JSONObject refObject = dolar.getJSONObject("ct:Ref");
+                                    JSONObject uIDObject = refObject.getJSONObject("ct:Uid");
+                                    if (uIDObject.has("@ct:id-type")) {
+                                        info.setPartidaPropertyRefs(uIDObject.getString("$"));
+                                    }
+                                    Log.d("Refs:", uIDObject.getString("$"));
+                                }
+                            }
+
+                        arrayOfDocuments.add(info);
+                        }
+
+
+                } catch(Exception e){
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
 
 
     }

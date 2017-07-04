@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/alert_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:text="Филтриране по дата" />
+
+    <EditText
+        android:id="@+id/fromDateEdt"
+        android:hint="From date..."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:ems="10"
+        android:inputType="date"
+        android:layout_below="@+id/alert_title"
+        android:layout_alignRight="@+id/alert_title"
+        android:layout_alignEnd="@+id/alert_title" />
+
+    <EditText
+        android:id="@+id/toDateEdt"
+        android:hint="To date..."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:ems="10"
+        android:inputType="date"
+        android:layout_below="@+id/fromDateEdt"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

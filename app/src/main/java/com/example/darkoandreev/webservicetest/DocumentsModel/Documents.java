@@ -17,6 +17,24 @@ public class Documents  {
     public String forwardBalance;
     public String statusType;
     public String partidaID;
+    public String nachalnaData;
+    public String krainaData;
+
+    public String getNachalnaData() {
+        return nachalnaData;
+    }
+
+    public void setNachalnaData(String nachalnaData) {
+        this.nachalnaData = nachalnaData;
+    }
+
+    public String getKrainaData() {
+        return krainaData;
+    }
+
+    public void setKrainaData(String krainaData) {
+        this.krainaData = krainaData;
+    }
 
     public String getPartidaID() {
         return partidaID;

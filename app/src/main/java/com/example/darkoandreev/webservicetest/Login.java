@@ -35,7 +35,6 @@ public class Login extends AppCompatActivity {
     private CheckBox checkBox;
     private Boolean saveLogin;
     private SharedPreferences loginPreferences;
-    private SharedPreferences.Editor loginPrefsEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

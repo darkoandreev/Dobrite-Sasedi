@@ -1,10 +1,12 @@
 package com.example.darkoandreev.webservicetest;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -14,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +50,10 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     private double [] testArray;
     private String partidaNum;
     public Documents doc;
+    private String fromDateString;
+    private String toDateString;
+
+
     TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText, textView11;
 
     private List<Documents> documentsList = new ArrayList<>();
@@ -85,7 +92,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.logout_menu, menu);
+        inflater.inflate(R.menu.calendar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -97,6 +104,35 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             finish();
+        }
+        if(item.getItemId() == R.id.calendar_icon) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            View mView = getLayoutInflater().inflate(R.layout.alert_dialog, null);
+            final EditText fromDate = (EditText) mView.findViewById(R.id.fromDateEdt);
+            final EditText toDate = (EditText) mView.findViewById(R.id.toDateEdt);
+
+            builder.setView(mView);
+
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    fromDateString = fromDate.getText().toString();
+                    toDateString = toDate.getText().toString();
+
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -127,11 +163,20 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
         Documents documents = new Documents();
         String partidaId = null;
+
         try {
             JSONObject parentObject = new JSONObject(extras);
             JSONObject accountObject = parentObject.getJSONObject("cssc:AccountStatement");
-            JSONArray parentArray = accountObject.getJSONArray("cssc:Documents");
 
+            dolar = accountObject.getJSONObject("ct:StartDate");
+            documents.setNachalnaData(dolar.getString("$"));
+            nachalnaData.setText(dolar.getString("$"));
+
+            dolar = accountObject.getJSONObject("ct:EndDate");
+            documents.setKrainaData(dolar.getString("$"));
+            krainaData.setText(dolar.getString("$"));
+
+            JSONArray parentArray = accountObject.getJSONArray("cssc:Documents");
             JSONObject Accounts = accountObject.getJSONObject("cssc:Account");
 
 
@@ -157,13 +202,13 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 JSONObject issueDate = parentArray.getJSONObject(i);
                 dolar = issueDate.getJSONObject("ft:IssueDate");
                 doc.setIssueDate(dolar.getString("$"));
-                nachalnaData.setText(doc.getIssueDate());
+               // nachalnaData.setText(doc.getIssueDate());
                 Log.d("IssueDate", dolar.getString("$"));
 
                 JSONObject dueDate = parentArray.getJSONObject(i);
                 dolar = dueDate.getJSONObject("ft:DueDate");
                 doc.setDueDate(dolar.getString("$"));
-                krainaData.setText(doc.getDueDate());
+               // krainaData.setText(doc.getDueDate());
                 Log.d("dueDate", dolar.getString("$"));
 
                 JSONObject documentNumber = parentArray.getJSONObject(i);

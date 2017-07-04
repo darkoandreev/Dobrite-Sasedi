@@ -40,4 +40,6 @@ public class MyPartidiAdapter extends ArrayAdapter<PartidiInfo> {
 
         return convertView;
     }
+
+
 }
