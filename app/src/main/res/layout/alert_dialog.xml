@@ -8,6 +8,7 @@
         android:id="@+id/alert_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#000"
         android:layout_centerHorizontal="true"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -17,23 +18,36 @@
     <EditText
         android:id="@+id/fromDateEdt"
         android:hint="From date..."
+        android:textColor="#000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="21dp"
         android:ems="10"
         android:inputType="date"
-        android:layout_below="@+id/alert_title"
-        android:layout_alignRight="@+id/alert_title"
-        android:layout_alignEnd="@+id/alert_title" />
+        android:layout_below="@+id/textView4"
+        android:layout_alignLeft="@+id/alert_title"
+        android:layout_alignStart="@+id/alert_title" />
 
     <EditText
         android:id="@+id/toDateEdt"
         android:hint="To date..."
+        android:textColor="#000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
         android:ems="10"
         android:inputType="date"
         android:layout_below="@+id/fromDateEdt"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:textColor="#000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:text="(yyyy-mm-dd)"
+        android:textSize="16sp"
+        android:layout_below="@+id/alert_title"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
