@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -24,9 +26,7 @@
             android:text="Партида"
             android:textStyle="bold"
             android:textSize="25sp"
-            android:layout_marginLeft="13dp"
             android:id="@+id/partida"
-            android:layout_marginStart="13dp"
             android:layout_alignBaseline="@+id/textView9"
             android:layout_alignBottom="@+id/textView9"
             android:layout_alignParentLeft="true"
@@ -43,10 +43,10 @@
             android:id="@+id/textView9"
             android:layout_alignBaseline="@+id/textView2"
             android:layout_alignBottom="@+id/textView2"
-            android:layout_toLeftOf="@+id/textView2"
-            android:layout_toStartOf="@+id/textView2"
-            android:layout_marginRight="55dp"
-            android:layout_marginEnd="55dp" />
+            android:layout_toRightOf="@+id/partida"
+            android:layout_toEndOf="@+id/partida"
+            android:layout_marginLeft="69dp"
+            android:layout_marginStart="69dp" />
 
         <TextView
             android:id="@+id/textView2"
@@ -54,11 +54,10 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="Салдо"
             android:textSize="25sp"
-            android:layout_marginRight="22dp"
-            android:layout_marginEnd="22dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="3dp"
             android:layout_marginTop="25dp"
             android:layout_below="@+id/toolbar"
             android:layout_alignParentRight="true"
@@ -74,6 +73,7 @@
         android:layout_below="@+id/toolbar"
         android:divider="#806326"
         android:dividerHeight="1dp"
+        tools:listitem="@layout/property_items"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 </RelativeLayout>
