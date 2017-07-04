@@ -51,7 +51,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     private MaterialSearchView searchView;
     private TextView partida;
 
-        ArrayList<PartidiInfo> arrayOfDocuments = new ArrayList<PartidiInfo>();
+    ArrayList<PartidiInfo> arrayOfDocuments = new ArrayList<PartidiInfo>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
