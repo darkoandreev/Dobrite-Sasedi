@@ -12,90 +12,99 @@
 
     <TextView
         android:id="@+id/partidaInvoiceID"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Партида: "
-        android:textSize="17sp"
+        android:textSize="19sp"
         android:layout_below="@+id/invoices_toolbar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/titulqrInvoiceID"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Титуляр: "
-        android:textSize="17sp"
+        android:textSize="19sp"
         android:layout_below="@+id/partidaInvoiceID"
         android:layout_alignLeft="@+id/partidaInvoiceID"
         android:layout_alignStart="@+id/partidaInvoiceID" />
 
     <TextView
         android:id="@+id/documentID"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/titulqrInvoiceID"
         android:layout_alignStart="@+id/titulqrInvoiceID"
         android:layout_below="@+id/titulqrInvoiceID"
         android:text="Документ №:"
-        android:textSize="17sp" />
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/izdadenaID"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/documentID"
         android:layout_alignStart="@+id/documentID"
         android:layout_below="@+id/documentID"
         android:text="Издадена на: "
-        android:textSize="17sp" />
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/statusID"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/izdadenaID"
         android:layout_alignStart="@+id/izdadenaID"
         android:layout_below="@+id/izdadenaID"
         android:text="Статус: "
-        android:textSize="17sp" />
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/stoinostID"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/statusID"
         android:layout_alignStart="@+id/statusID"
         android:layout_below="@+id/statusID"
         android:text="Стойност: "
-        android:textSize="17sp" />
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/ddsID"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/stoinostID"
         android:layout_alignStart="@+id/stoinostID"
         android:layout_below="@+id/stoinostID"
         android:text="ДДС: "
-        android:textSize="17sp" />
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/totalID"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/ddsID"
         android:layout_alignStart="@+id/ddsID"
         android:layout_below="@+id/ddsID"
         android:text="Тотал: "
-        android:textSize="17sp" />
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/platimaDoId"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Платима до: "
-        android:textSize="17sp"
+        android:textSize="19sp"
         android:layout_below="@+id/totalID"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -115,6 +124,7 @@
 
     <TextView
         android:id="@+id/partidaIdInvoiceText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/partidaInvoiceID"
@@ -127,6 +137,7 @@
 
     <TextView
         android:id="@+id/titulqrInvoiceText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/documentID"
@@ -137,6 +148,7 @@
 
     <TextView
         android:id="@+id/dokumentInvoiceText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/izdadenaID"
@@ -147,6 +159,7 @@
 
     <TextView
         android:id="@+id/izdadenaInvoiceText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/izdadenaID"
@@ -157,6 +170,7 @@
 
     <TextView
         android:id="@+id/statusInvoiceText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/stoinostID"
@@ -167,6 +181,7 @@
 
     <TextView
         android:id="@+id/stoinostInvoiceText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/stoinostID"
@@ -177,6 +192,7 @@
 
     <TextView
         android:id="@+id/ddsInvoiceText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/totalID"
@@ -187,6 +203,7 @@
 
     <TextView
         android:id="@+id/totalInvoiceText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/platimaDoId"
@@ -197,6 +214,7 @@
 
     <TextView
         android:id="@+id/platimaInvoiceText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/invoicesList"
@@ -207,6 +225,7 @@
 
     <TextView
         android:id="@+id/productID"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -220,6 +239,7 @@
 
     <TextView
         android:id="@+id/quantityID"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -235,6 +255,7 @@
 
     <TextView
         android:id="@+id/totalPriceID"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"

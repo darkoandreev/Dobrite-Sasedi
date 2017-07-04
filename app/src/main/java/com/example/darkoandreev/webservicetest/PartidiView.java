@@ -231,7 +231,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
 
                             JSONObject partidaPropertyRefsObject = parentArray.getJSONObject(i);
                             if (!partidaPropertyRefsObject.has("cssc:PropertyRefs")) {
-                                info.setPartidaPropertyRefs("Null");
+                                info.setPartidaPropertyRefs("Неактивна");
                             } else {
                                 JSONArray refArray = partidaPropertyRefsObject.getJSONArray("cssc:PropertyRefs");
                                 for (int k = 0; k < refArray.length(); k++) {

@@ -19,7 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Партида: "
-        android:textSize="17sp"
+        android:textColor="#000000"
+        android:textSize="19sp"
         android:layout_below="@+id/payments_toolbar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -29,7 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Титуляр: "
-        android:textSize="17sp"
+        android:textColor="#000000"
+        android:textSize="19sp"
         android:layout_below="@+id/partidaID"
         android:layout_alignLeft="@+id/partidaID"
         android:layout_alignStart="@+id/partidaID" />
@@ -42,7 +44,8 @@
         android:layout_alignStart="@+id/titulqrID"
         android:layout_below="@+id/titulqrID"
         android:text="Плащане №:"
-        android:textSize="17sp" />
+        android:textColor="#000000"
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/dataID"
@@ -52,7 +55,8 @@
         android:layout_alignStart="@+id/plashtaneID"
         android:layout_below="@+id/plashtaneID"
         android:text="Дата: "
-        android:textSize="17sp" />
+        android:textColor="#000000"
+        android:textSize="19sp"/>
 
     <TextView
         android:id="@+id/sumaID"
@@ -62,7 +66,8 @@
         android:layout_alignStart="@+id/dataID"
         android:layout_below="@+id/dataID"
         android:text="Сума: "
-        android:textSize="17sp" />
+        android:textColor="#000000"
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/metodID"
@@ -72,7 +77,8 @@
         android:layout_alignStart="@+id/sumaID"
         android:layout_below="@+id/sumaID"
         android:text="Метод: "
-        android:textSize="17sp" />
+        android:textColor="#000000"
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/referenciqID"
@@ -82,7 +88,8 @@
         android:layout_alignStart="@+id/metodID"
         android:layout_below="@+id/metodID"
         android:text="Референция: "
-        android:textSize="17sp" />
+        android:textColor="#000000"
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/neusvoeniID"
@@ -92,14 +99,16 @@
         android:layout_alignStart="@+id/referenciqID"
         android:layout_below="@+id/referenciqID"
         android:text="Неусвоени: "
-        android:textSize="17sp" />
+        android:textColor="#000000"
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/neusvoeniKreditID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Неусв, кредит: "
-        android:textSize="17sp"
+        android:textColor="#000000"
+        android:textSize="19sp"
         android:layout_below="@+id/neusvoeniID"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -110,6 +119,7 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="16sp"
+        android:textColor="#000000"
         android:layout_marginRight="81dp"
         android:layout_marginEnd="81dp"
         android:layout_alignBottom="@+id/partidaID"
@@ -118,6 +128,7 @@
 
     <TextView
         android:id="@+id/titulqrText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/plashtaneID"
@@ -128,6 +139,7 @@
 
     <TextView
         android:id="@+id/plashtaneText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/plashtaneID"
@@ -138,16 +150,18 @@
 
     <TextView
         android:id="@+id/dataText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="16sp"
-        android:layout_above="@+id/sumaText"
+        android:layout_above="@+id/sumaID"
         android:layout_alignLeft="@+id/plashtaneText"
         android:layout_alignStart="@+id/plashtaneText" />
 
     <TextView
         android:id="@+id/sumaText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/metodID"
@@ -158,6 +172,7 @@
 
     <TextView
         android:id="@+id/metodText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/referenciqID"
@@ -168,6 +183,7 @@
 
     <TextView
         android:id="@+id/referenciqText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/referenciqID"
@@ -178,6 +194,7 @@
 
     <TextView
         android:id="@+id/neusvoeniText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/neusvoeniKreditID"
@@ -188,6 +205,7 @@
 
     <TextView
         android:id="@+id/neusvKreditText"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/neusvoeniKreditID"
@@ -209,6 +227,7 @@
 
     <TextView
         android:id="@+id/idAndSum"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/neusvoeniKreditID"
@@ -221,6 +240,7 @@
 
     <TextView
         android:id="@+id/kreditID"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/idAndSum"
@@ -231,6 +251,7 @@
 
     <TextView
         android:id="@+id/platenoID"
+        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/kreditID"
