@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/alert_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:layout_centerHorizontal="true"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:text="Филтриране по дата" />
+
+    <EditText
+        android:id="@+id/fromDateEdt"
+        android:hint="From date..."
+        android:textColor="#000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:ems="10"
+        android:inputType="date"
+        android:layout_below="@+id/textView4"
+        android:layout_alignLeft="@+id/alert_title"
+        android:layout_alignStart="@+id/alert_title" />
+
+    <EditText
+        android:id="@+id/toDateEdt"
+        android:hint="To date..."
+        android:textColor="#000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:ems="10"
+        android:inputType="date"
+        android:layout_below="@+id/fromDateEdt"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:textColor="#000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:text="(yyyy-mm-dd)"
+        android:textSize="16sp"
+        android:layout_below="@+id/alert_title"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

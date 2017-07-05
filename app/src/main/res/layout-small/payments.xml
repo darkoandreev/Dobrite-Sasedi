@@ -121,9 +121,11 @@
         android:text="TextView"
         android:textSize="16sp"
         android:textColor="#000000"
+        android:layout_marginLeft="47dp"
+        android:layout_marginStart="47dp"
         android:layout_alignBottom="@+id/partidaID"
-        android:layout_toLeftOf="@+id/platenoID"
-        android:layout_toStartOf="@+id/platenoID" />
+        android:layout_toRightOf="@+id/kreditID"
+        android:layout_toEndOf="@+id/kreditID" />
 
     <TextView
         android:id="@+id/titulqrText"
@@ -174,44 +176,44 @@
         android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="16sp"
         android:layout_above="@+id/referenciqID"
         android:layout_alignLeft="@+id/sumaText"
-        android:layout_alignStart="@+id/sumaText" />
+        android:layout_alignStart="@+id/sumaText"
+        android:text="TextView"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/referenciqText"
         android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="16sp"
         android:layout_alignBottom="@+id/referenciqID"
         android:layout_alignLeft="@+id/metodText"
-        android:layout_alignStart="@+id/metodText" />
+        android:layout_alignStart="@+id/metodText"
+        android:text="TextView"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/neusvoeniText"
         android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="16sp"
         android:layout_above="@+id/neusvoeniKreditID"
         android:layout_alignLeft="@+id/referenciqText"
-        android:layout_alignStart="@+id/referenciqText" />
+        android:layout_alignStart="@+id/referenciqText"
+        android:text="TextView"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/neusvKreditText"
         android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="16sp"
-        android:layout_above="@+id/invoicesList"
+        android:layout_alignBottom="@+id/neusvoeniKreditID"
         android:layout_alignLeft="@+id/neusvoeniText"
-        android:layout_alignStart="@+id/neusvoeniText" />
+        android:layout_alignStart="@+id/neusvoeniText"
+        android:text="TextView"
+        android:textSize="16sp" />
 
     <ListView
         android:id="@+id/invoicesList"
@@ -246,15 +248,12 @@
 
         android:text="Кредит"
         android:textAlignment="center"
+        android:gravity="center"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_alignBaseline="@+id/platenoID"
-        android:layout_alignBottom="@+id/platenoID"
-        android:layout_toRightOf="@+id/neusvoeniKreditID"
-        android:layout_toEndOf="@+id/neusvoeniKreditID"
-        android:layout_marginLeft="41dp"
-        android:layout_marginStart="41dp" />
+        android:layout_alignTop="@+id/idAndSum"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/platenoID"
