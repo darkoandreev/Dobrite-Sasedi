@@ -69,8 +69,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         setContentView(client_documents);
         Toolbar toolbar = (Toolbar) findViewById(R.id.documents_toolbar);
         setSupportActionBar(toolbar);
-        listView = (ListView) findViewById(R.id.documentsList);
-        MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
+            listView = (ListView) findViewById(R.id.documentsList);
+            MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
         listView.setAdapter(adapter);
 
         documentJSONParse();
