@@ -66,7 +66,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+            super.onCreate(savedInstanceState);
         setContentView(client_documents);
         Toolbar toolbar = (Toolbar) findViewById(R.id.documents_toolbar);
         setSupportActionBar(toolbar);
