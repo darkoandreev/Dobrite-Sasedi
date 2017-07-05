@@ -18,50 +18,51 @@
         android:layout_height="wrap_content"
         />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:layout_weight="1"
-            android:text="Партида"
-            android:textStyle="bold"
-            android:textSize="25sp"
-            android:id="@+id/partida"
-            android:layout_alignBaseline="@+id/imot"
-            android:layout_alignBottom="@+id/imot"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/partida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/imot"
+        android:layout_alignBottom="@+id/imot"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:ems="5"
+        android:text="Партида"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:text="Имот"
-            android:textSize="25sp"
-            android:id="@+id/imot"
-            android:layout_alignBaseline="@+id/textView2"
-            android:layout_alignBottom="@+id/textView2"
-            android:layout_toRightOf="@+id/partida"
-            android:layout_toEndOf="@+id/partida"
-            android:layout_marginLeft="69dp"
-            android:layout_marginStart="69dp" />
+    <TextView
+        android:id="@+id/imot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="5"
+        android:text="Имот"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/saldo"
+        android:layout_alignBottom="@+id/saldo"
+        android:layout_toRightOf="@+id/partida"
+        android:layout_toEndOf="@+id/partida"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Салдо"
-            android:textSize="25sp"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginTop="25dp"
-            android:layout_below="@+id/toolbar"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+    <TextView
+        android:id="@+id/saldo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:ems="5"
+        android:text="Салдо"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 
