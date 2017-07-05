@@ -249,7 +249,7 @@
         android:layout_height="wrap_content"
         android:text="Количество"
         android:textAlignment="center"
-        android:textSize="19sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_alignTop="@+id/productID"
         android:layout_toLeftOf="@+id/totalPriceID"

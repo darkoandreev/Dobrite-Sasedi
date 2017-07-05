@@ -47,7 +47,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     private String [] partidi;
     private boolean hasLoggedIn;
     private MaterialSearchView searchView;
-    private TextView partida, propertyRefs;
+    private TextView partida, propertyRefs, saldoPartidi;
     private int cnt = 0;
 
     ArrayList<PartidiInfo> arrayOfDocuments = new ArrayList<PartidiInfo>();
@@ -78,6 +78,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
         searchItems();
         sortPartidi(adapter);
         sortImot(adapter);
+        sortSaldo(adapter);
 
     }
 
@@ -155,11 +156,11 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                 cnt++;
 
                 switch (cnt) {
-                    case 1: partida.setText("Партида ↑");
+                    case 1: partida.setText("Партида↑");
                         sortItemsASC(adapter, newFoundList);
                         break;
 
-                    case 2: partida.setText("Партида ↓");
+                    case 2: partida.setText("Партида↓");
                         sortItemsDSC(adapter, newFoundList2);
 
                         cnt = 0;
@@ -170,6 +171,31 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
             }
         }) ;
 
+    }
+
+    public void sortSaldo (final MyPartidiAdapter adapter) {
+
+        saldoPartidi = (TextView) findViewById(R.id.saldo);
+        final ArrayList<PartidiInfo> newFoundList = new ArrayList<>();
+        final ArrayList<PartidiInfo> newFoundList2 = new ArrayList<>();
+        saldoPartidi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cnt++;
+
+                switch(cnt) {
+                    case 1: saldoPartidi.setText("Салдо↑");
+                        sortSaldoASC(adapter, newFoundList);
+                        break;
+
+                    case 2: saldoPartidi.setText("Салдо↓");
+                        sortSaldoDSC(adapter, newFoundList2);
+                        cnt = 0;
+                        break;
+                }
+
+            }
+        }) ;
     }
 
     public void sortImot(final MyPartidiAdapter adapter) {
@@ -183,11 +209,11 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                 cnt++;
 
                 switch(cnt) {
-                    case 1: propertyRefs.setText("Имот ↑");
+                    case 1: propertyRefs.setText("Имот↑");
                         sortItemsASC(adapter, newFoundList);
                         break;
 
-                    case 2: propertyRefs.setText("Имот ↓");
+                    case 2: propertyRefs.setText("Имот↓");
                         sortItemsDSC(adapter, newFoundList2);
                         cnt = 0;
                         break;
@@ -196,6 +222,54 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
             }
         }) ;
 
+    }
+
+    public void sortSaldoASC (MyPartidiAdapter adapter, final ArrayList<PartidiInfo> newFoundList) {
+        adapter.sort(new Comparator<PartidiInfo>() {
+            @Override
+            public int compare(PartidiInfo o1, PartidiInfo o2) {
+                Double saldo1 = Double.parseDouble(o1.getPartidaBalance());
+                Double saldo2 = Double.parseDouble(o2.getPartidaBalance());
+
+                return saldo1.compareTo(saldo2);
+            }
+        });
+
+        for (PartidiInfo info : arrayOfDocuments) {
+            newFoundList.add(info);
+        }
+
+        partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DocumentsTask task = new DocumentsTask(PartidiView.this);
+                task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + newFoundList.get(position).getPartidaNomer().toString() + "/statement"});
+            }
+        });
+    }
+
+    public void sortSaldoDSC (MyPartidiAdapter adapter, final ArrayList<PartidiInfo> newFoundList) {
+        adapter.sort(new Comparator<PartidiInfo>() {
+            @Override
+            public int compare(PartidiInfo o1, PartidiInfo o2) {
+                Double saldo1 = Double.parseDouble(o1.getPartidaBalance());
+                Double saldo2 = Double.parseDouble(o2.getPartidaBalance());
+
+                return saldo2.compareTo(saldo1);
+            }
+        });
+
+        for (PartidiInfo info : arrayOfDocuments) {
+            newFoundList.add(info);
+        }
+
+        partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DocumentsTask task = new DocumentsTask(PartidiView.this);
+                task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + newFoundList.get(position).getPartidaNomer().toString() + "/statement"});
+            }
+        });
     }
 
     public void sortItemsASC (MyPartidiAdapter adapter, final ArrayList<PartidiInfo> newFoundList) {
