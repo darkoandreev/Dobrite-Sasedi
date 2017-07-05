@@ -27,8 +27,8 @@
             android:textStyle="bold"
             android:textSize="25sp"
             android:id="@+id/partida"
-            android:layout_alignBaseline="@+id/textView9"
-            android:layout_alignBottom="@+id/textView9"
+            android:layout_alignBaseline="@+id/imot"
+            android:layout_alignBottom="@+id/imot"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -40,7 +40,7 @@
             android:layout_weight="1"
             android:text="Имот"
             android:textSize="25sp"
-            android:id="@+id/textView9"
+            android:id="@+id/imot"
             android:layout_alignBaseline="@+id/textView2"
             android:layout_alignBottom="@+id/textView2"
             android:layout_toRightOf="@+id/partida"

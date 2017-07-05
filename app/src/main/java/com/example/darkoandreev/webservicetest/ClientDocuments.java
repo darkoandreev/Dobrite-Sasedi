@@ -52,6 +52,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     public Documents doc;
     private String fromDateString;
     private String toDateString;
+    private String [] issueDateArray;
 
 
     TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText, textView11;
@@ -118,6 +119,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
                     fromDateString = fromDate.getText().toString();
                     toDateString = toDate.getText().toString();
 
@@ -194,6 +196,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             type = new String [parentArray.length()];
             documentArray = new String [parentArray.length()];
             testArray = new double [parentArray.length()];
+            issueDateArray = new String [parentArray.length()];
 
             for (int i = 0; i < parentArray.length(); i++) {
                 doc = new Documents();
@@ -202,6 +205,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 JSONObject issueDate = parentArray.getJSONObject(i);
                 dolar = issueDate.getJSONObject("ft:IssueDate");
                 doc.setIssueDate(dolar.getString("$"));
+                issueDateArray[i] = doc.getIssueDate().toString();
+
                // nachalnaData.setText(doc.getIssueDate());
                 Log.d("IssueDate", dolar.getString("$"));
 
