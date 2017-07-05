@@ -52,6 +52,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     public Documents doc;
     private String fromDateString;
     private String toDateString;
+    private String [] issueDateArray;
 
 
     TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText, textView11;
@@ -69,8 +70,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         setContentView(client_documents);
         Toolbar toolbar = (Toolbar) findViewById(R.id.documents_toolbar);
         setSupportActionBar(toolbar);
-            listView = (ListView) findViewById(R.id.documentsList);
-            MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
+        listView = (ListView) findViewById(R.id.documentsList);
+        MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
         listView.setAdapter(adapter);
 
         documentJSONParse();
@@ -80,11 +81,11 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PaymentsTask task = new PaymentsTask(ClientDocuments.this);
                 InvoicesTask invoiceTask = new InvoicesTask(ClientDocuments.this);
-                    if (type[position].equals("Payment")) {
-                        task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidaNum + "/payments/" + documentArray[position]});
-                    } else {
-                        invoiceTask.execute(new String[]{"http://vrod.dobritesasedi.bg//rest/accounts/" + partidaNum + "/invoices/" + documentArray[position]});
-                    }
+                if (type[position].equals("Payment")) {
+                    task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidaNum + "/payments/" + documentArray[position]});
+                } else {
+                    invoiceTask.execute(new String[]{"http://vrod.dobritesasedi.bg//rest/accounts/" + partidaNum + "/invoices/" + documentArray[position]});
+                }
             }
         });
     }
@@ -118,6 +119,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
                     fromDateString = fromDate.getText().toString();
                     toDateString = toDate.getText().toString();
 
@@ -194,6 +196,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             type = new String [parentArray.length()];
             documentArray = new String [parentArray.length()];
             testArray = new double [parentArray.length()];
+            issueDateArray = new String [parentArray.length()];
 
             for (int i = 0; i < parentArray.length(); i++) {
                 doc = new Documents();
@@ -202,13 +205,15 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 JSONObject issueDate = parentArray.getJSONObject(i);
                 dolar = issueDate.getJSONObject("ft:IssueDate");
                 doc.setIssueDate(dolar.getString("$"));
-               // nachalnaData.setText(doc.getIssueDate());
+                issueDateArray[i] = doc.getIssueDate().toString();
+
+                // nachalnaData.setText(doc.getIssueDate());
                 Log.d("IssueDate", dolar.getString("$"));
 
                 JSONObject dueDate = parentArray.getJSONObject(i);
                 dolar = dueDate.getJSONObject("ft:DueDate");
                 doc.setDueDate(dolar.getString("$"));
-               // krainaData.setText(doc.getDueDate());
+                // krainaData.setText(doc.getDueDate());
                 Log.d("dueDate", dolar.getString("$"));
 
                 JSONObject documentNumber = parentArray.getJSONObject(i);
@@ -461,6 +466,7 @@ class InvoicesTask extends AsyncTask<String, String, ArrayList<InvoicesInfo>> {
         super.onPostExecute(invoices);
     }
 }
+
 
 
 
