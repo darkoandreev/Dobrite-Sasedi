@@ -11,7 +11,7 @@
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Enter e-mail"
@@ -24,7 +24,7 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Enter password"
@@ -39,8 +39,8 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="150dp"
-        android:layout_height="25dp"
+        android:layout_width="250dp"
+        android:layout_height="35dp"
         android:text="Log in"
         android:background="@drawable/login_button_background"
         android:layout_below="@+id/password"
@@ -59,13 +59,14 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:layout_weight = "0"
         app:srcCompat="@drawable/logo_edit"
-        android:layout_marginBottom="117dp"
+        android:layout_marginBottom="95dp"
         android:layout_above="@+id/username"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignStart="@+id/username" />
 
     <TextView
         android:id="@+id/textView"
@@ -74,8 +75,36 @@
         android:text="We maintain your common home, we value high your time!"
         android:fontFamily="casual"
         android:textStyle="bold"
-        android:textSize="12sp"
-        android:layout_marginBottom="35dp"
-        android:layout_alignParentBottom="true"
+        android:textSize="23sp"
+        android:layout_marginBottom="64dp"
+        android:layout_above="@+id/fb_icon"
         android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/fb_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/fb_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/button"
+        android:layout_toStartOf="@+id/button"
+        android:layout_marginBottom="11dp" />
+
+    <ImageView
+        android:id="@+id/twitter_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@+id/fb_icon"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/twitter_icon" />
+
+    <ImageView
+        android:id="@+id/insta_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@+id/twitter_icon"
+        android:layout_toEndOf="@+id/button"
+        android:layout_toRightOf="@+id/button"
+        app:srcCompat="@drawable/insta_icon" />
+
 </RelativeLayout>

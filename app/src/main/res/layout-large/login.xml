@@ -61,11 +61,11 @@
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp"
         android:layout_weight = "0"
-        app:srcCompat="@drawable/logo_edit" />
+        app:srcCompat="@drawable/logo_edit"
+        android:layout_above="@+id/username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="108dp" />
 
     <TextView
         android:id="@+id/textView"
@@ -75,7 +75,35 @@
         android:fontFamily="casual"
         android:textStyle="bold"
         android:textSize="12sp"
-        android:layout_marginBottom="35dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/fb_icon"
         android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/fb_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/fb_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/button"
+        android:layout_toStartOf="@+id/button"
+        android:layout_marginBottom="11dp" />
+
+    <ImageView
+        android:id="@+id/twitter_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/fb_icon"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/twitter_icon" />
+
+    <ImageView
+        android:id="@+id/insta_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/twitter_icon"
+        android:layout_toEndOf="@+id/button"
+        android:layout_toRightOf="@+id/button"
+        app:srcCompat="@drawable/insta_icon" />
+
 </RelativeLayout>

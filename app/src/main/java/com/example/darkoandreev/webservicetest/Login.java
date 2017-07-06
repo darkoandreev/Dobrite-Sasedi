@@ -3,6 +3,8 @@ package com.example.darkoandreev.webservicetest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +32,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class Login extends AppCompatActivity {
     public TextView username, password;
     public String user, pass;
-    private ImageView logo;
+    private ImageView logo, fb, insta, twitter;
     private Button loginButton;
     private CheckBox checkBox;
     private Boolean saveLogin;
@@ -55,10 +57,32 @@ public class Login extends AppCompatActivity {
         username = (TextView) findViewById(R.id.username);
         password = (TextView) findViewById(R.id.password);
         logo = (ImageView) findViewById(R.id.logo);
+        fb = (ImageView) findViewById(R.id.fb_icon);
+        twitter = (ImageView) findViewById(R.id.twitter_icon);
+        insta = (ImageView) findViewById(R.id.insta_icon);
+
         checkBox = (CheckBox) findViewById(R.id.saveLoginCheckBox);
         checkBox.setChecked(true);
 
         logo.setImageResource(R.drawable.logo_edit);
+        fb.setImageResource(R.drawable.fb_icon);
+        twitter.setImageResource(R.drawable.twitter_icon);
+        insta.setImageResource(R.drawable.insta_icon);
+
+        fb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent ();
+                intent.setAction(Intent.ACTION_VIEW);
+                try {
+                    getPackageManager().getPackageInfo("com.facebook.katana", 0);
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                intent.setData(Uri.parse("https://m.facebook.com/biciklizam/"));
+                startActivity(intent);
+            }
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

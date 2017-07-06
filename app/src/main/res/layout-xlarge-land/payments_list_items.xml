@@ -24,11 +24,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_alignBottom="@+id/paymentID"
-        android:layout_centerHorizontal="true"
         android:text="0.00"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/paymentID"
+        android:layout_alignBottom="@+id/paymentID"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/platenoID"
@@ -84,10 +85,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_alignBottom="@+id/kreditID"
-        android:layout_toEndOf="@+id/kreditID"
-        android:layout_toRightOf="@+id/kreditID"
         android:text="лв."
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/kreditID"
+        android:layout_alignBottom="@+id/kreditID"
+        android:layout_toRightOf="@+id/kreditID"
+        android:layout_toEndOf="@+id/kreditID" />
 </RelativeLayout>

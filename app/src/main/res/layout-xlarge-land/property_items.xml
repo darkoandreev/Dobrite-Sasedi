@@ -22,15 +22,11 @@
             android:id="@+id/partidaPropertyRefs"
             android:layout_width="wrap_content"
             android:gravity="center"
-            android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
             android:text="Рапл-011:Оф.02"
             android:textSize="15sp"
             android:layout_alignBottom="@+id/partidaNomer"
-            android:layout_toRightOf="@+id/partidaNomer"
-            android:layout_toEndOf="@+id/partidaNomer"
-            android:layout_marginLeft="51dp"
-            android:layout_marginStart="51dp" />
+            android:layout_centerHorizontal="true" />
 
 
         <TextView
@@ -39,12 +35,12 @@
             android:layout_height="wrap_content"
             android:text="937.15 lv."
             android:textSize="15sp"
+            android:layout_marginRight="92dp"
+            android:layout_marginEnd="92dp"
             android:layout_alignBaseline="@+id/partidaPropertyRefs"
             android:layout_alignBottom="@+id/partidaPropertyRefs"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="3dp"
-            android:layout_marginEnd="3dp" />
+            android:layout_alignParentEnd="true" />
 
 
         <TextView

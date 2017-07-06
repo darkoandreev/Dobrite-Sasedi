@@ -253,10 +253,7 @@
         android:textStyle="bold"
         android:layout_alignBaseline="@+id/productID"
         android:layout_alignBottom="@+id/productID"
-        android:layout_toRightOf="@+id/productID"
-        android:layout_toEndOf="@+id/productID"
-        android:layout_marginLeft="28dp"
-        android:layout_marginStart="28dp" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/totalPriceID"

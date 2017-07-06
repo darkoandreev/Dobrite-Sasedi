@@ -56,7 +56,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     private String [] issueDateArray;
 
 
-    TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText, textView11;
+    TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText, textView11, statusTypeForward;
 
     private List<Documents> documentsList = new ArrayList<>();
     private Documents documents = new Documents();
@@ -127,7 +127,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                     }
 
                     for (int k = 0; k < issueDateArray.length; k++) {
-                        if(toDateString.compareTo(issueDateArray[k]) > 0) {
+                        if(toDateString.compareTo(issueDateArray[k]) >= 0) {
                             end = k;
                         }
                     }
@@ -196,6 +196,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         textView12 = (TextView) findViewById(R.id.grupa);
         userIDText = (TextView) findViewById(R.id.userID);
         textView11 = (TextView) findViewById(R.id.textView11);
+        statusTypeForward = (TextView) findViewById(R.id.inovice);
 
 
         JSONObject dolar;
@@ -309,6 +310,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 doc.setForwardBalance(dolar.getString("$"));
                 String test = dolar.getString("$");
                 Log.d("forwardBalance", dolar.getString("$"));
+
 
 
                 if(test.equals("ForwardBalance")) {

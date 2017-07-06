@@ -28,12 +28,9 @@
         android:text="1.0"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:layout_marginLeft="35dp"
-        android:layout_marginStart="35dp"
         android:layout_alignBaseline="@+id/obshtaOhranaID"
         android:layout_alignBottom="@+id/obshtaOhranaID"
-        android:layout_toRightOf="@+id/obshtaOhranaID"
-        android:layout_toEndOf="@+id/obshtaOhranaID" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/totalListInvoiceID"

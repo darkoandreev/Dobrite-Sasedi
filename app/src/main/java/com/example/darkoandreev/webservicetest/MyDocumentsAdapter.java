@@ -50,9 +50,13 @@ public class MyDocumentsAdapter extends ArrayAdapter<Documents> {
             status.setTextColor(Color.GREEN);
         }
 
+
         invoice.setText(documents.forwardBalance);
         data.setText(documents.issueDate);
 
+        if(invoice.getText().toString().equals("ForwardBalance")) {
+            invoice.setText("");
+        }
 
         return convertView;
     }
