@@ -58,7 +58,7 @@ public class Login extends AppCompatActivity {
         checkBox = (CheckBox) findViewById(R.id.saveLoginCheckBox);
         checkBox.setChecked(true);
 
-        logo.setImageResource(R.drawable.logo_eng);
+        logo.setImageResource(R.drawable.logo_edit);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

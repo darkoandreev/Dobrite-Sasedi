@@ -65,7 +65,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="19dp"
         android:layout_weight = "0"
-        app:srcCompat="@drawable/logo_eng" />
+        app:srcCompat="@drawable/logo_edit" />
 
     <TextView
         android:id="@+id/textView"
