@@ -34,6 +34,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.example.darkoandreev.webservicetest.R.layout.client_documents;
@@ -58,11 +59,13 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText, textView11;
 
     private List<Documents> documentsList = new ArrayList<>();
+    private Documents documents = new Documents();
 
     public List<Documents> getAndroid() {
         return documentsList;
     }
     ArrayList<Documents> arrayOfDocuments = new ArrayList<Documents>();
+    final ArrayList<Documents> filteredDates = new ArrayList<Documents>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,18 +79,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
         documentJSONParse();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PaymentsTask task = new PaymentsTask(ClientDocuments.this);
-                InvoicesTask invoiceTask = new InvoicesTask(ClientDocuments.this);
-                    if (type[position].equals("Payment")) {
-                        task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidaNum + "/payments/" + documentArray[position]});
-                    } else {
-                        invoiceTask.execute(new String[]{"http://vrod.dobritesasedi.bg//rest/accounts/" + partidaNum + "/invoices/" + documentArray[position]});
-                    }
-            }
-        });
+        clickItemHandler(listView, arrayOfDocuments);
     }
 
     @Override
@@ -123,6 +115,20 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                     fromDateString = fromDate.getText().toString();
                     toDateString = toDate.getText().toString();
 
+                    ArrayList<String> issueArrayList =  new ArrayList<>(Arrays.asList(issueDateArray));
+                    int start = issueArrayList.indexOf(fromDateString);
+                    int end = issueArrayList.lastIndexOf(toDateString);
+
+                    for (int i = start; i <= end; i++) {
+                        filteredDates.add(arrayOfDocuments.get(i));
+
+                    }
+
+                    MyDocumentsAdapter adapter = new MyDocumentsAdapter(ClientDocuments.this, filteredDates);
+                    listView.setAdapter(adapter);
+
+                    clickItemHandler(listView, filteredDates);
+
                 }
             });
 
@@ -133,10 +139,31 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 }
             });
 
+            MyDocumentsAdapter adapter = new MyDocumentsAdapter(ClientDocuments.this, arrayOfDocuments);
+            listView.setAdapter(adapter);
+
+            clickItemHandler(listView, arrayOfDocuments);
+
             AlertDialog dialog = builder.create();
             dialog.show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void clickItemHandler (ListView listView, final ArrayList<Documents> list) {
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PaymentsTask task = new PaymentsTask(ClientDocuments.this);
+                InvoicesTask invoiceTask = new InvoicesTask(ClientDocuments.this);
+                if (list.get(position).getForwardBalance().equals("Payment")) {
+                    task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + documents.getPartidaID() + "/payments/" + list.get(position).getDocumentNumber()});
+                } else {
+                    invoiceTask.execute(new String[]{"http://vrod.dobritesasedi.bg//rest/accounts/" + documents.getPartidaID() + "/invoices/" + list.get(position).getDocumentNumber()});
+                }
+            }
+        });
     }
 
     @Override
@@ -163,7 +190,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         String user = getIntent().getStringExtra("username");
         userIDText.setText(user);
 
-        Documents documents = new Documents();
+
         String partidaId = null;
 
         try {
