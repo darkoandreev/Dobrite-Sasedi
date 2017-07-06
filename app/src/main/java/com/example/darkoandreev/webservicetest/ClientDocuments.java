@@ -134,7 +134,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
                     for (int i = start; i <= end; i++) {
 
-                        filteredDates.add(arrayOfDocuments.get(i));
+                            filteredDates.add(arrayOfDocuments.get(i));
 
                     }
 
