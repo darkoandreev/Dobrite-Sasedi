@@ -119,7 +119,21 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                     int start = issueArrayList.indexOf(fromDateString);
                     int end = issueArrayList.lastIndexOf(toDateString);
 
+                    for(int j = 0; j < issueDateArray.length; j++) {
+                        if (fromDateString.compareTo(issueDateArray[j]) <= 0) {
+                            start = j;
+                            break;
+                        }
+                    }
+
+                    for (int k = 0; k < issueDateArray.length; k++) {
+                        if(toDateString.compareTo(issueDateArray[k]) > 0) {
+                            end = k;
+                        }
+                    }
+
                     for (int i = start; i <= end; i++) {
+
                         filteredDates.add(arrayOfDocuments.get(i));
 
                     }
