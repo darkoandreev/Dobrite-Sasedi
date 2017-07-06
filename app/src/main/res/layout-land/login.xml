@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loginBtn"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login">
+
+
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter e-mail"
+        android:textAlignment="center"
+        android:fontFamily="serif"
+        android:background="@drawable/login_final"
+        android:inputType="textEmailAddress"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter password"
+        android:textAlignment="center"
+        android:background="@drawable/login_final"
+        android:fontFamily="serif"
+        android:inputType="textPassword"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/username"
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignStart="@+id/username" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="150dp"
+        android:layout_height="25dp"
+        android:text="Log in"
+        android:background="@drawable/login_button_background"
+        android:layout_marginTop="13dp"
+        android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_weight = "0"
+        app:srcCompat="@drawable/logo_edit"
+        android:layout_above="@+id/username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="We maintain your common home, we value high your time!"
+        android:fontFamily="casual"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        android:layout_above="@+id/fb_icon"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/fb_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@drawable/fb_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/button"
+        android:layout_toStartOf="@+id/button"
+        android:layout_marginBottom="11dp" />
+
+    <ImageView
+        android:id="@+id/twitter_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/fb_icon"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/twitter_icon" />
+
+    <ImageView
+        android:id="@+id/insta_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/twitter_icon"
+        android:layout_toEndOf="@+id/button"
+        android:layout_toRightOf="@+id/button"
+        app:srcCompat="@drawable/insta_icon" />
+
+</RelativeLayout>

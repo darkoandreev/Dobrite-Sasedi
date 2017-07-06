@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/payments_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:title="@string/plashtane_string"
+        android:titleTextColor="#FFFFFF"/>
+
+
+    <TextView
+        android:id="@+id/partidaID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/payments_toolbar"
+        android:text="Партида: "
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/titulqrID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/partidaID"
+        android:layout_alignStart="@+id/partidaID"
+        android:layout_below="@+id/partidaID"
+        android:text="Титуляр: "
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/plashtaneID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/titulqrID"
+        android:layout_alignStart="@+id/titulqrID"
+        android:layout_below="@+id/titulqrID"
+        android:text="Плащане №:"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/dataID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/plashtaneID"
+        android:layout_alignStart="@+id/plashtaneID"
+        android:layout_below="@+id/plashtaneID"
+        android:text="Дата: "
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/sumaID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dataID"
+        android:layout_alignStart="@+id/dataID"
+        android:layout_below="@+id/dataID"
+        android:text="Сума: "
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/metodID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Метод: "
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_below="@+id/payments_toolbar"
+        android:layout_alignLeft="@+id/referenciqID"
+        android:layout_alignStart="@+id/referenciqID" />
+
+    <TextView
+        android:id="@+id/referenciqID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Референция: "
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_alignBaseline="@+id/referenciqText"
+        android:layout_alignBottom="@+id/referenciqText"
+        android:layout_alignLeft="@+id/neusvoeniKreditID"
+        android:layout_alignStart="@+id/neusvoeniKreditID" />
+
+    <TextView
+        android:id="@+id/neusvoeniID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/referenciqID"
+        android:layout_alignStart="@+id/referenciqID"
+        android:layout_below="@+id/referenciqID"
+        android:text="Неусвоени: "
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/neusvoeniKreditID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Неусв, кредит: "
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_below="@+id/neusvoeniID"
+        android:layout_toLeftOf="@+id/neusvoeniText"
+        android:layout_toStartOf="@+id/neusvoeniText"
+        android:layout_marginRight="32dp"
+        android:layout_marginEnd="32dp" />
+
+    <TextView
+        android:id="@+id/partidiText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:layout_marginLeft="62dp"
+        android:layout_marginStart="62dp"
+        android:layout_below="@+id/payments_toolbar"
+        android:layout_toRightOf="@+id/plashtaneID"
+        android:layout_toEndOf="@+id/plashtaneID" />
+
+    <TextView
+        android:id="@+id/titulqrText"
+        android:textColor="#000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/plashtaneID"
+        android:layout_alignLeft="@+id/partidiText"
+        android:layout_alignStart="@+id/partidiText"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/plashtaneText"
+        android:textColor="#000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:layout_below="@+id/titulqrText"
+        android:layout_alignLeft="@+id/dataText"
+        android:layout_alignStart="@+id/dataText" />
+
+    <TextView
+        android:id="@+id/dataText"
+        android:textColor="#000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:layout_below="@+id/plashtaneText"
+        android:layout_alignLeft="@+id/titulqrText"
+        android:layout_alignStart="@+id/titulqrText" />
+
+    <TextView
+        android:id="@+id/sumaText"
+        android:textColor="#000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:layout_alignBaseline="@+id/sumaID"
+        android:layout_alignBottom="@+id/sumaID"
+        android:layout_alignLeft="@+id/plashtaneText"
+        android:layout_alignStart="@+id/plashtaneText" />
+
+    <TextView
+        android:id="@+id/metodText"
+        android:textColor="#000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:layout_marginRight="45dp"
+        android:layout_marginEnd="45dp"
+        android:layout_below="@+id/payments_toolbar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/referenciqText"
+        android:textColor="#000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:layout_below="@+id/metodText"
+        android:layout_alignLeft="@+id/metodText"
+        android:layout_alignStart="@+id/metodText" />
+
+    <TextView
+        android:id="@+id/neusvoeniText"
+        android:textColor="#000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:layout_below="@+id/referenciqText"
+        android:layout_alignLeft="@+id/referenciqText"
+        android:layout_alignStart="@+id/referenciqText" />
+
+    <TextView
+        android:id="@+id/neusvKreditText"
+        android:textColor="#000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:layout_below="@+id/neusvoeniText"
+        android:layout_alignLeft="@+id/neusvoeniText"
+        android:layout_alignStart="@+id/neusvoeniText" />
+
+    <ListView
+        android:id="@+id/invoicesList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#806326"
+        android:dividerHeight="1dp"
+        tools:listitem="@layout/payments_list_items"
+        android:layout_below="@+id/idAndSum"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/idAndSum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:text="ID и сума"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/sumaID"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/kreditID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignBottom="@+id/idAndSum"
+        android:layout_centerHorizontal="true"
+        android:text="Кредит"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/platenoID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/kreditID"
+        android:layout_alignBottom="@+id/kreditID"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="Платено"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

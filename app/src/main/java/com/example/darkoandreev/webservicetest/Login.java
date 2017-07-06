@@ -61,8 +61,8 @@ public class Login extends AppCompatActivity {
         twitter = (ImageView) findViewById(R.id.twitter_icon);
         insta = (ImageView) findViewById(R.id.insta_icon);
 
-        checkBox = (CheckBox) findViewById(R.id.saveLoginCheckBox);
-        checkBox.setChecked(true);
+        //checkBox = (CheckBox) findViewById(R.id.saveLoginCheckBox);
+        //checkBox.setChecked(true);
 
         logo.setImageResource(R.drawable.logo_edit);
         fb.setImageResource(R.drawable.fb_icon);
