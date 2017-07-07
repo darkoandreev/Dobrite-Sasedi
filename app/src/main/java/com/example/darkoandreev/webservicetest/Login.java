@@ -99,6 +99,7 @@ public class Login extends AppCompatActivity {
 
         });
     }
+
 }
 
 
@@ -179,7 +180,7 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
             loginPrefsEditor.commit();
 
             Intent intent = new Intent(this.context, PartidiView.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             context.startActivity(intent);
         } else {
             Toast.makeText(this.context, "Invalid username/password", Toast.LENGTH_LONG).show();

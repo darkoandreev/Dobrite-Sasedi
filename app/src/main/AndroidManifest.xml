@@ -9,7 +9,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:configChanges="orientation">
 
         <supports-screens
             android:smallScreens="true"
@@ -26,21 +27,25 @@
         </activity>
         <activity
             android:name=".ClientDocuments"
-            android:label="@string/client_doc">
+            android:label="@string/client_doc"
+            android:configChanges="orientation|screenSize">
         </activity>
         <activity
             android:name=".PartidiView"
-            android:label="@string/partidi_string">
+            android:label="@string/partidi_string"
+            android:configChanges="orientation">
         </activity>
 
         <activity
             android:name=".PaymentsView"
-            android:label="@string/plashtane_string">
+            android:label="@string/plashtane_string"
+            android:configChanges="orientation">
         </activity>
 
         <activity
             android:name=".InvoicesView"
-            android:label="Фактура">
+            android:label="Фактура"
+            android:configChanges="orientation">
         </activity>
 
     </application>

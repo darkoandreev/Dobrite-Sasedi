@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -80,6 +81,29 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         documentJSONParse();
 
         clickItemHandler(listView, arrayOfDocuments);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        setContentView(client_documents);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.documents_toolbar);
+        setSupportActionBar(toolbar);
+        listView = (ListView) findViewById(R.id.documentsList);
+
+        if(filteredDates.isEmpty()) {
+            orienationJSONParse();
+            MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
+            listView.setAdapter(adapter);
+            clickItemHandler(listView, arrayOfDocuments);
+        } else {
+            orienationJSONParse();
+            MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, filteredDates);
+            listView.setAdapter(adapter);
+            clickItemHandler(listView, filteredDates);
+        }
+
     }
 
     @Override
@@ -186,6 +210,87 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     }
 
 
+    public void orienationJSONParse () {
+
+        tekushtoSaldo = (TextView) findViewById(R.id.tekushtoSaldo);
+        nachalnaData = (TextView) findViewById(R.id.nachalnaData);
+        krainaData = (TextView) findViewById(R.id.krainaData);
+        saldoNachalo = (TextView) findViewById(R.id.saldoNachalo);
+        saldoKraq = (TextView) findViewById(R.id.saldoVKraq);
+        textView12 = (TextView) findViewById(R.id.grupa);
+        textView11 = (TextView) findViewById(R.id.textView11);
+
+        JSONObject dolar;
+
+        String extras = getIntent().getStringExtra("finalPartidiJson");
+        String user = getIntent().getStringExtra("username");
+        userIDText.setText(user);
+
+
+        String partidaId = null;
+
+        try {
+            JSONObject parentObject = new JSONObject(extras);
+            JSONObject accountObject = parentObject.getJSONObject("cssc:AccountStatement");
+
+            dolar = accountObject.getJSONObject("ct:StartDate");
+            documents.setNachalnaData(dolar.getString("$"));
+            nachalnaData.setText(dolar.getString("$"));
+
+            dolar = accountObject.getJSONObject("ct:EndDate");
+            documents.setKrainaData(dolar.getString("$"));
+            krainaData.setText(dolar.getString("$"));
+
+            JSONArray parentArray = accountObject.getJSONArray("cssc:Documents");
+            JSONObject Accounts = accountObject.getJSONObject("cssc:Account");
+
+
+            JSONArray partidaID = Accounts.getJSONArray("cssc:Uid");
+
+            for (int k = 0; k < partidaID.length(); k++) {
+                dolar = partidaID.getJSONObject(k);
+                documents.setPartidaID(dolar.getString("$"));
+                partidaId = dolar.getString("$");
+                partidaNum = partidaId;
+                Log.d("partidaID", dolar.getString("$"));
+
+            }
+
+            for (int i = 0; i < parentArray.length(); i++) {
+                doc = new Documents();
+
+                JSONObject balance = parentArray.getJSONObject(i);
+                dolar = balance.getJSONObject("ct:Balance");
+                doc.setBalance(dolar.getString("$"));
+                testArray[i] = Double.parseDouble(dolar.getString("$"));
+                Double posledno = testArray[parentArray.length()-1];
+                tekushtoSaldo.setText(doc.getBalance());
+                Log.d("balance", dolar.getString("$"));
+                Log.d("Double Balance", String.valueOf(testArray[i]));
+
+                JSONObject amount = parentArray.getJSONObject(i);
+                dolar = amount.getJSONObject("ft:Amount");
+                doc.setAmount(dolar.getString("$"));
+
+
+                JSONObject forwardBalance = parentArray.getJSONObject(i);
+                dolar = forwardBalance.getJSONObject("ft:Type");
+                doc.setForwardBalance(dolar.getString("$"));
+                String test = dolar.getString("$");
+                Log.d("forwardBalance", dolar.getString("$"));
+
+                if(test.equals("ForwardBalance")) {
+                    saldoNachalo.setText(doc.getBalance());
+                    textView11.setText(doc.getBalance());
+                }
+
+                saldoKraq.setText(posledno.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void documentJSONParse () {
 
         tekushtoSaldo = (TextView) findViewById(R.id.tekushtoSaldo);
@@ -267,7 +372,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 JSONObject amount = parentArray.getJSONObject(i);
                 dolar = amount.getJSONObject("ft:Amount");
                 doc.setAmount(dolar.getString("$"));
-                //saldoNachalo.setText(doc.getAmount());
+                //saldoNachalo.setText(dolar.getString("$"));
 
                 Log.d("amount", dolar.getString("$"));
 
@@ -295,6 +400,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 dolar = balance.getJSONObject("ct:Balance");
                 doc.setBalance(dolar.getString("$"));
                 testArray[i] = Double.parseDouble(dolar.getString("$"));
+                Double posledno = testArray[parentArray.length()-1];
                 tekushtoSaldo.setText(doc.getBalance());
                 Log.d("balance", dolar.getString("$"));
                 Log.d("Double Balance", String.valueOf(testArray[i]));
@@ -317,16 +423,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                     saldoNachalo.setText(doc.getBalance());
                     textView11.setText(doc.getBalance());
                 }
-                double maxBalance = Double.MIN_VALUE;
 
-                for (int counter = 1; counter < testArray.length; counter++)
-                {
-                    if (testArray[counter] > maxBalance)
-                    {
-                        maxBalance = testArray[counter];
-                    }
-                }
-                saldoKraq.setText(String.valueOf(maxBalance));
+                saldoKraq.setText(posledno.toString());
 
 
 
