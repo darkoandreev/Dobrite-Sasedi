@@ -323,10 +323,11 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.logout_menu, menu);
+        inflater.inflate(R.menu.search_menu, menu);
         MenuItem item = menu.findItem(R.id.searchItem);
         searchView.setMenuItem(item);
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

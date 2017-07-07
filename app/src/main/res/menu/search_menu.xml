@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/calendar_icon"
-        android:icon="@drawable/ic_date_range_white_24dp"
-        android:title="Calendar"
+        android:id="@+id/searchItem"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:orderInCategory="100"
+        android:title="Search..."
         app:showAsAction="always"
         />
+
 </menu>

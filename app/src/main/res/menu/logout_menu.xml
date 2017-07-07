@@ -5,15 +5,9 @@
     <item
         android:id="@+id/logout_id"
         android:title="Change account"
-        android:icon="@drawable/back_2"
+        android:icon="@drawable/ic_power_settings_new_white_24dp"
         app:showAsAction="always"
         />
-    <item
-        android:id="@+id/searchItem"
-        android:icon="@drawable/search"
-        android:orderInCategory="100"
-        android:title="Search..."
-        app:showAsAction="always"
-        />
+
 
 </menu>
