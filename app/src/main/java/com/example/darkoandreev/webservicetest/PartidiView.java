@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -318,10 +319,6 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
 
     }
 
-
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -336,14 +333,34 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(item.getItemId() == R.id.logout_id) {
-
             Intent intent = new Intent(PartidiView.this, Login.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
-            finish();
 
+            SharedPreferences preferences =getSharedPreferences("Login",Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
+
+            finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            moveTaskToBack(true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+            moveTaskToBack(true);
+
     }
 
     public void partidiJSONParse () {
@@ -355,8 +372,10 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
         SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
         hasLoggedIn = sp.getBoolean("hasLoggedIn", false);
         String extras = null;
+
         if(hasLoggedIn) {
             extras = sp.getString("finalJson", null);
+
         }
 
 

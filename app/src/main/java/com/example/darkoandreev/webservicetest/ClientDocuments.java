@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.darkoandreev.webservicetest.DocumentsModel.Documents;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -34,6 +35,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -106,10 +108,22 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
     }
 
+    public static boolean isValidDate(String inDate) throws java.text.ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(inDate.trim());
+        } catch (ParseException pe) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.calendar_menu, menu);
+        inflater.inflate(R.menu.logout_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -118,8 +132,14 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
         if(item.getItemId() == R.id.logout_id) {
             Intent intent = new Intent(ClientDocuments.this, Login.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
+
+            SharedPreferences preferences =getSharedPreferences("Login",Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
+
             finish();
         }
         if(item.getItemId() == R.id.calendar_icon) {
@@ -134,41 +154,51 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(DialogInterface dialog, int which)  {
 
                     fromDateString = fromDate.getText().toString();
                     toDateString = toDate.getText().toString();
 
-                    ArrayList<String> issueArrayList =  new ArrayList<>(Arrays.asList(issueDateArray));
-                    int start = issueArrayList.indexOf(fromDateString);
-                    int end = issueArrayList.lastIndexOf(toDateString);
+                    try {
+                        if (isValidDate(fromDateString) && isValidDate(toDateString)) {
+                            if (!(fromDateString.compareTo(toDateString) <= 0)) {
+                                Toast.makeText(ClientDocuments.this, "Enter correct period of time", Toast.LENGTH_SHORT).show();
+                            } else {
+                                ArrayList<String> issueArrayList = new ArrayList<>(Arrays.asList(issueDateArray));
+                                int start = issueArrayList.indexOf(fromDateString);
+                                int end = issueArrayList.lastIndexOf(toDateString);
 
-                    for(int j = 0; j < issueDateArray.length; j++) {
-                        if (fromDateString.compareTo(issueDateArray[j]) <= 0) {
-                            start = j;
-                            break;
+                                for (int j = 0; j < issueDateArray.length; j++) {
+                                    if (fromDateString.compareTo(issueDateArray[j]) <= 0) {
+                                        start = j;
+                                        break;
+                                    }
+                                }
+
+                                for (int k = 0; k < issueDateArray.length; k++) {
+                                    if (toDateString.compareTo(issueDateArray[k]) >= 0) {
+                                        end = k;
+                                    }
+                                }
+
+                                for (int i = start; i <= end; i++) {
+                                    filteredDates.add(arrayOfDocuments.get(i));
+                                }
+
+                                MyDocumentsAdapter adapter = new MyDocumentsAdapter(ClientDocuments.this, filteredDates);
+                                listView.setAdapter(adapter);
+
+                                clickItemHandler(listView, filteredDates);
+                            }
                         }
+                    } catch (java.text.ParseException e) {
+
+                        Toast.makeText(ClientDocuments.this, "Date format is not valid (yyyy-MM-dd)", Toast.LENGTH_LONG).show();
                     }
-
-                    for (int k = 0; k < issueDateArray.length; k++) {
-                        if(toDateString.compareTo(issueDateArray[k]) >= 0) {
-                            end = k;
-                        }
-                    }
-
-                    for (int i = start; i <= end; i++) {
-
-                            filteredDates.add(arrayOfDocuments.get(i));
-
-                    }
-
-                    MyDocumentsAdapter adapter = new MyDocumentsAdapter(ClientDocuments.this, filteredDates);
-                    listView.setAdapter(adapter);
-
-                    clickItemHandler(listView, filteredDates);
 
                 }
             });
+
 
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override

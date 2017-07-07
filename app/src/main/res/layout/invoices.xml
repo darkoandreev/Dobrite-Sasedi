@@ -228,50 +228,50 @@
 
     <TextView
         android:id="@+id/productID"
-        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginTop="15dp"
-        android:text="Продукт и описание"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/platimaDoId"
         android:layout_marginLeft="3dp"
         android:layout_marginStart="3dp"
-        android:layout_below="@+id/platimaDoId"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="15dp"
+        android:layout_weight="1"
+        android:text="Продукт и описание"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/quantityID"
-        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Количество"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold"
         android:layout_alignBaseline="@+id/productID"
         android:layout_alignBottom="@+id/productID"
-        android:layout_toRightOf="@+id/productID"
-        android:layout_toEndOf="@+id/productID"
         android:layout_marginLeft="28dp"
-        android:layout_marginStart="28dp" />
+        android:layout_marginStart="28dp"
+        android:layout_toEndOf="@+id/productID"
+        android:layout_toRightOf="@+id/productID"
+        android:text="Количество"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/totalPriceID"
-        android:textColor="#000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_alignBaseline="@+id/quantityID"
         android:layout_alignBottom="@+id/quantityID"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="3dp"
         android:layout_marginRight="3dp"
+        android:layout_weight="1"
         android:text="Тотал"
-        android:textSize="18sp"
+        android:textColor="#000000"
+        android:textSize="17sp"
         android:textStyle="bold" />
 
 
