@@ -1,13 +1,12 @@
 package com.example.darkoandreev.webservicetest;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -17,7 +16,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +38,7 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.example.darkoandreev.webservicetest.R.layout.client_documents;
@@ -49,14 +50,19 @@ import static com.example.darkoandreev.webservicetest.R.layout.client_documents;
 public class ClientDocuments extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ListView listView;
-    private String [] type;
-    private String [] documentArray;
-    private double [] testArray;
+    private String[] type;
+    private String[] documentArray;
+    private double[] testArray;
     private String partidaNum;
     public Documents doc;
     private String fromDateString;
     private String toDateString;
-    private String [] issueDateArray;
+    private String[] issueDateArray;
+    private CalendarView calendarView;
+    private int fromYear, fromMonth, fromDay, toYear, toMonth, toDay;
+    private DatePickerDialog to_date, from_date;
+
+    // private DatePickerDialog.OnDateSetListener from_date, to_date;
 
 
     TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText, textView11, statusTypeForward;
@@ -67,6 +73,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     public List<Documents> getAndroid() {
         return documentsList;
     }
+
     ArrayList<Documents> arrayOfDocuments = new ArrayList<Documents>();
     final ArrayList<Documents> filteredDates = new ArrayList<Documents>();
 
@@ -80,9 +87,12 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
         listView.setAdapter(adapter);
 
+
         documentJSONParse();
 
         clickItemHandler(listView, arrayOfDocuments);
+
+
     }
 
     @Override
@@ -94,7 +104,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         setSupportActionBar(toolbar);
         listView = (ListView) findViewById(R.id.documentsList);
 
-        if(filteredDates.isEmpty()) {
+        if (filteredDates.isEmpty()) {
             orienationJSONParse();
             MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
             listView.setAdapter(adapter);
@@ -127,40 +137,103 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         return super.onCreateOptionsMenu(menu);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() == R.id.logout_id) {
+        if (item.getItemId() == R.id.logout_id) {
             Intent intent = new Intent(ClientDocuments.this, Login.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
 
-            SharedPreferences preferences =getSharedPreferences("Login",Context.MODE_PRIVATE);
+            SharedPreferences preferences = getSharedPreferences("Login", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.clear();
             editor.commit();
 
             finish();
         }
-        if(item.getItemId() == R.id.calendar_icon) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            View mView = getLayoutInflater().inflate(R.layout.alert_dialog, null);
-            final EditText fromDate = (EditText) mView.findViewById(R.id.fromDateEdt);
-            final EditText toDate = (EditText) mView.findViewById(R.id.toDateEdt);
 
-            builder.setView(mView);
+        final DatePickerDialog.Builder builder = new DatePickerDialog.Builder(ClientDocuments.this);
 
 
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+        Calendar c = Calendar.getInstance();
+        fromYear = c.get(Calendar.YEAR);
+        fromMonth = c.get(Calendar.MONTH);
+        fromDay = c.get(Calendar.DAY_OF_MONTH);
+        toYear = c.get(Calendar.YEAR);
+        toMonth = c.get(Calendar.MONTH);
+        toDay = c.get(Calendar.DAY_OF_MONTH);
+
+        if (item.getItemId() == R.id.calendar_icon) {
+
+           to_date = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
                 @Override
-                public void onClick(DialogInterface dialog, int which)  {
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                    fromDateString = fromDate.getText().toString();
-                    toDateString = toDate.getText().toString();
+                    toYear = year;
+                    toMonth = month + 1;
+                    toDay = dayOfMonth;
 
-                    try {
-                        if (isValidDate(fromDateString) && isValidDate(toDateString)) {
+                    if (toDay < 10) {
+                        fromDateString = toYear + "-" + toMonth + "-" + "0" + toDay;
+                        Log.d("toDay < 10", fromDateString);
+                    }
+
+                    if (toMonth < 10) {
+                        fromDateString = toYear + "-" + "0" + toMonth + "-" + toDay;
+                        Log.d("toMonth < 10", fromDateString);
+                    }
+
+                    if (toMonth < 10 && toDay < 10) {
+                        fromDateString = toYear + "-" + "0" + toMonth + "-" + "0" + toDay;
+                        Log.d("toMonth && toDay < 10", fromDateString);
+                    }
+
+                    if(toMonth > 10 && toDay > 10) {
+                        fromDateString = toYear + "-" + toMonth + "-" + toDay;
+                    }
+                    setTitle("From");
+
+                    Log.d("From date: ", fromDateString);
+                    //Toast.makeText(ClientDocuments.this, toYear + "-" + "0" + toMonth + "-" + toDay, Toast.LENGTH_LONG).show();
+                }
+            }, toYear, toMonth, toDay);
+
+
+
+                from_date = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                        fromYear = year;
+                        fromMonth = month + 1;
+                        fromDay = dayOfMonth;
+
+
+                        if (fromDay < 10) {
+                            toDateString = fromYear + "-" + fromMonth + "-" + "0" + fromDay;
+                            Log.d("fromDay < 10", toDateString);
+                        } if (fromMonth < 10) {
+                            toDateString = fromYear + "-" + "0" + fromMonth + "-" + fromDay;
+                            Log.d("fromMonth < 10", toDateString);
+                        } if (fromDay < 10 && fromMonth < 10) {
+                            toDateString = fromYear + "-" + "0" + fromMonth + "-" + "0" + fromDay;
+                            Log.d("fromDay && fromMonth<10", toDateString);
+                        }
+
+                        if(toMonth > 10 && toDay > 10) {
+                            toDateString = fromYear + "-" + fromMonth + "-" + fromDay;
+                        }
+
+                        setTitle("To");
+                        Log.d("To date: ", toDateString);
+
+
+                        try {
+
                             if (!(fromDateString.compareTo(toDateString) <= 0)) {
                                 Toast.makeText(ClientDocuments.this, "Enter correct period of time", Toast.LENGTH_SHORT).show();
                             } else {
@@ -190,11 +263,45 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
                                 clickItemHandler(listView, filteredDates);
                             }
-                        }
-                    } catch (java.text.ParseException e) {
 
-                        Toast.makeText(ClientDocuments.this, "Date format is not valid (yyyy-MM-dd)", Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            Toast.makeText(ClientDocuments.this, "Date format is not valid (yyyy-MM-dd)", Toast.LENGTH_LONG).show();
+                        }
                     }
+                }, fromYear, fromMonth, fromDay);
+
+            from_date.show();
+            to_date.show();
+
+
+
+            MyDocumentsAdapter adapter = new MyDocumentsAdapter(ClientDocuments.this, arrayOfDocuments);
+            listView.setAdapter(adapter);
+
+            clickItemHandler(listView, arrayOfDocuments);
+
+        }
+
+
+            /*
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            View mView = getLayoutInflater().inflate(R.layout.alert_dialog, null);
+            final EditText fromDate = (EditText) mView.findViewById(R.id.fromDateEdt);
+            final EditText toDate = (EditText) mView.findViewById(R.id.toDateEdt);
+
+            builder.setView(mView);
+
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which)  {
+
+
+                    fromDateString = fromDate.getText().toString();
+                    toDateString = toDate.getText().toString();
+
+
 
                 }
             });
@@ -214,7 +321,10 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
             AlertDialog dialog = builder.create();
             dialog.show();
-        }
+            */
+
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -476,6 +586,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
     }
 }
+
 
 class PaymentsTask extends AsyncTask<String, String, ArrayList<PaymentsInfo>> {
     private Context context;
