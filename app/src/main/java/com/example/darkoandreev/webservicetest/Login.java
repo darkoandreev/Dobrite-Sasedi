@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +27,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import dmax.dialog.SpotsDialog;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class Login extends AppCompatActivity {
@@ -35,7 +36,7 @@ public class Login extends AppCompatActivity {
     public String user, pass;
     private ImageView logo, fb, insta, twitter;
     private Button loginButton;
-    private CheckBox checkBox;
+
     private Boolean saveLogin;
     private SharedPreferences loginPreferences;
 
@@ -54,6 +55,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.login);
         super.onCreate(savedInstanceState);
 
+
         loginButton = (Button) findViewById(R.id.button);
         username = (TextView) findViewById(R.id.username);
         password = (TextView) findViewById(R.id.password);
@@ -62,8 +64,6 @@ public class Login extends AppCompatActivity {
         twitter = (ImageView) findViewById(R.id.twitter_icon);
         insta = (ImageView) findViewById(R.id.insta_icon);
 
-        //checkBox = (CheckBox) findViewById(R.id.saveLoginCheckBox);
-        //checkBox.setChecked(true);
 
         logo.setImageResource(R.drawable.logo_edit);
         fb.setImageResource(R.drawable.fb_icon);
@@ -101,6 +101,7 @@ public class Login extends AppCompatActivity {
         });
     }
 
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
@@ -125,11 +126,13 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
     public String finalJson;
     public int statusCode;
     private SharedPreferences loginPreferences;
+    private SpotsDialog progressDialog;
 
     public RetrieveFeedTask(Context context, String username, String password) {
         this.user = username;
         this.pass = password;
         this.context = context.getApplicationContext();
+        this.progressDialog = new SpotsDialog(context, R.style.Custom);
     }
 
 
@@ -181,12 +184,18 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
 
     }
 
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        progressDialog.show();
+    }
 
     @Override
     protected void onPostExecute(ArrayList<PartidiInfo> partidiInfos) {
 
         if (statusCode == 200) {
             super.onPostExecute(partidiInfos);
+            progressDialog.dismiss();
             loginPreferences = context.getSharedPreferences("Login", MODE_PRIVATE);
             SharedPreferences.Editor loginPrefsEditor = loginPreferences.edit();
             loginPrefsEditor.putBoolean("hasLoggedIn", true);
@@ -199,6 +208,7 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
+            progressDialog.dismiss();
             Toast.makeText(this.context, "Invalid username/password", Toast.LENGTH_LONG).show();
         }
     }

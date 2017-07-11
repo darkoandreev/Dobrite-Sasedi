@@ -16,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -58,7 +57,6 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     private String fromDateString;
     private String toDateString;
     private String[] issueDateArray;
-    private CalendarView calendarView;
     private int fromYear, fromMonth, fromDay, toYear, toMonth, toDay;
     private DatePickerDialog to_date, from_date;
 
@@ -195,14 +193,12 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                     if(toMonth > 10 && toDay > 10) {
                         fromDateString = toYear + "-" + toMonth + "-" + toDay;
                     }
-                    setTitle("From");
+
 
                     Log.d("From date: ", fromDateString);
                     //Toast.makeText(ClientDocuments.this, toYear + "-" + "0" + toMonth + "-" + toDay, Toast.LENGTH_LONG).show();
                 }
             }, toYear, toMonth, toDay);
-
-
 
                 from_date = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -211,7 +207,6 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                         fromYear = year;
                         fromMonth = month + 1;
                         fromDay = dayOfMonth;
-
 
                         if (fromDay < 10) {
                             toDateString = fromYear + "-" + fromMonth + "-" + "0" + fromDay;
@@ -228,7 +223,6 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                             toDateString = fromYear + "-" + fromMonth + "-" + fromDay;
                         }
 
-                        setTitle("To");
                         Log.d("To date: ", toDateString);
 
 

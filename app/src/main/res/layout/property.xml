@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
-        android:titleTextColor="#FFFFFF"/>
+        android:titleTextColor="#FFFFFF" />
 
     <com.miguelcatalan.materialsearchview.MaterialSearchView
         android:id="@+id/searchBar"

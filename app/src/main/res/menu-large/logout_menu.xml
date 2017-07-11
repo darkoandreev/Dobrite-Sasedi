@@ -5,7 +5,7 @@
     <item
         android:id="@+id/logout_id"
         android:title="Change account"
-        android:icon="@drawable/ic_power_settings_new_white_24dp"
+        android:icon="@drawable/ic_power_settings_new_white_48dp"
         app:showAsAction="always"
         />
 
