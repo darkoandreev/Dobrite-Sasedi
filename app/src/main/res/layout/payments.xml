@@ -12,7 +12,8 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:title="@string/plashtane_string"
-        android:titleTextColor="#FFFFFF"/>
+        android:theme="@style/ThemeOverlay.MyApp.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
 
     <TextView
@@ -220,14 +221,13 @@
         android:layout_marginTop="52dp"
         android:layout_below="@+id/neusvoeniKreditID"
         android:layout_alignParentRight="true"
-        android:divider="#806326"
-        android:dividerHeight="1dp"
+        android:divider="#000000"
         android:layout_alignParentEnd="true"
         tools:listitem="@layout/payments_list_items" />
 
     <TextView
         android:id="@+id/idAndSum"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="26dp"
@@ -243,22 +243,18 @@
         android:id="@+id/kreditID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:text="Кредит"
         android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_alignBaseline="@+id/platenoID"
-        android:layout_alignBottom="@+id/platenoID"
-        android:layout_toRightOf="@+id/neusvoeniKreditID"
-        android:layout_toEndOf="@+id/neusvoeniKreditID"
-        android:layout_marginLeft="41dp"
-        android:layout_marginStart="41dp" />
+        android:layout_alignBaseline="@+id/idAndSum"
+        android:layout_alignBottom="@+id/idAndSum"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/platenoID"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Платено"

@@ -3,4 +3,5 @@
     <string name ="client_doc">Клиентски отчет</string>
     <string name="partidi_string">Партиди</string>
     <string name="plashtane_string">Плащане</string>
+    <string name="faktura">Фактура</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.darkoandreev.webservicetest;
+package com.example.darkoandreev.dobritesasedi;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.darkoandreev.webservicetest.DocumentsModel.Documents;
+import com.example.darkoandreev.dobritesasedi.DocumentsModel.Documents;
 
 import java.util.ArrayList;
 
@@ -40,9 +40,10 @@ public class MyDocumentsAdapter extends ArrayAdapter<Documents> {
         TextView data = (TextView) convertView.findViewById(R.id.data);
 
         documentNumber.setText(documents.documentNumber);
-        totalAmount.setText(documents.totalAmount);
-        balance.setText(documents.balance);
+        totalAmount.setText(documents.totalAmount + "лв.");
+        balance.setText(documents.balance + "лв.");
         status.setText(documents.statusType);
+
 
         if(status.getText().toString().equals("NotPaid") || status.getText().toString().equals("No status")) {
             status.setTextColor(Color.RED);
@@ -57,6 +58,7 @@ public class MyDocumentsAdapter extends ArrayAdapter<Documents> {
         if(invoice.getText().toString().equals("ForwardBalance")) {
             invoice.setText("");
         }
+
 
         return convertView;
     }

@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/dividerTop"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000"/>
+
 
     <TextView
         android:id="@+id/documentNumber"
@@ -14,43 +20,43 @@
         android:layout_weight="1"
         android:text="5000001026"
         android:textColor="#000000"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="3dp"
-        android:layout_marginStart="3dp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/totalAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="789.40 lv."
-        android:textSize="17sp"
         android:layout_below="@+id/documentNumber"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="0.0"
+        android:textColor="#000"
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/balance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="right"
-        android:layout_marginEnd="19dp"
-        android:layout_marginRight="19dp"
-        android:text="937.15 lv."
-        android:textSize="17sp"
         android:layout_alignBaseline="@+id/totalAmount"
         android:layout_alignBottom="@+id/totalAmount"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginEnd="19dp"
+        android:layout_marginRight="19dp"
+        android:textColor="#000"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:text="937.15 lv."
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/inovice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:textSize="13sp"
         android:text="Invoice"
         android:layout_below="@+id/documentNumber"
         android:layout_alignLeft="@+id/documentNumber"
@@ -60,10 +66,9 @@
         android:id="@+id/data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_marginLeft="4dp"
+        android:textSize="13sp"
         android:text="data"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
         android:layout_below="@+id/documentNumber"
         android:layout_toRightOf="@+id/inovice"
         android:layout_toEndOf="@+id/inovice" />

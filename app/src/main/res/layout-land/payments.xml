@@ -12,7 +12,8 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:title="@string/plashtane_string"
-        android:titleTextColor="#FFFFFF"/>
+        android:theme="@style/ThemeOverlay.MyApp.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
 
     <TextView
@@ -225,8 +226,7 @@
         android:id="@+id/invoicesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#806326"
-        android:dividerHeight="1dp"
+        android:divider="#000000"
         tools:listitem="@layout/payments_list_items"
         android:layout_below="@+id/idAndSum"
         android:layout_alignParentLeft="true"
@@ -238,7 +238,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
         android:text="ID и сума"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:textSize="17sp"
         android:textStyle="bold"
         android:layout_below="@+id/sumaID"
@@ -254,7 +254,7 @@
         android:layout_centerHorizontal="true"
         android:text="Кредит"
         android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:textSize="17sp"
         android:textStyle="bold" />
 
@@ -267,7 +267,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:text="Платено"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:textSize="17sp"
         android:textStyle="bold" />
 

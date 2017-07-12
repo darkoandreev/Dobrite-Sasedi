@@ -3,6 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/dividerTop"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000"/>
+
 
     <TextView
         android:id="@+id/obshtaOhranaID"
@@ -26,40 +32,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1.0"
+        android:textColor="#000"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:layout_marginLeft="35dp"
-        android:layout_marginStart="35dp"
         android:layout_alignBaseline="@+id/obshtaOhranaID"
         android:layout_alignBottom="@+id/obshtaOhranaID"
-        android:layout_toRightOf="@+id/obshtaOhranaID"
-        android:layout_toEndOf="@+id/obshtaOhranaID" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/totalListInvoiceID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
         android:text="93.76"
+        android:textColor="#000"
         android:textSize="15sp"
         android:textStyle="bold"
         android:layout_alignBaseline="@+id/kolichestvoID"
         android:layout_alignBottom="@+id/kolichestvoID"
-        android:layout_toLeftOf="@+id/lvID"
-        android:layout_toStartOf="@+id/lvID" />
-
-    <TextView
-        android:id="@+id/lvID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:layout_marginEnd="3dp"
-        android:layout_marginRight="14dp"
-        android:text="лв."
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:layout_alignBaseline="@+id/totalListInvoiceID"
-        android:layout_alignBottom="@+id/totalListInvoiceID"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 

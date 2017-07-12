@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/dividerTop"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000"/>
+
 
     <TextView
         android:id="@+id/documentNumber"
@@ -27,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="789.40 lv."
+        android:textColor="#000"
         android:textSize="17sp"
         android:layout_below="@+id/documentNumber"
         android:layout_centerHorizontal="true" />
@@ -37,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="right"
+        android:textColor="#000"
         android:layout_marginEnd="19dp"
         android:layout_marginRight="19dp"
         android:text="937.15 lv."

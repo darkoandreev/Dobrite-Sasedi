@@ -1,4 +1,4 @@
-package com.example.darkoandreev.webservicetest;
+package com.example.darkoandreev.dobritesasedi;
 
 import android.content.Context;
 import android.content.Intent;
@@ -209,7 +209,7 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
             context.startActivity(intent);
         } else {
             progressDialog.dismiss();
-            Toast.makeText(this.context, "Invalid username/password", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context, "Невалидно потребителско име или парола", Toast.LENGTH_LONG).show();
         }
     }
 }

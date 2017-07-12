@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:layout_weight="3">
 
+    <View
+        android:id="@+id/dividerTop"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000"/>
+
 
         <TextView
             android:id="@+id/partidaNomer"
@@ -29,21 +35,23 @@
             android:layout_toRightOf="@+id/partidaNomer"
             android:layout_toEndOf="@+id/partidaNomer"
             android:layout_marginLeft="38dp"
-            android:layout_marginStart="38dp" />
+            android:layout_marginStart="38dp"
+            android:textColor="#000"/>
 
 
         <TextView
             android:id="@+id/partidaBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:text="937.15 lv."
+            android:textSize="14sp"
+            android:textColor="#000"
             android:layout_alignBaseline="@+id/partidaPropertyRefs"
             android:layout_alignBottom="@+id/partidaPropertyRefs"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginEnd="3dp"
-            android:layout_marginRight="3dp"
-            android:text="937.15 lv."
-            android:textSize="14sp" />
+            android:layout_alignParentEnd="true" />
 
 
         <TextView
@@ -54,6 +62,5 @@
             android:layout_below="@+id/partidaNomer"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
-
 
 </RelativeLayout>

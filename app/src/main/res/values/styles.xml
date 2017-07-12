@@ -29,4 +29,8 @@
         <item name="DialogSpotCount">8</item>
     </style>
 
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">25sp</item>
+    </style>
+
 </resources>

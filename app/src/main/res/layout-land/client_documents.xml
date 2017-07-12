@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,6 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.MyApp.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:titleTextAppearance="@style/Toolbar.TitleText"
         android:title="@string/client_doc"
         />
 
@@ -95,10 +99,9 @@
         android:id="@+id/documentsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#806326"
+        android:divider="#000000"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
-        android:dividerHeight="1dp"
         tools:listitem="@layout/property_list_items"
         android:layout_below="@+id/textView21"
         android:layout_alignParentLeft="true"
@@ -188,7 +191,7 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="Документ"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
@@ -204,7 +207,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:text="Тотал"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -219,7 +222,7 @@
         android:layout_marginRight="20dp"
         android:gravity="right"
         android:text="147.72"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold" />
 

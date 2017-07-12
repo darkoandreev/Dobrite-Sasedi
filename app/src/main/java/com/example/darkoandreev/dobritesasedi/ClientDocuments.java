@@ -1,4 +1,4 @@
-package com.example.darkoandreev.webservicetest;
+package com.example.darkoandreev.dobritesasedi;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -21,7 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.darkoandreev.webservicetest.DocumentsModel.Documents;
+import com.example.darkoandreev.dobritesasedi.DocumentsModel.Documents;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -40,7 +40,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.example.darkoandreev.webservicetest.R.layout.client_documents;
+import static com.example.darkoandreev.dobritesasedi.R.layout.client_documents;
 
 /**
  * Created by darko.andreev on 5/23/2017.
@@ -83,6 +83,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         setSupportActionBar(toolbar);
         listView = (ListView) findViewById(R.id.documentsList);
         MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
+        listView.setHeaderDividersEnabled(true);
         listView.setAdapter(adapter);
 
 
@@ -152,9 +153,6 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             finish();
         }
 
-        final DatePickerDialog.Builder builder = new DatePickerDialog.Builder(ClientDocuments.this);
-
-
 
         Calendar c = Calendar.getInstance();
         fromYear = c.get(Calendar.YEAR);
@@ -196,7 +194,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
 
                     Log.d("From date: ", fromDateString);
-                    //Toast.makeText(ClientDocuments.this, toYear + "-" + "0" + toMonth + "-" + toDay, Toast.LENGTH_LONG).show();
+
                 }
             }, toYear, toMonth, toDay);
 
@@ -229,7 +227,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                         try {
 
                             if (!(fromDateString.compareTo(toDateString) <= 0)) {
-                                Toast.makeText(ClientDocuments.this, "Enter correct period of time", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ClientDocuments.this, "Въведете коректен период", Toast.LENGTH_SHORT).show();
                             } else {
                                 ArrayList<String> issueArrayList = new ArrayList<>(Arrays.asList(issueDateArray));
                                 int start = issueArrayList.indexOf(fromDateString);
@@ -259,7 +257,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                             }
 
                         } catch (Exception e) {
-                            Toast.makeText(ClientDocuments.this, "Date format is not valid (yyyy-MM-dd)", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ClientDocuments.this, "Формата не е валиден (Трябва да е: yyyy-MM-dd)", Toast.LENGTH_LONG).show();
                         }
                     }
                 }, fromYear, fromMonth, fromDay);
@@ -275,49 +273,6 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             clickItemHandler(listView, arrayOfDocuments);
 
         }
-
-
-            /*
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            View mView = getLayoutInflater().inflate(R.layout.alert_dialog, null);
-            final EditText fromDate = (EditText) mView.findViewById(R.id.fromDateEdt);
-            final EditText toDate = (EditText) mView.findViewById(R.id.toDateEdt);
-
-            builder.setView(mView);
-
-
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which)  {
-
-
-                    fromDateString = fromDate.getText().toString();
-                    toDateString = toDate.getText().toString();
-
-
-
-                }
-            });
-
-
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-
-            MyDocumentsAdapter adapter = new MyDocumentsAdapter(ClientDocuments.this, arrayOfDocuments);
-            listView.setAdapter(adapter);
-
-            clickItemHandler(listView, arrayOfDocuments);
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-            */
-
-
 
         return super.onOptionsItemSelected(item);
     }
@@ -351,8 +306,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         krainaData = (TextView) findViewById(R.id.krainaData);
         saldoNachalo = (TextView) findViewById(R.id.saldoNachalo);
         saldoKraq = (TextView) findViewById(R.id.saldoVKraq);
-        textView12 = (TextView) findViewById(R.id.grupa);
         textView11 = (TextView) findViewById(R.id.textView11);
+        textView12.setText("Няма");
 
         JSONObject dolar;
 
@@ -380,6 +335,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
 
             JSONArray partidaID = Accounts.getJSONArray("cssc:Uid");
+
+            userIDText.setText(user);
 
             for (int k = 0; k < partidaID.length(); k++) {
                 dolar = partidaID.getJSONObject(k);
@@ -437,7 +394,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         textView11 = (TextView) findViewById(R.id.textView11);
         statusTypeForward = (TextView) findViewById(R.id.inovice);
 
-
+        textView12.setText("Няма");
         JSONObject dolar;
 
         String extras = getIntent().getStringExtra("finalPartidiJson");

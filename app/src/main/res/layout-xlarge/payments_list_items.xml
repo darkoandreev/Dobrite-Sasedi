@@ -3,6 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/dividerTop"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000"/>
+
     <TextView
         android:id="@+id/paymentID"
         android:layout_width="wrap_content"
@@ -27,6 +33,7 @@
         android:layout_alignBottom="@+id/paymentID"
         android:layout_centerHorizontal="true"
         android:text="0.00"
+        android:textColor="#000"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -36,13 +43,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="790.41"
-        android:layout_marginRight="3dp"
+        android:textColor="#000"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_alignBaseline="@+id/textView17"
-        android:layout_alignBottom="@+id/textView17"
-        android:layout_toLeftOf="@+id/textView16"
-        android:layout_toStartOf="@+id/textView16" />
+        android:layout_alignBaseline="@+id/kreditID"
+        android:layout_alignBottom="@+id/kreditID"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/sumaID"
@@ -64,30 +71,4 @@
         android:layout_toRightOf="@+id/sumaID"
         android:text="лв." />
 
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="лв."
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginRight="3dp"
-        android:layout_marginEnd="3dp"
-        android:layout_alignBaseline="@+id/platenoID"
-        android:layout_alignBottom="@+id/platenoID"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_alignBottom="@+id/kreditID"
-        android:layout_toEndOf="@+id/kreditID"
-        android:layout_toRightOf="@+id/kreditID"
-        android:text="лв."
-        android:textSize="20sp"
-        android:textStyle="bold" />
 </RelativeLayout>

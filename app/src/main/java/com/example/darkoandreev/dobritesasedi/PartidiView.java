@@ -1,4 +1,4 @@
-package com.example.darkoandreev.webservicetest;
+package com.example.darkoandreev.dobritesasedi;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.darkoandreev.webservicetest.DocumentsModel.Documents;
+import com.example.darkoandreev.dobritesasedi.DocumentsModel.Documents;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.apache.http.HttpResponse;
@@ -34,7 +34,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import static com.example.darkoandreev.webservicetest.R.layout.property;
+import static com.example.darkoandreev.dobritesasedi.R.layout.property;
 
 /**
  * Created by darko.andreev on 6/2/2017.

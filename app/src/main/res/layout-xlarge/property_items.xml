@@ -5,6 +5,13 @@
     android:layout_weight="3">
 
 
+        <View
+            android:id="@+id/dividerTop"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000"/>
+
+
         <TextView
             android:id="@+id/partidaNomer"
             android:layout_width="wrap_content"
@@ -24,6 +31,7 @@
             android:gravity="center"
             android:layout_height="wrap_content"
             android:text="Рапл-011:Оф.02"
+            android:textColor="#000"
             android:textSize="15sp"
             android:layout_alignBottom="@+id/partidaNomer"
             android:layout_centerHorizontal="true" />
@@ -33,6 +41,7 @@
             android:id="@+id/partidaBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#000"
             android:text="937.15 lv."
             android:textSize="15sp"
             android:layout_marginRight="103dp"

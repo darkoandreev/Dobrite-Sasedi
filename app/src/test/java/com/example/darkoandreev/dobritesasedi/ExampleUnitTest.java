@@ -1,4 +1,4 @@
-package com.example.darkoandreev.webservicetest;
+package com.example.darkoandreev.dobritesasedi;
 
 import org.junit.Test;
 

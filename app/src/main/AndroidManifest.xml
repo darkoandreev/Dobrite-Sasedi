@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    package="com.example.darkoandreev.webservicetest">
+    package="com.example.darkoandreev.dobritesasedi">
     <uses-permission android:name="android.permission.INTERNET" ></uses-permission>
 
     <application
@@ -19,7 +19,7 @@
             android:largeScreens="true"
             android:anyDensity="true" />
 
-        <activity android:name=".Login"
+        <activity android:name="com.example.darkoandreev.dobritesasedi.Login"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,24 +28,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ClientDocuments"
+            android:name="com.example.darkoandreev.dobritesasedi.ClientDocuments"
             android:label="@string/client_doc"
             android:configChanges="orientation|screenSize">
         </activity>
         <activity
-            android:name=".PartidiView"
+            android:name="com.example.darkoandreev.dobritesasedi.PartidiView"
             android:label="@string/partidi_string"
             android:configChanges="orientation">
         </activity>
 
         <activity
-            android:name=".PaymentsView"
+            android:name="com.example.darkoandreev.dobritesasedi.PaymentsView"
             android:label="@string/plashtane_string"
             android:configChanges="orientation">
         </activity>
 
         <activity
-            android:name=".InvoicesView"
+            android:name="com.example.darkoandreev.dobritesasedi.InvoicesView"
             android:label="Фактура"
             android:configChanges="orientation">
         </activity>

@@ -1,4 +1,4 @@
-package com.example.darkoandreev.webservicetest;
+package com.example.darkoandreev.dobritesasedi;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -35,9 +35,9 @@ public class MyPaymentsAdapter extends ArrayAdapter<PaymentsInfo> {
         TextView sumaID = (TextView) convertView.findViewById(R.id.sumaID);
 
         paymentID.setText(payments.paymentID);
-        kreditID.setText(payments.kreditID);
-        platenoID.setText(payments.platenoID);
-        sumaID.setText(payments.sumaID);
+        kreditID.setText(payments.kreditID + "лв.");
+        platenoID.setText(payments.platenoID + "лв.");
+        sumaID.setText(payments.sumaID + "лв.");
 
         return convertView;
     }

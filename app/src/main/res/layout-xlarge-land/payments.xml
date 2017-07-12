@@ -11,8 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
-        android:title="@string/plashtane_string"
-        android:titleTextColor="#FFFFFF"/>
+        android:theme="@style/ThemeOverlay.MyApp.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:title="@string/plashtane_string" />
 
 
     <TextView
@@ -222,24 +223,22 @@
         android:layout_marginTop="52dp"
         android:layout_below="@+id/neusvoeniKreditID"
         android:layout_alignParentRight="true"
-        android:divider="#806326"
-        android:dividerHeight="1dp"
+        android:divider="#000000"
         android:layout_alignParentEnd="true"
         tools:listitem="@layout/payments_list_items" />
 
     <TextView
         android:id="@+id/idAndSum"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:layout_marginLeft="3dp"
+        android:layout_marginTop="24dp"
         android:text="ID и сума"
-        android:textSize="19sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:layout_below="@+id/neusvoeniKreditID"
-        android:layout_alignRight="@+id/partidaID"
-        android:layout_alignEnd="@+id/partidaID" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/kreditID"
@@ -249,8 +248,8 @@
         android:text="Кредит"
         android:textAlignment="center"
         android:gravity="center"
-        android:textColor="#000000"
-        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:layout_alignBaseline="@+id/platenoID"
         android:layout_alignBottom="@+id/platenoID"
@@ -258,11 +257,11 @@
 
     <TextView
         android:id="@+id/platenoID"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Платено"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:layout_alignBaseline="@+id/idAndSum"
         android:layout_alignBottom="@+id/idAndSum"
