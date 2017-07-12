@@ -60,14 +60,4 @@
         android:layout_alignLeft="@+id/paymentID"
         android:layout_alignStart="@+id/paymentID" />
 
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_alignBottom="@+id/sumaID"
-        android:layout_toEndOf="@+id/sumaID"
-        android:layout_toRightOf="@+id/sumaID"
-        android:text="лв." />
-
 </RelativeLayout>

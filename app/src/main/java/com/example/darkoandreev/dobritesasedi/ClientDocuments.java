@@ -257,7 +257,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                             }
 
                         } catch (Exception e) {
-                            Toast.makeText(ClientDocuments.this, "Формата не е валиден (Трябва да е: yyyy-MM-dd)", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ClientDocuments.this, "Не фигурират такива дати", Toast.LENGTH_LONG).show();
                         }
                     }
                 }, fromYear, fromMonth, fromDay);

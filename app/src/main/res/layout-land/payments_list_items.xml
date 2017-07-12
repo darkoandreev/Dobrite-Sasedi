@@ -29,28 +29,26 @@
         android:id="@+id/kreditID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/paymentID"
+        android:layout_alignBottom="@+id/paymentID"
+        android:layout_centerHorizontal="true"
         android:layout_weight="1"
         android:text="0.00"
         android:textColor="#000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_alignBaseline="@+id/paymentID"
-        android:layout_alignBottom="@+id/paymentID"
-        android:layout_centerHorizontal="true" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/platenoID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="790.41"
-        android:textSize="18sp"
-        android:textColor="#000"
-        android:textStyle="bold"
         android:layout_alignBaseline="@+id/kreditID"
         android:layout_alignBottom="@+id/kreditID"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_weight="1"
+        android:text="790.41"
+        android:textColor="#000"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/sumaID"

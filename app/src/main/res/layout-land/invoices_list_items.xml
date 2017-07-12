@@ -31,27 +31,25 @@
         android:id="@+id/kolichestvoID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1.0"
-        android:textSize="15sp"
-        android:textColor="#000"
-        android:textStyle="bold"
         android:layout_alignBaseline="@+id/obshtaOhranaID"
         android:layout_alignBottom="@+id/obshtaOhranaID"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="1.0"
+        android:textColor="#000"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/totalListInvoiceID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:text="93.76"
-        android:textSize="15sp"
-        android:textColor="#000"
-        android:textStyle="bold"
         android:layout_alignBaseline="@+id/kolichestvoID"
         android:layout_alignBottom="@+id/kolichestvoID"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_weight="0.5"
+        android:text="93.76"
+        android:textColor="#000"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/textView20"

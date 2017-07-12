@@ -36,7 +36,7 @@ public class MyInvoicesAdapter extends ArrayAdapter<InvoicesInfo> {
 
         obshtaOhranaID.setText(invoices.obshtaOhranaInvoices);
         kolichestvoID.setText(invoices.kolichestvoInvoices);
-        totalInvoicesID.setText(invoices.totalListInvoices);
+        totalInvoicesID.setText(invoices.totalListInvoices + "лв.");
         obshtaOhranaIDinfo.setText(invoices.obshtaOhranaInfo);
 
         return convertView;

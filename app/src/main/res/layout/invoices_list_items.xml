@@ -46,29 +46,14 @@
         android:id="@+id/totalListInvoiceID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/kolichestvoID"
-        android:layout_alignBottom="@+id/kolichestvoID"
-        android:layout_toLeftOf="@+id/lvID"
-        android:layout_toStartOf="@+id/lvID"
         android:layout_weight="0.5"
         android:text="93.76"
         android:textColor="#000"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/lvID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/totalListInvoiceID"
-        android:layout_alignBottom="@+id/totalListInvoiceID"
-        android:layout_alignParentEnd="true"
+        android:textSize="15sp"
+        android:layout_alignBaseline="@+id/kolichestvoID"
+        android:layout_alignBottom="@+id/kolichestvoID"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="3dp"
-        android:layout_marginRight="14dp"
-        android:layout_weight="0.5"
-        android:text="лв."
-        android:textColor="#000"
-        android:textSize="15sp" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/textView20"
