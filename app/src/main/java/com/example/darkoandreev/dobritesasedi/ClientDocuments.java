@@ -1,6 +1,7 @@
 package com.example.darkoandreev.dobritesasedi;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -133,12 +134,20 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.calendar_menu, menu);
         inflater.inflate(R.menu.logout_menu, menu);
+        inflater.inflate(R.menu.refresh_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.refresh_id) {
+            MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
+            listView.setAdapter(adapter);
+
+            clickItemHandler(listView, arrayOfDocuments);
+        }
 
         if (item.getItemId() == R.id.logout_id) {
             Intent intent = new Intent(ClientDocuments.this, Login.class);
@@ -262,15 +271,11 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                     }
                 }, fromYear, fromMonth, fromDay);
 
+            from_date.setMessage("Изберете крайна дата");
+            to_date.setMessage("Изберете начална дата");
             from_date.show();
             to_date.show();
 
-
-
-            MyDocumentsAdapter adapter = new MyDocumentsAdapter(ClientDocuments.this, arrayOfDocuments);
-            listView.setAdapter(adapter);
-
-            clickItemHandler(listView, arrayOfDocuments);
 
         }
 
@@ -542,8 +547,11 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 class PaymentsTask extends AsyncTask<String, String, ArrayList<PaymentsInfo>> {
     private Context context;
     public String finalJsonPayments;
+    private ProgressDialog progressDialog;
+
     public PaymentsTask (Context context) {
         this.context = context.getApplicationContext();
+        progressDialog = new ProgressDialog(context);
 
     }
 
@@ -607,7 +615,18 @@ class PaymentsTask extends AsyncTask<String, String, ArrayList<PaymentsInfo>> {
     }
 
     @Override
+    protected void onPreExecute() {
+        progressDialog.setMessage("Loading");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        super.onPreExecute();
+    }
+
+    @Override
     protected void onPostExecute(ArrayList<PaymentsInfo> payments) {
+
+        progressDialog.dismiss();
 
         Intent intent = new Intent(this.context, PaymentsView.class);
         intent.putExtra("finalPaymentsJson", finalJsonPayments);
@@ -623,8 +642,11 @@ class PaymentsTask extends AsyncTask<String, String, ArrayList<PaymentsInfo>> {
 class InvoicesTask extends AsyncTask<String, String, ArrayList<InvoicesInfo>> {
     private Context context;
     public String finalJsonInvoices;
+    private ProgressDialog progressDialog;
+
     public InvoicesTask (Context context) {
         this.context = context.getApplicationContext();
+        progressDialog = new ProgressDialog(context);
 
     }
 
@@ -688,13 +710,26 @@ class InvoicesTask extends AsyncTask<String, String, ArrayList<InvoicesInfo>> {
     }
 
     @Override
+    protected void onPreExecute() {
+        progressDialog.setMessage("Loading...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        super.onPreExecute();
+    }
+
+    @Override
     protected void onPostExecute(ArrayList<InvoicesInfo> invoices) {
+
+
+        progressDialog.dismiss();
 
         Intent intent = new Intent(this.context, InvoicesView.class);
         intent.putExtra("finalInvoicesJson", finalJsonInvoices);
         intent.putExtra("username", unm);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+
 
         super.onPostExecute(invoices);
     }

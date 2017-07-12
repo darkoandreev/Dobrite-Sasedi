@@ -1,5 +1,6 @@
 package com.example.darkoandreev.dobritesasedi;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -72,6 +73,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DocumentsTask task = new DocumentsTask(PartidiView.this);
                 task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidi[position] + "/statement"});
+                partidaList.setClickable(false);
             }
         });
 
@@ -456,8 +458,10 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
 class DocumentsTask extends AsyncTask<String, String, ArrayList<Documents>> {
     private Context context;
     public String finalJsonDocuments;
+    private ProgressDialog progressDialog;
     public DocumentsTask (Context context) {
         this.context = context.getApplicationContext();
+        progressDialog = new ProgressDialog(context);
 
     }
 
@@ -521,6 +525,17 @@ class DocumentsTask extends AsyncTask<String, String, ArrayList<Documents>> {
     }
 
     @Override
+    protected void onPreExecute() {
+
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+        super.onPreExecute();
+
+    }
+
+    @Override
     protected void onPostExecute(ArrayList<Documents> documents) {
 
         Intent intent = new Intent(this.context, ClientDocuments.class);
@@ -528,6 +543,7 @@ class DocumentsTask extends AsyncTask<String, String, ArrayList<Documents>> {
         intent.putExtra("username", unm);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+        progressDialog.dismiss();
 
         super.onPostExecute(documents);
     }
