@@ -7,15 +7,16 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -34,11 +35,12 @@ import static android.content.Context.MODE_PRIVATE;
 public class Login extends AppCompatActivity {
     public TextView username, password;
     public String user, pass;
-    private ImageView logo, fb, insta, twitter;
+    private ImageView logo, fb, insta, twitter, usernameIcon, passwordIcon;
     private Button loginButton;
-
+    private AlertDialog.Builder alertDialog;
     private Boolean saveLogin;
     private SharedPreferences loginPreferences;
+    private EditText usernameEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +63,13 @@ public class Login extends AppCompatActivity {
         password = (TextView) findViewById(R.id.password);
         logo = (ImageView) findViewById(R.id.logo);
         fb = (ImageView) findViewById(R.id.fb_icon);
+        usernameIcon = (ImageView) findViewById(R.id.usernameIcon);
+        passwordIcon = (ImageView) findViewById(R.id.passwordIcon);
         twitter = (ImageView) findViewById(R.id.twitter_icon);
         insta = (ImageView) findViewById(R.id.insta_icon);
 
-
+        usernameIcon.setImageResource(R.drawable.username);
+        passwordIcon.setImageResource(R.drawable.password);
         logo.setImageResource(R.drawable.logo_edit);
         fb.setImageResource(R.drawable.fb_icon);
         twitter.setImageResource(R.drawable.twitter_icon);
@@ -94,6 +99,13 @@ public class Login extends AppCompatActivity {
                 if (user.trim().length() > 0 && pass.trim().length() > 0) {
                     RetrieveFeedTask task = new RetrieveFeedTask(Login.this, user, pass);
                     task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts"});
+                } else {
+                    alertDialog = new AlertDialog.Builder(Login.this);
+                    alertDialog.setTitle("Грешка")
+                            .setMessage("Попълнете полетата за потребителско име и/или парола")
+                            .setIcon(R.drawable.icon_error)
+                            .setPositiveButton(android.R.string.yes, null)
+                            .show();
                 }
 
             }
@@ -127,12 +139,15 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
     public int statusCode;
     private SharedPreferences loginPreferences;
     private SpotsDialog progressDialog;
+    private AlertDialog.Builder alertDialog;
 
     public RetrieveFeedTask(Context context, String username, String password) {
         this.user = username;
         this.pass = password;
         this.context = context.getApplicationContext();
         this.progressDialog = new SpotsDialog(context, R.style.Custom);
+        this.alertDialog = new AlertDialog.Builder(context);
+
     }
 
 
@@ -209,7 +224,13 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
             context.startActivity(intent);
         } else {
             progressDialog.dismiss();
-            Toast.makeText(this.context, "Невалидно потребителско име или парола", Toast.LENGTH_LONG).show();
+            alertDialog.setTitle("Грешка")
+                        .setMessage("Невалидно потребителско име и/или парола")
+                        .setIcon(R.drawable.icon_error)
+                        .setPositiveButton(android.R.string.yes, null)
+                    .show();
+
+            //Toast.makeText(this.context, "Невалидно потребителско име или парола", Toast.LENGTH_LONG).show();
         }
     }
 }

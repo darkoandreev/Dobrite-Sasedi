@@ -100,6 +100,10 @@ public class PaymentsView extends AppCompatActivity {
             JSONObject accountObject = accountWithUserObject.getJSONObject("cssc:Account");
             JSONArray uID = accountObject.getJSONArray("cssc:Uid");
 
+            JSONObject holderAccount = accountObject.getJSONObject("cssc:Holder");
+            String holderString = holderAccount.getString("$");
+            titulqrText.setText(holderString);
+
             PaymentsInfo info = new PaymentsInfo();
 
             for(int i = 0; i < uID.length()-1; i++) {

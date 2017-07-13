@@ -33,10 +33,12 @@ public class MyPartidiAdapter extends ArrayAdapter<PartidiInfo> {
         TextView partidaNomer = (TextView) convertView.findViewById(R.id.partidaNomer);
         TextView partidaBalance = (TextView) convertView.findViewById(R.id.partidaBalance);
         TextView partidaPropertyRefs = (TextView) convertView.findViewById(R.id.partidaPropertyRefs);
+        TextView holderAccount = (TextView) convertView.findViewById(R.id.inovice);
 
         partidaNomer.setText(partidi.partidaNomer);
         partidaBalance.setText(partidi.partidaBalance + "лв.");
         partidaPropertyRefs.setText(partidi.partidaPropertyRefs);
+        holderAccount.setText(partidi.holderAccount);
 
         return convertView;
     }

@@ -64,7 +64,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     // private DatePickerDialog.OnDateSetListener from_date, to_date;
 
 
-    TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText, textView11, statusTypeForward;
+    TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText, textView11, statusTypeForward, partidaTextID;
 
     private List<Documents> documentsList = new ArrayList<>();
     private Documents documents = new Documents();
@@ -312,6 +312,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         saldoNachalo = (TextView) findViewById(R.id.saldoNachalo);
         saldoKraq = (TextView) findViewById(R.id.saldoVKraq);
         textView11 = (TextView) findViewById(R.id.textView11);
+        partidaTextID = (TextView) findViewById(R.id.partidaID);
+        userIDText = (TextView) findViewById(R.id.titulqrID);
         textView12.setText("Няма");
 
         JSONObject dolar;
@@ -338,15 +340,18 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             JSONArray parentArray = accountObject.getJSONArray("cssc:Documents");
             JSONObject Accounts = accountObject.getJSONObject("cssc:Account");
 
+            JSONObject holderAccount = Accounts.getJSONObject("cssc:Holder");
+            String holderString = holderAccount.getString("$");
+            userIDText.setText(holderString);
 
             JSONArray partidaID = Accounts.getJSONArray("cssc:Uid");
 
-            userIDText.setText(user);
 
             for (int k = 0; k < partidaID.length(); k++) {
                 dolar = partidaID.getJSONObject(k);
                 documents.setPartidaID(dolar.getString("$"));
                 partidaId = dolar.getString("$");
+                partidaTextID.setText(partidaId);
                 partidaNum = partidaId;
                 Log.d("partidaID", dolar.getString("$"));
 
@@ -377,7 +382,6 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
                 if(test.equals("ForwardBalance")) {
                     saldoNachalo.setText(doc.getBalance());
-                    textView11.setText(doc.getBalance());
                 }
 
                 saldoKraq.setText(posledno.toString());
@@ -395,17 +399,15 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         saldoNachalo = (TextView) findViewById(R.id.saldoNachalo);
         saldoKraq = (TextView) findViewById(R.id.saldoVKraq);
         textView12 = (TextView) findViewById(R.id.grupa);
-        userIDText = (TextView) findViewById(R.id.userID);
+        userIDText = (TextView) findViewById(R.id.titulqrID);
         textView11 = (TextView) findViewById(R.id.textView11);
         statusTypeForward = (TextView) findViewById(R.id.inovice);
+        partidaTextID = (TextView) findViewById(R.id.partidaID);
 
         textView12.setText("Няма");
         JSONObject dolar;
 
         String extras = getIntent().getStringExtra("finalPartidiJson");
-        String user = getIntent().getStringExtra("username");
-        userIDText.setText(user);
-
 
         String partidaId = null;
 
@@ -424,6 +426,9 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             JSONArray parentArray = accountObject.getJSONArray("cssc:Documents");
             JSONObject Accounts = accountObject.getJSONObject("cssc:Account");
 
+            JSONObject holderAccount = Accounts.getJSONObject("cssc:Holder");
+            String holderString = holderAccount.getString("$");
+            userIDText.setText(holderString);
 
             JSONArray partidaID = Accounts.getJSONArray("cssc:Uid");
 
@@ -431,6 +436,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 dolar = partidaID.getJSONObject(k);
                 documents.setPartidaID(dolar.getString("$"));
                 partidaId = dolar.getString("$");
+                partidaTextID.setText(partidaId);
                 partidaNum = partidaId;
                 Log.d("partidaID", dolar.getString("$"));
 
@@ -517,7 +523,6 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
                 if(test.equals("ForwardBalance")) {
                     saldoNachalo.setText(doc.getBalance());
-                    textView11.setText(doc.getBalance());
                 }
 
                 saldoKraq.setText(posledno.toString());

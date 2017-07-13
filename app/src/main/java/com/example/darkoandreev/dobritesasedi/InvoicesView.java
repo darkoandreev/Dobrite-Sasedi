@@ -95,6 +95,10 @@ public class InvoicesView extends AppCompatActivity {
             JSONObject accountObject = accountWithUserObject.getJSONObject("cssc:Account");
             JSONArray uID = accountObject.getJSONArray("cssc:Uid");
 
+            JSONObject holderAccount = accountObject.getJSONObject("cssc:Holder");
+            String holderString = holderAccount.getString("$");
+            titulqrInvoiceText.setText(holderString);
+
             InvoicesInfo info = new InvoicesInfo();
 
             for(int i = 0; i < uID.length()-1; i++) {

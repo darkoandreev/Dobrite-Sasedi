@@ -49,10 +49,11 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     private String [] partidi;
     private boolean hasLoggedIn;
     private MaterialSearchView searchView;
-    private TextView partida, propertyRefs, saldoPartidi;
+    private TextView partida, propertyRefs, saldoPartidi, holderAccountText;
     private int cnt = 0;
 
     ArrayList<PartidiInfo> arrayOfDocuments = new ArrayList<PartidiInfo>();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,8 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
         final MyPartidiAdapter adapter = new MyPartidiAdapter(this, arrayOfDocuments);
         partidaList.setAdapter(adapter);
 
+        adapter.notifyDataSetChanged();
+
         partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -76,6 +79,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                 partidaList.setClickable(false);
             }
         });
+
 
         partidiJSONParse();
         searchItems();
@@ -371,6 +375,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
         partidaNomer = (TextView) findViewById(R.id.partidaNomer);
         partidaBalance = (TextView) findViewById(R.id.partidaBalance);
         partidaProperyRefs = (TextView) findViewById(R.id.partidaPropertyRefs);
+        holderAccountText = (TextView) findViewById(R.id.inovice);
 
         SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
         hasLoggedIn = sp.getBoolean("hasLoggedIn", false);
@@ -378,10 +383,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
 
         if(hasLoggedIn) {
             extras = sp.getString("finalJson", null);
-
         }
-
-
 
         try {
             JSONObject parentObject = new JSONObject(extras);
@@ -395,6 +397,12 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                 JSONObject dolar;
                 JSONArray dolarArray;
                 PartidiInfo info = new PartidiInfo();
+
+                JSONObject holderAccountArray = parentArray.getJSONObject(i);
+                dolar = holderAccountArray.getJSONObject("cssc:Holder");
+                info.setHolderAccount(dolar.getString("$"));
+                Log.d("Titulqr:", dolar.getString("$"));
+
 
 
                 JSONObject partidaNomerObject = parentArray.getJSONObject(i);

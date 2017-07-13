@@ -96,4 +96,26 @@
         android:layout_toRightOf="@+id/button"
         app:srcCompat="@drawable/insta_icon" />
 
+    <ImageView
+        android:id="@+id/usernameIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        app:srcCompat="@drawable/username"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignStart="@+id/username" />
+
+    <ImageView
+        android:id="@+id/passwordIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_alignBottom="@+id/password"
+        android:layout_alignLeft="@+id/password"
+        android:layout_alignStart="@+id/password"
+        app:srcCompat="@drawable/password" />
+
+
 </RelativeLayout>

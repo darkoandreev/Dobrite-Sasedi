@@ -10,6 +10,16 @@ public class PartidiInfo {
     public String partidaBalance;
     public String partidaPropertyRefs;
 
+    public String getHolderAccount() {
+        return holderAccount;
+    }
+
+    public void setHolderAccount(String holderAccount) {
+        this.holderAccount = holderAccount;
+    }
+
+    public String holderAccount;
+
     public String getPartidaNomer() {
         return partidaNomer;
     }
