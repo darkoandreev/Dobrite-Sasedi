@@ -539,7 +539,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
     }
 
-    public void calendarDocumentJsonParse () {
+    public void calendarDocumentJsonParse() {
 
         tekushtoSaldo = (TextView) findViewById(R.id.tekushtoSaldo);
         nachalnaData = (TextView) findViewById(R.id.nachalnaData);
@@ -559,7 +559,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         String partidaId = null;
 
         try {
-            JSONObject parentObject = new JSONObject(extras);
+            JSONObject parentObject = new JSONObject(finalCalendarDocuments);
             JSONObject accountObject = parentObject.getJSONObject("cssc:AccountStatement");
 
             dolar = accountObject.getJSONObject("ct:StartDate");
@@ -694,6 +694,105 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(this, arrayOfDocuments.get(position).toString(), Toast.LENGTH_LONG).show();
 
+    }
+
+    public String finalCalendarDocuments;
+
+class CalendarDocumentsTask extends AsyncTask<String, String, ArrayList<Documents>> {
+        private Context context;
+        //public String finalCalendarDocuments;
+        private ProgressDialog progressDialog;
+
+    public CalendarDocumentsTask (Context context) {
+            this.context = context.getApplicationContext();
+            progressDialog = new ProgressDialog(context);
+
+        }
+
+        String unm, pass;
+        @Override
+        protected ArrayList<Documents> doInBackground(String... urls) {
+
+            SharedPreferences sp1 = context.getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+            unm = sp1.getString("username", null);
+            pass = sp1.getString("password", null);
+
+            String credentials = unm + ":" + pass;
+
+
+            String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
+
+            String s = "";
+            for (String url : urls) {
+                DefaultHttpClient client = new DefaultHttpClient();
+                StringBuilder builder = new StringBuilder();
+                HttpGet httpGet = new HttpGet(url);
+                httpGet.setHeader("Authorization", "Basic " + credBase64);
+                httpGet.setHeader("Accept", "application/json;q=0.9,*/*;q=0.8");
+                httpGet.setHeader("Accept-Encoding", "gzip, deflate");
+                httpGet.setHeader("Content-Type", "application/json");
+
+                try {
+                    HttpResponse execute = client.execute(httpGet);
+                    StatusLine statusLine = execute.getStatusLine();
+                    int statusCode = statusLine.getStatusCode();
+
+                    if(statusCode == 200) {
+                        InputStream content = execute.getEntity().getContent();
+
+                        String status = execute.getStatusLine().toString();
+                        Log.d("Status", status);
+
+                        BufferedReader bufferReader = new BufferedReader(new InputStreamReader(content));
+                        StringBuffer buffer = new StringBuffer();
+
+
+                        while ((s = bufferReader.readLine()) != null) {
+                            buffer.append(s);
+                            Log.d("Response", String.valueOf(builder));
+                        }
+
+                        finalCalendarDocuments = buffer.toString();
+
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return null;
+
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+
+            progressDialog.setMessage("Loading...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Documents> newDocuments) {
+
+            ClientDocuments.this.calendarDocumentJsonParse();
+
+            MyDocumentsAdapter mAdapter = new MyDocumentsAdapter(this.context, ClientDocuments.this.arrayOfCalendarDocuments);
+            ClientDocuments.this.listView.setAdapter(mAdapter);
+
+            ClientDocuments.this.clickItemHandler(ClientDocuments.this.listView, ClientDocuments.this.arrayOfCalendarDocuments);
+
+            progressDialog.dismiss();
+
+            super.onPostExecute(newDocuments);
+        }
     }
 }
 
@@ -889,109 +988,6 @@ class InvoicesTask extends AsyncTask<String, String, ArrayList<InvoicesInfo>> {
     }
 }
 
-class CalendarDocumentsTask extends AsyncTask<String, String, ArrayList<Documents>> {
-    private Context context;
-    public String finalCalendarDocuments;
-    private ProgressDialog progressDialog;
-
-    public CalendarDocumentsTask (Context context) {
-        this.context = context.getApplicationContext();
-        progressDialog = new ProgressDialog(context);
-
-        Intent intent = new Intent(this.context, ClientDocuments.class);
-        intent.putExtra("finalCalendarDocuments", finalCalendarDocuments);
-        context.startActivity(intent);
-
-    }
-
-    String unm, pass;
-    @Override
-    protected ArrayList<Documents> doInBackground(String... urls) {
-
-        SharedPreferences sp1 = context.getSharedPreferences("Login", Context.MODE_PRIVATE);
-
-        unm = sp1.getString("username", null);
-        pass = sp1.getString("password", null);
-
-        String credentials = unm + ":" + pass;
-
-
-        String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
-
-        String s = "";
-        for (String url : urls) {
-            DefaultHttpClient client = new DefaultHttpClient();
-            StringBuilder builder = new StringBuilder();
-            HttpGet httpGet = new HttpGet(url);
-            httpGet.setHeader("Authorization", "Basic " + credBase64);
-            httpGet.setHeader("Accept", "application/json;q=0.9,*/*;q=0.8");
-            httpGet.setHeader("Accept-Encoding", "gzip, deflate");
-            httpGet.setHeader("Content-Type", "application/json");
-
-            try {
-                HttpResponse execute = client.execute(httpGet);
-                StatusLine statusLine = execute.getStatusLine();
-                int statusCode = statusLine.getStatusCode();
-
-                if(statusCode == 200) {
-                    InputStream content = execute.getEntity().getContent();
-
-                    String status = execute.getStatusLine().toString();
-                    Log.d("Status", status);
-
-                    BufferedReader bufferReader = new BufferedReader(new InputStreamReader(content));
-                    StringBuffer buffer = new StringBuffer();
-
-
-                    while ((s = bufferReader.readLine()) != null) {
-                        buffer.append(s);
-                        Log.d("Response", String.valueOf(builder));
-                    }
-
-                    finalCalendarDocuments = buffer.toString();
-
-                }
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        return null;
-
-    }
-
-    ClientDocuments clientDocuments = new ClientDocuments();
-
-    @Override
-    protected void onPreExecute() {
-
-        progressDialog.setMessage("Loading...");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        super.onPreExecute();
-    }
-
-    @Override
-    protected void onPostExecute(ArrayList<Documents> newDocuments) {
-
-        clientDocuments.calendarDocumentJsonParse();
-
-        MyDocumentsAdapter adapter = new MyDocumentsAdapter(this.context, clientDocuments.arrayOfCalendarDocuments);
-        clientDocuments.listView.setAdapter(adapter);
-
-
-        clientDocuments.clickItemHandler(clientDocuments.listView, clientDocuments.arrayOfCalendarDocuments);
-
-        progressDialog.dismiss();
-
-
-        super.onPostExecute(newDocuments);
-    }
-}
 
 
 
