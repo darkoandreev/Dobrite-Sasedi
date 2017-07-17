@@ -1,4 +1,4 @@
-package com.example.darkoandreev.dobritesasedi;
+package com.elando.darkoandreev.dobritesasedi;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,7 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.darkoandreev.dobritesasedi.DocumentsModel.Documents;
+import com.elando.darkoandreev.dobritesasedi.DocumentsModel.Documents;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.apache.http.HttpResponse;
@@ -35,7 +35,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import static com.example.darkoandreev.dobritesasedi.R.layout.property;
+import static com.elando.darkoandreev.dobritesasedi.R.layout.property;
 
 /**
  * Created by darko.andreev on 6/2/2017.

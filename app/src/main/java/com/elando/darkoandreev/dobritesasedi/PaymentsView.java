@@ -1,4 +1,4 @@
-package com.example.darkoandreev.dobritesasedi;
+package com.elando.darkoandreev.dobritesasedi;
 
 import android.app.ProgressDialog;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.example.darkoandreev.dobritesasedi.DocumentsModel;
+package com.elando.darkoandreev.dobritesasedi.DocumentsModel;
 
 /**
  * Created by darko.andreev on 5/25/2017.

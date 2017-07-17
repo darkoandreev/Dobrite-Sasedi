@@ -1,4 +1,4 @@
-package com.example.darkoandreev.dobritesasedi;
+package com.elando.darkoandreev.dobritesasedi;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.darkoandreev.dobritesasedi.DocumentsModel.Documents;
+import com.elando.darkoandreev.dobritesasedi.DocumentsModel.Documents;
 
 import java.util.ArrayList;
 

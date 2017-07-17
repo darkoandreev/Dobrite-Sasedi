@@ -1,4 +1,4 @@
-package com.example.darkoandreev.dobritesasedi;
+package com.elando.darkoandreev.dobritesasedi;
 
 /**
  * Created by darko.andreev on 6/2/2017.

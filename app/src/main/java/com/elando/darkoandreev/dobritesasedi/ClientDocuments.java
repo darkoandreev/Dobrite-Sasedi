@@ -1,4 +1,4 @@
-package com.example.darkoandreev.dobritesasedi;
+package com.elando.darkoandreev.dobritesasedi;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -22,7 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.darkoandreev.dobritesasedi.DocumentsModel.Documents;
+import com.elando.darkoandreev.dobritesasedi.DocumentsModel.Documents;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.example.darkoandreev.dobritesasedi.R.layout.client_documents;
+import static com.elando.darkoandreev.dobritesasedi.R.layout.client_documents;
 
 /**
  * Created by darko.andreev on 5/23/2017.

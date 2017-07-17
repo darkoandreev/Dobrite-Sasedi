@@ -1,10 +1,8 @@
-package com.example.darkoandreev.dobritesasedi;
+package com.elando.darkoandreev.dobritesasedi;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -62,33 +60,12 @@ public class Login extends AppCompatActivity {
         username = (TextView) findViewById(R.id.username);
         password = (TextView) findViewById(R.id.password);
         logo = (ImageView) findViewById(R.id.logo);
-        fb = (ImageView) findViewById(R.id.fb_icon);
         usernameIcon = (ImageView) findViewById(R.id.usernameIcon);
         passwordIcon = (ImageView) findViewById(R.id.passwordIcon);
-        twitter = (ImageView) findViewById(R.id.twitter_icon);
-        insta = (ImageView) findViewById(R.id.insta_icon);
 
         usernameIcon.setImageResource(R.drawable.username);
         passwordIcon.setImageResource(R.drawable.password);
         logo.setImageResource(R.drawable.logo_edit);
-        fb.setImageResource(R.drawable.fb_icon);
-        twitter.setImageResource(R.drawable.twitter_icon);
-        insta.setImageResource(R.drawable.insta_icon);
-
-        fb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent ();
-                intent.setAction(Intent.ACTION_VIEW);
-                try {
-                    getPackageManager().getPackageInfo("com.facebook.katana", 0);
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
-                intent.setData(Uri.parse("https://m.facebook.com/biciklizam/"));
-                startActivity(intent);
-            }
-        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
