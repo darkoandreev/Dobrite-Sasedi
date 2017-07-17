@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.example.darkoandreev.dobritesasedi.DocumentsModel.Documents;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -35,9 +34,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -49,7 +46,7 @@ import static com.example.darkoandreev.dobritesasedi.R.layout.client_documents;
 
 public class ClientDocuments extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private ListView listView;
+    public ListView listView;
     private String[] type;
     private String[] documentArray;
     private double[] testArray;
@@ -60,8 +57,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     private String[] issueDateArray;
     private int fromYear, fromMonth, fromDay, toYear, toMonth, toDay;
     private DatePickerDialog to_date, from_date;
-
-    // private DatePickerDialog.OnDateSetListener from_date, to_date;
+    private String nachalna, kraina;
 
 
     TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText, textView11, statusTypeForward, partidaTextID;
@@ -74,6 +70,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     }
 
     ArrayList<Documents> arrayOfDocuments = new ArrayList<Documents>();
+    ArrayList<Documents> arrayOfCalendarDocuments = new ArrayList<>();
     final ArrayList<Documents> filteredDates = new ArrayList<Documents>();
 
     @Override
@@ -87,11 +84,9 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         listView.setHeaderDividersEnabled(true);
         listView.setAdapter(adapter);
 
-
         documentJSONParse();
 
         clickItemHandler(listView, arrayOfDocuments);
-
 
     }
 
@@ -116,17 +111,6 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             clickItemHandler(listView, filteredDates);
         }
 
-    }
-
-    public static boolean isValidDate(String inDate) throws java.text.ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(false);
-        try {
-            dateFormat.parse(inDate.trim());
-        } catch (ParseException pe) {
-            return false;
-        }
-        return true;
     }
 
     @Override
@@ -162,9 +146,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             finish();
         }
 
-
         Calendar c = Calendar.getInstance();
-        fromYear = c.get(Calendar.YEAR);
+        fromYear  = c.get(Calendar.YEAR);
         fromMonth = c.get(Calendar.MONTH);
         fromDay = c.get(Calendar.DAY_OF_MONTH);
         toYear = c.get(Calendar.YEAR);
@@ -173,7 +156,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
         if (item.getItemId() == R.id.calendar_icon) {
 
-           to_date = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            to_date = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -207,69 +190,78 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 }
             }, toYear, toMonth, toDay);
 
-                from_date = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            from_date = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                        fromYear = year;
-                        fromMonth = month + 1;
-                        fromDay = dayOfMonth;
+                    fromYear = year;
+                    fromMonth = month + 1;
+                    fromDay = dayOfMonth;
 
-                        if (fromDay < 10) {
-                            toDateString = fromYear + "-" + fromMonth + "-" + "0" + fromDay;
-                            Log.d("fromDay < 10", toDateString);
-                        } if (fromMonth < 10) {
-                            toDateString = fromYear + "-" + "0" + fromMonth + "-" + fromDay;
-                            Log.d("fromMonth < 10", toDateString);
-                        } if (fromDay < 10 && fromMonth < 10) {
-                            toDateString = fromYear + "-" + "0" + fromMonth + "-" + "0" + fromDay;
-                            Log.d("fromDay && fromMonth<10", toDateString);
-                        }
+                    if (fromDay < 10) {
+                        toDateString = fromYear + "-" + fromMonth + "-" + "0" + fromDay;
+                        Log.d("fromDay < 10", toDateString);
+                    } if (fromMonth < 10) {
+                        toDateString = fromYear + "-" + "0" + fromMonth + "-" + fromDay;
+                        Log.d("fromMonth < 10", toDateString);
+                    } if (fromDay < 10 && fromMonth < 10) {
+                        toDateString = fromYear + "-" + "0" + fromMonth + "-" + "0" + fromDay;
+                        Log.d("fromDay && fromMonth<10", toDateString);
+                    }
 
-                        if(toMonth > 10 && toDay > 10) {
-                            toDateString = fromYear + "-" + fromMonth + "-" + fromDay;
-                        }
+                    if(toMonth > 10 && toDay > 10) {
+                        toDateString = fromYear + "-" + fromMonth + "-" + fromDay;
+                    }
 
-                        Log.d("To date: ", toDateString);
+                    Log.d("To date: ", toDateString);
+
+                    CalendarDocumentsTask task = new CalendarDocumentsTask(ClientDocuments.this);
+                    task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidaNum + "/statement?startDate=" + fromDateString + "&endDate=" + toDateString});
 
 
-                        try {
+                    /*
 
-                            if (!(fromDateString.compareTo(toDateString) <= 0)) {
-                                Toast.makeText(ClientDocuments.this, "Въведете коректен период", Toast.LENGTH_SHORT).show();
-                            } else {
-                                ArrayList<String> issueArrayList = new ArrayList<>(Arrays.asList(issueDateArray));
-                                int start = issueArrayList.indexOf(fromDateString);
-                                int end = issueArrayList.lastIndexOf(toDateString);
+                    try {
 
-                                for (int j = 0; j < issueDateArray.length; j++) {
-                                    if (fromDateString.compareTo(issueDateArray[j]) <= 0) {
-                                        start = j;
-                                        break;
-                                    }
+                        if (!(fromDateString.compareTo(toDateString) <= 0)) {
+                            Toast.makeText(ClientDocuments.this, "Въведете коректен период", Toast.LENGTH_SHORT).show();
+                        } else {
+                            ArrayList<String> issueArrayList = new ArrayList<>(Arrays.asList(issueDateArray));
+                            int start = issueArrayList.indexOf(fromDateString);
+                            int end = issueArrayList.lastIndexOf(toDateString);
+
+                            for (int j = 0; j < issueDateArray.length; j++) {
+                                if (fromDateString.compareTo(issueDateArray[j]) <= 0) {
+                                    start = j;
+                                    break;
                                 }
-
-                                for (int k = 0; k < issueDateArray.length; k++) {
-                                    if (toDateString.compareTo(issueDateArray[k]) >= 0) {
-                                        end = k;
-                                    }
-                                }
-
-                                for (int i = start; i <= end; i++) {
-                                    filteredDates.add(arrayOfDocuments.get(i));
-                                }
-
-                                MyDocumentsAdapter adapter = new MyDocumentsAdapter(ClientDocuments.this, filteredDates);
-                                listView.setAdapter(adapter);
-
-                                clickItemHandler(listView, filteredDates);
                             }
 
-                        } catch (Exception e) {
-                            Toast.makeText(ClientDocuments.this, "Не фигурират такива дати", Toast.LENGTH_LONG).show();
+                            for (int k = 0; k < issueDateArray.length; k++) {
+                                if (toDateString.compareTo(issueDateArray[k]) >= 0) {
+                                    end = k;
+                                }
+                            }
+
+                            for (int i = start; i <= end; i++) {
+                                filteredDates.add(arrayOfDocuments.get(i));
+                            }
+
+                            MyDocumentsAdapter mAdapter = new MyDocumentsAdapter(ClientDocuments.this, filteredDates);
+                            listView.setAdapter(mAdapter);
+
+
+                            clickItemHandler(listView, filteredDates);
+
                         }
+
+                    } catch (Exception e) {
+                        Toast.makeText(ClientDocuments.this, "Не фигурират такива дати", Toast.LENGTH_LONG).show();
                     }
-                }, fromYear, fromMonth, fromDay);
+                    */
+
+                }
+            }, fromYear, fromMonth, fromDay);
 
             from_date.setMessage("Изберете крайна дата");
             to_date.setMessage("Изберете начална дата");
@@ -314,9 +306,10 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         textView11 = (TextView) findViewById(R.id.textView11);
         partidaTextID = (TextView) findViewById(R.id.partidaID);
         userIDText = (TextView) findViewById(R.id.titulqrID);
-        textView12.setText("Няма");
+
 
         JSONObject dolar;
+        String partidaNew = null;
 
         String extras = getIntent().getStringExtra("finalPartidiJson");
         String user = getIntent().getStringExtra("username");
@@ -350,12 +343,16 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             for (int k = 0; k < partidaID.length(); k++) {
                 dolar = partidaID.getJSONObject(k);
                 documents.setPartidaID(dolar.getString("$"));
-                partidaId = dolar.getString("$");
-                partidaTextID.setText(partidaId);
-                partidaNum = partidaId;
+                if (dolar.has("@ct:default")){
+                    partidaId = dolar.getString("$");
+                    partidaTextID.setText(partidaId);
+                    partidaNum = partidaId;
+                }
+
                 Log.d("partidaID", dolar.getString("$"));
 
             }
+
 
             for (int i = 0; i < parentArray.length(); i++) {
                 doc = new Documents();
@@ -365,7 +362,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 doc.setBalance(dolar.getString("$"));
                 testArray[i] = Double.parseDouble(dolar.getString("$"));
                 Double posledno = testArray[parentArray.length()-1];
-                tekushtoSaldo.setText(doc.getBalance());
+                tekushtoSaldo.setText(doc.getBalance() + "лв.");
                 Log.d("balance", dolar.getString("$"));
                 Log.d("Double Balance", String.valueOf(testArray[i]));
 
@@ -381,10 +378,10 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 Log.d("forwardBalance", dolar.getString("$"));
 
                 if(test.equals("ForwardBalance")) {
-                    saldoNachalo.setText(doc.getBalance());
+                    saldoNachalo.setText(doc.getBalance() + "лв.");
                 }
 
-                saldoKraq.setText(posledno.toString());
+                saldoKraq.setText(posledno.toString() + "лв.");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -404,7 +401,6 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         statusTypeForward = (TextView) findViewById(R.id.inovice);
         partidaTextID = (TextView) findViewById(R.id.partidaID);
 
-        textView12.setText("Няма");
         JSONObject dolar;
 
         String extras = getIntent().getStringExtra("finalPartidiJson");
@@ -435,9 +431,11 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             for (int k = 0; k < partidaID.length(); k++) {
                 dolar = partidaID.getJSONObject(k);
                 documents.setPartidaID(dolar.getString("$"));
-                partidaId = dolar.getString("$");
-                partidaTextID.setText(partidaId);
-                partidaNum = partidaId;
+                if (dolar.has("@ct:default")){
+                    partidaId = dolar.getString("$");
+                    partidaTextID.setText(partidaId);
+                    partidaNum = partidaId;
+                }
                 Log.d("partidaID", dolar.getString("$"));
 
             }
@@ -456,13 +454,13 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 doc.setIssueDate(dolar.getString("$"));
                 issueDateArray[i] = doc.getIssueDate().toString();
 
-               // nachalnaData.setText(doc.getIssueDate());
+                // nachalnaData.setText(doc.getIssueDate());
                 Log.d("IssueDate", dolar.getString("$"));
 
                 JSONObject dueDate = parentArray.getJSONObject(i);
                 dolar = dueDate.getJSONObject("ft:DueDate");
                 doc.setDueDate(dolar.getString("$"));
-               // krainaData.setText(doc.getDueDate());
+                // krainaData.setText(doc.getDueDate());
                 Log.d("dueDate", dolar.getString("$"));
 
                 JSONObject documentNumber = parentArray.getJSONObject(i);
@@ -503,7 +501,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 doc.setBalance(dolar.getString("$"));
                 testArray[i] = Double.parseDouble(dolar.getString("$"));
                 Double posledno = testArray[parentArray.length()-1];
-                tekushtoSaldo.setText(doc.getBalance());
+                tekushtoSaldo.setText(doc.getBalance() + "лв.");
                 Log.d("balance", dolar.getString("$"));
                 Log.d("Double Balance", String.valueOf(testArray[i]));
 
@@ -522,16 +520,167 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
 
                 if(test.equals("ForwardBalance")) {
-                    saldoNachalo.setText(doc.getBalance());
+                    saldoNachalo.setText(doc.getBalance() + "лв.");
                 }
 
-                saldoKraq.setText(posledno.toString());
+                saldoKraq.setText(posledno.toString() + "лв.");
 
 
 
                 type [i] = dolar.getString("$");
                 documentArray[i] = documentNum;
                 arrayOfDocuments.add(doc);
+
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void calendarDocumentJsonParse () {
+
+        tekushtoSaldo = (TextView) findViewById(R.id.tekushtoSaldo);
+        nachalnaData = (TextView) findViewById(R.id.nachalnaData);
+        krainaData = (TextView) findViewById(R.id.krainaData);
+        saldoNachalo = (TextView) findViewById(R.id.saldoNachalo);
+        saldoKraq = (TextView) findViewById(R.id.saldoVKraq);
+        textView12 = (TextView) findViewById(R.id.grupa);
+        userIDText = (TextView) findViewById(R.id.titulqrID);
+        textView11 = (TextView) findViewById(R.id.textView11);
+        statusTypeForward = (TextView) findViewById(R.id.inovice);
+        partidaTextID = (TextView) findViewById(R.id.partidaID);
+
+        JSONObject dolar;
+
+        String extras = getIntent().getStringExtra("finalCalendarDocuments");
+
+        String partidaId = null;
+
+        try {
+            JSONObject parentObject = new JSONObject(extras);
+            JSONObject accountObject = parentObject.getJSONObject("cssc:AccountStatement");
+
+            dolar = accountObject.getJSONObject("ct:StartDate");
+            documents.setNachalnaData(dolar.getString("$"));
+            nachalnaData.setText(dolar.getString("$"));
+
+            dolar = accountObject.getJSONObject("ct:EndDate");
+            documents.setKrainaData(dolar.getString("$"));
+            krainaData.setText(dolar.getString("$"));
+
+            JSONArray parentArray = accountObject.getJSONArray("cssc:Documents");
+            JSONObject Accounts = accountObject.getJSONObject("cssc:Account");
+
+            JSONObject holderAccount = Accounts.getJSONObject("cssc:Holder");
+            String holderString = holderAccount.getString("$");
+            userIDText.setText(holderString);
+
+            JSONArray partidaID = Accounts.getJSONArray("cssc:Uid");
+
+            for (int k = 0; k < partidaID.length(); k++) {
+                dolar = partidaID.getJSONObject(k);
+                documents.setPartidaID(dolar.getString("$"));
+                if (dolar.has("@ct:default")){
+                    partidaId = dolar.getString("$");
+                    partidaTextID.setText(partidaId);
+                    partidaNum = partidaId;
+                }
+                Log.d("partidaID", dolar.getString("$"));
+
+            }
+
+            type = new String [parentArray.length()];
+            documentArray = new String [parentArray.length()];
+            testArray = new double [parentArray.length()];
+            issueDateArray = new String [parentArray.length()];
+
+            for (int i = 0; i < parentArray.length(); i++) {
+                doc = new Documents();
+
+
+                JSONObject issueDate = parentArray.getJSONObject(i);
+                dolar = issueDate.getJSONObject("ft:IssueDate");
+                doc.setIssueDate(dolar.getString("$"));
+                issueDateArray[i] = doc.getIssueDate().toString();
+
+                // nachalnaData.setText(doc.getIssueDate());
+                Log.d("IssueDate", dolar.getString("$"));
+
+                JSONObject dueDate = parentArray.getJSONObject(i);
+                dolar = dueDate.getJSONObject("ft:DueDate");
+                doc.setDueDate(dolar.getString("$"));
+                // krainaData.setText(doc.getDueDate());
+                Log.d("dueDate", dolar.getString("$"));
+
+                JSONObject documentNumber = parentArray.getJSONObject(i);
+                dolar = documentNumber.getJSONObject("ft:DocumentNumber");
+                doc.setDocumentNumber(dolar.getString("$"));
+                String documentNum = dolar.getString("$");
+                Log.d("documentNumber", dolar.getString("$"));
+
+                JSONObject amount = parentArray.getJSONObject(i);
+                dolar = amount.getJSONObject("ft:Amount");
+                doc.setAmount(dolar.getString("$"));
+                //saldoNachalo.setText(dolar.getString("$"));
+
+                Log.d("amount", dolar.getString("$"));
+
+
+                JSONObject statusType = parentArray.getJSONObject(i);
+                if(!statusType.has("ft:Applied")) {
+                    doc.setStatusType("No status");
+                } else {
+                    dolar = statusType.getJSONObject("ft:Applied");
+                    doc.setStatusType(dolar.getString("$"));
+                    Log.d("statusType", dolar.getString("$"));
+                }
+
+                JSONObject vat = parentArray.getJSONObject(i);
+                dolar = vat.getJSONObject("ft:VAT");
+                doc.setVat(dolar.getString("$"));
+                Log.d("vat", dolar.getString("$"));
+
+                JSONObject totalAmount = parentArray.getJSONObject(i);
+                dolar = totalAmount.getJSONObject("ft:TotalAmount");
+                doc.setTotalAmount(dolar.getString("$"));
+                Log.d("totalAmount", dolar.getString("$"));
+
+                JSONObject balance = parentArray.getJSONObject(i);
+                dolar = balance.getJSONObject("ct:Balance");
+                doc.setBalance(dolar.getString("$"));
+                testArray[i] = Double.parseDouble(dolar.getString("$"));
+                Double posledno = testArray[parentArray.length()-1];
+                tekushtoSaldo.setText(doc.getBalance() + "лв.");
+                Log.d("balance", dolar.getString("$"));
+                Log.d("Double Balance", String.valueOf(testArray[i]));
+
+                JSONObject totalDiscount = parentArray.getJSONObject(i);
+                dolar = totalDiscount.getJSONObject("ft:TotalDiscount");
+                doc.setTotalDiscount(dolar.getString("$"));
+                Log.d("totalDiscount", dolar.getString("$"));
+
+
+                JSONObject forwardBalance = parentArray.getJSONObject(i);
+                dolar = forwardBalance.getJSONObject("ft:Type");
+                doc.setForwardBalance(dolar.getString("$"));
+                String test = dolar.getString("$");
+                Log.d("forwardBalance", dolar.getString("$"));
+
+
+
+                if(test.equals("ForwardBalance")) {
+                    saldoNachalo.setText(doc.getBalance() + "лв.");
+                }
+
+                saldoKraq.setText(posledno.toString() + "лв.");
+
+
+
+                type [i] = dolar.getString("$");
+                documentArray[i] = documentNum;
+                arrayOfCalendarDocuments.add(doc);
 
             }
         }catch (Exception e) {
@@ -739,6 +888,111 @@ class InvoicesTask extends AsyncTask<String, String, ArrayList<InvoicesInfo>> {
         super.onPostExecute(invoices);
     }
 }
+
+class CalendarDocumentsTask extends AsyncTask<String, String, ArrayList<Documents>> {
+    private Context context;
+    public String finalCalendarDocuments;
+    private ProgressDialog progressDialog;
+
+    public CalendarDocumentsTask (Context context) {
+        this.context = context.getApplicationContext();
+        progressDialog = new ProgressDialog(context);
+
+        Intent intent = new Intent(this.context, ClientDocuments.class);
+        intent.putExtra("finalCalendarDocuments", finalCalendarDocuments);
+        context.startActivity(intent);
+
+    }
+
+    String unm, pass;
+    @Override
+    protected ArrayList<Documents> doInBackground(String... urls) {
+
+        SharedPreferences sp1 = context.getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+        unm = sp1.getString("username", null);
+        pass = sp1.getString("password", null);
+
+        String credentials = unm + ":" + pass;
+
+
+        String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
+
+        String s = "";
+        for (String url : urls) {
+            DefaultHttpClient client = new DefaultHttpClient();
+            StringBuilder builder = new StringBuilder();
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.setHeader("Authorization", "Basic " + credBase64);
+            httpGet.setHeader("Accept", "application/json;q=0.9,*/*;q=0.8");
+            httpGet.setHeader("Accept-Encoding", "gzip, deflate");
+            httpGet.setHeader("Content-Type", "application/json");
+
+            try {
+                HttpResponse execute = client.execute(httpGet);
+                StatusLine statusLine = execute.getStatusLine();
+                int statusCode = statusLine.getStatusCode();
+
+                if(statusCode == 200) {
+                    InputStream content = execute.getEntity().getContent();
+
+                    String status = execute.getStatusLine().toString();
+                    Log.d("Status", status);
+
+                    BufferedReader bufferReader = new BufferedReader(new InputStreamReader(content));
+                    StringBuffer buffer = new StringBuffer();
+
+
+                    while ((s = bufferReader.readLine()) != null) {
+                        buffer.append(s);
+                        Log.d("Response", String.valueOf(builder));
+                    }
+
+                    finalCalendarDocuments = buffer.toString();
+
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return null;
+
+    }
+
+    ClientDocuments clientDocuments = new ClientDocuments();
+
+    @Override
+    protected void onPreExecute() {
+
+        progressDialog.setMessage("Loading...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        super.onPreExecute();
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<Documents> newDocuments) {
+
+        clientDocuments.calendarDocumentJsonParse();
+
+        MyDocumentsAdapter adapter = new MyDocumentsAdapter(this.context, clientDocuments.arrayOfCalendarDocuments);
+        clientDocuments.listView.setAdapter(adapter);
+
+
+        clientDocuments.clickItemHandler(clientDocuments.listView, clientDocuments.arrayOfCalendarDocuments);
+
+        progressDialog.dismiss();
+
+
+        super.onPostExecute(newDocuments);
+    }
+}
+
 
 
 

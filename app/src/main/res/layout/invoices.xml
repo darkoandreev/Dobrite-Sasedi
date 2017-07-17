@@ -135,8 +135,8 @@
         android:text="TextView"
         android:textSize="16sp"
         android:layout_alignBottom="@+id/partidaInvoiceID"
-        android:layout_toLeftOf="@+id/totalPriceID"
-        android:layout_toStartOf="@+id/totalPriceID" />
+        android:layout_alignRight="@+id/quantityID"
+        android:layout_alignEnd="@+id/quantityID" />
 
     <TextView
         android:id="@+id/titulqrInvoiceText"

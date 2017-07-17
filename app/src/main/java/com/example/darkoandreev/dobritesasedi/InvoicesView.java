@@ -103,8 +103,10 @@ public class InvoicesView extends AppCompatActivity {
 
             for(int i = 0; i < uID.length()-1; i++) {
                 dolar = uID.getJSONObject(i);
-                info.setPartidaInvoices(dolar.getString("$"));
-                partidaInvoicesText.setText(info.getPartidaInvoices());
+                if(dolar.has("@ct:default")) {
+                    info.setPartidaInvoices(dolar.getString("$"));
+                    partidaInvoicesText.setText(info.getPartidaInvoices());
+                }
                 Log.d("PartidaInvoices", dolar.getString("$"));
             }
 
@@ -139,19 +141,19 @@ public class InvoicesView extends AppCompatActivity {
                 JSONObject amountInvoices = invoicesArray.getJSONObject(j);
                 dolar = amountInvoices.getJSONObject("ft:Amount");
                 info.setStoinostInvoices(dolar.getString("$"));
-                stoinostInvoiceText.setText(info.getStoinostInvoices());
+                stoinostInvoiceText.setText(info.getStoinostInvoices() + "лв.");
                 Log.d("Stoinost", dolar.getString("$"));
 
                 JSONObject VAT = invoicesArray.getJSONObject(j);
                 dolar = VAT.getJSONObject("ft:VAT");
                 info.setDdsInvoices(dolar.getString("$"));
-                ddsInvoiceText.setText(info.getDdsInvoices());
+                ddsInvoiceText.setText(info.getDdsInvoices() + "лв.");
                 Log.d("DDS", dolar.getString("$"));
 
                 JSONObject totalAmount = invoicesArray.getJSONObject(j);
                 dolar = totalAmount.getJSONObject("ft:TotalAmount");
                 info.setTotalInvoices(dolar.getString("$"));
-                totalInvoiceText.setText(info.getTotalInvoices());
+                totalInvoiceText.setText(info.getTotalInvoices() + "лв.");
                 Log.d("Total", dolar.getString("$"));
 
 
