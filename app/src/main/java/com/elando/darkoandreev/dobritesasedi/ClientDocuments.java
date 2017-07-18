@@ -3,6 +3,7 @@ package com.elando.darkoandreev.dobritesasedi;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -102,16 +103,18 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         setSupportActionBar(toolbar);
         listView = (ListView) findViewById(R.id.documentsList);
 
-        if (filteredDates.isEmpty()) {
+        if (arrayOfCalendarDocuments.isEmpty()) {
             orienationJSONParse();
             MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
             listView.setAdapter(adapter);
             clickItemHandler(listView, arrayOfDocuments);
         } else {
             orienationJSONParse();
-            MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, filteredDates);
-            listView.setAdapter(adapter);
-            clickItemHandler(listView, filteredDates);
+
+            MyDocumentsAdapter mAdapter = new MyDocumentsAdapter(this, arrayOfCalendarDocuments);
+            listView.setAdapter(mAdapter);
+            clickItemHandler(listView, arrayOfCalendarDocuments);
+
         }
 
     }
@@ -157,6 +160,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         toMonth = c.get(Calendar.MONTH);
         toDay = c.get(Calendar.DAY_OF_MONTH);
 
+
         if (item.getItemId() == R.id.calendar_icon) {
 
             to_date = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -187,7 +191,6 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                         fromDateString = toYear + "-" + toMonth + "-" + toDay;
                     }
 
-
                     Log.d("From date: ", fromDateString);
 
                 }
@@ -197,9 +200,12 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
+                    alertDialog = new AlertDialog.Builder(ClientDocuments.this);
+
                     fromYear = year;
                     fromMonth = month + 1;
                     fromDay = dayOfMonth;
+
 
                     if (fromDay < 10) {
                         toDateString = fromYear + "-" + fromMonth + "-" + "0" + fromDay;
@@ -216,11 +222,12 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                         toDateString = fromYear + "-" + fromMonth + "-" + fromDay;
                     }
 
-                    Log.d("To date: ", toDateString);
+                    //Log.d("To date: ", toDateString);
 
-                    alertDialog = new AlertDialog.Builder(ClientDocuments.this);
+
 
                     try {
+
                         if (!(fromDateString.compareTo(toDateString) <= 0)) {
                             alertDialog.setTitle("Календарна грешка")
                                     .setMessage("Въведете коректен период")
@@ -229,7 +236,6 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                                     .show();
                             Toast.makeText(ClientDocuments.this, "Въведете коректен период", Toast.LENGTH_SHORT).show();
                         } else {
-
                             CalendarDocumentsTask task = new CalendarDocumentsTask(ClientDocuments.this);
                             task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidaNum + "/statement?startDate=" + fromDateString + "&endDate=" + toDateString});
                         }
@@ -242,53 +248,22 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                         Toast.makeText(ClientDocuments.this, "Не фигурират такива дати", Toast.LENGTH_LONG).show();
                     }
 
-
-                    /*
-
-                    try {
-
-                        if (!(fromDateString.compareTo(toDateString) <= 0)) {
-                            Toast.makeText(ClientDocuments.this, "Въведете коректен период", Toast.LENGTH_SHORT).show();
-                        } else {
-                            ArrayList<String> issueArrayList = new ArrayList<>(Arrays.asList(issueDateArray));
-                            int start = issueArrayList.indexOf(fromDateString);
-                            int end = issueArrayList.lastIndexOf(toDateString);
-
-                            for (int j = 0; j < issueDateArray.length; j++) {
-                                if (fromDateString.compareTo(issueDateArray[j]) <= 0) {
-                                    start = j;
-                                    break;
-                                }
-                            }
-
-                            for (int k = 0; k < issueDateArray.length; k++) {
-                                if (toDateString.compareTo(issueDateArray[k]) >= 0) {
-                                    end = k;
-                                }
-                            }
-
-                            for (int i = start; i <= end; i++) {
-                                filteredDates.add(arrayOfDocuments.get(i));
-                            }
-
-                            MyDocumentsAdapter mAdapter = new MyDocumentsAdapter(ClientDocuments.this, filteredDates);
-                            listView.setAdapter(mAdapter);
-
-
-                            clickItemHandler(listView, filteredDates);
-
-                        }
-
-                    } catch (Exception e) {
-                        Toast.makeText(ClientDocuments.this, "Не фигурират такива дати", Toast.LENGTH_LONG).show();
-                    }
-                    */
-
                 }
             }, fromYear, fromMonth, fromDay);
 
+
+
+
             from_date.setMessage("Изберете крайна дата");
             to_date.setMessage("Изберете начална дата");
+            to_date.setButton(DialogInterface.BUTTON_NEGATIVE,
+                    getString(R.string.mdtp_cancel),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            from_date.dismiss();
+                            to_date.dismiss();
+                        }
+                    });
             from_date.show();
             to_date.show();
 
@@ -504,7 +479,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
                 JSONObject statusType = parentArray.getJSONObject(i);
                 if(!statusType.has("ft:Applied")) {
-                    doc.setStatusType("No status");
+                    doc.setStatusType("Forward Balance");
                 } else {
                     dolar = statusType.getJSONObject("ft:Applied");
                     doc.setStatusType(dolar.getString("$"));
@@ -655,7 +630,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
                 JSONObject statusType = parentArray.getJSONObject(i);
                 if(!statusType.has("ft:Applied")) {
-                    doc.setStatusType("No status");
+                    doc.setStatusType("Forward Balance");
                 } else {
                     dolar = statusType.getJSONObject("ft:Applied");
                     doc.setStatusType(dolar.getString("$"));

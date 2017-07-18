@@ -4,8 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -52,6 +55,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     private TextView partida, propertyRefs, saldoPartidi, holderAccountText;
     private int cnt = 0;
     private String isActive;
+    private AlertDialog.Builder alertDialog;
 
     ArrayList<PartidiInfo> arrayOfDocuments = new ArrayList<PartidiInfo>();
 
@@ -97,6 +101,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
             @Override
             public void onSearchViewShown() {
 
+
             }
 
             @Override
@@ -124,7 +129,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                 if(newText != null && !newText.isEmpty()) {
                     final ArrayList<PartidiInfo> foundList = new ArrayList<>();
                     for(PartidiInfo info  : arrayOfDocuments) {
-                        if(info.getHolderAccount().toLowerCase().contains(newText) || info.getPartidaNomer().toLowerCase().contains(newText.toLowerCase()) || info.getPartidaBalance().toLowerCase().contains(newText.toLowerCase()) || info.getPartidaPropertyRefs().toLowerCase().contains(newText.toLowerCase()))
+                        if(info.getHolderAccount().toLowerCase().contains(newText.toLowerCase()) || info.getPartidaNomer().toLowerCase().contains(newText.toLowerCase()) || info.getPartidaBalance().toLowerCase().contains(newText.toLowerCase()) || info.getPartidaPropertyRefs().toLowerCase().contains(newText.toLowerCase()))
                             foundList.add(info);
                     }
 
@@ -348,6 +353,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.logout_menu, menu);
         inflater.inflate(R.menu.search_menu, menu);
+        inflater.inflate(R.menu.refresh_menu, menu);
         MenuItem item = menu.findItem(R.id.searchItem);
         searchView.setMenuItem(item);
 
@@ -362,14 +368,49 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
 
-            SharedPreferences preferences =getSharedPreferences("Login",Context.MODE_PRIVATE);
+            SharedPreferences preferences = getSharedPreferences("Login",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.clear();
             editor.commit();
 
             finish();
         }
+
+        if(item.getItemId() == R.id.refresh_id) {
+
+            if(isNetworkAvailable()) {
+                partidaList = (ListView) findViewById(R.id.partidaList);
+                MyPartidiAdapter adapter = new MyPartidiAdapter(PartidiView.this, arrayOfDocuments);
+                partidaList.setAdapter(adapter);
+
+                partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        DocumentsTask task = new DocumentsTask(PartidiView.this);
+                        task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidi[position] + "/statement"});
+                        partidaList.setClickable(false);
+                    }
+                });
+            } else {
+                alertDialog = new AlertDialog.Builder(PartidiView.this);
+                alertDialog.setTitle("Грешка")
+                        .setMessage("Няма интернет конекция")
+                        .setIcon(R.drawable.icon_error)
+                        .setPositiveButton(android.R.string.yes, null)
+                        .show();
+            }
+
+        }
+
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
     @Override
@@ -489,10 +530,19 @@ class DocumentsTask extends AsyncTask<String, String, ArrayList<Documents>> {
     private Context context;
     public String finalJsonDocuments;
     private ProgressDialog progressDialog;
+    private AlertDialog.Builder alertDialog;
     public DocumentsTask (Context context) {
         this.context = context.getApplicationContext();
         progressDialog = new ProgressDialog(context);
+        alertDialog = new AlertDialog.Builder(context);
 
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
     String unm, pass;
@@ -568,12 +618,21 @@ class DocumentsTask extends AsyncTask<String, String, ArrayList<Documents>> {
     @Override
     protected void onPostExecute(ArrayList<Documents> documents) {
 
-        Intent intent = new Intent(this.context, ClientDocuments.class);
-        intent.putExtra("finalPartidiJson", finalJsonDocuments);
-        intent.putExtra("username", unm);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-        progressDialog.dismiss();
+        if(isNetworkAvailable()) {
+            Intent intent = new Intent(this.context, ClientDocuments.class);
+            intent.putExtra("finalPartidiJson", finalJsonDocuments);
+            intent.putExtra("username", unm);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+            progressDialog.dismiss();
+        } else {
+            progressDialog.dismiss();
+            alertDialog.setTitle("Грешка")
+                    .setMessage("Няма интернет конекция")
+                    .setIcon(R.drawable.icon_error)
+                    .setPositiveButton(android.R.string.yes, null)
+                    .show();
+        }
 
         super.onPostExecute(documents);
     }
