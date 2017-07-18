@@ -108,12 +108,13 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
             listView.setAdapter(adapter);
             clickItemHandler(listView, arrayOfDocuments);
+
         } else {
             orienationJSONParse();
-
             MyDocumentsAdapter mAdapter = new MyDocumentsAdapter(this, arrayOfCalendarDocuments);
             listView.setAdapter(mAdapter);
             clickItemHandler(listView, arrayOfCalendarDocuments);
+            calendarOrientationJsonParse();
 
         }
 
@@ -135,8 +136,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         if(item.getItemId() == R.id.refresh_id) {
             MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
             listView.setAdapter(adapter);
-            documentJSONParse();
             clickItemHandler(listView, arrayOfDocuments);
+            nachalnaData.setText(documents.getNachalnaData());
         }
 
         if (item.getItemId() == R.id.logout_id) {
@@ -388,6 +389,96 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         }
     }
 
+
+    public void calendarOrientationJsonParse () {
+
+        tekushtoSaldo = (TextView) findViewById(R.id.tekushtoSaldo);
+        nachalnaData = (TextView) findViewById(R.id.nachalnaData);
+        krainaData = (TextView) findViewById(R.id.krainaData);
+        saldoNachalo = (TextView) findViewById(R.id.saldoNachalo);
+        saldoKraq = (TextView) findViewById(R.id.saldoVKraq);
+        textView11 = (TextView) findViewById(R.id.textView11);
+        partidaTextID = (TextView) findViewById(R.id.partidaID);
+        userIDText = (TextView) findViewById(R.id.titulqrID);
+
+
+        JSONObject dolar;
+        String partidaNew = null;
+
+
+
+        String partidaId = null;
+
+        try {
+            JSONObject parentObject = new JSONObject(finalCalendarDocuments);
+            JSONObject accountObject = parentObject.getJSONObject("cssc:AccountStatement");
+
+            dolar = accountObject.getJSONObject("ct:StartDate");
+            documents.setNachalnaData(dolar.getString("$"));
+            nachalnaData.setText(dolar.getString("$"));
+
+            dolar = accountObject.getJSONObject("ct:EndDate");
+            documents.setKrainaData(dolar.getString("$"));
+            krainaData.setText(dolar.getString("$"));
+
+            JSONArray parentArray = accountObject.getJSONArray("cssc:Documents");
+            JSONObject Accounts = accountObject.getJSONObject("cssc:Account");
+
+            JSONObject holderAccount = Accounts.getJSONObject("cssc:Holder");
+            String holderString = holderAccount.getString("$");
+            userIDText.setText(holderString);
+
+            JSONArray partidaID = Accounts.getJSONArray("cssc:Uid");
+
+
+            for (int k = 0; k < partidaID.length(); k++) {
+                dolar = partidaID.getJSONObject(k);
+                documents.setPartidaID(dolar.getString("$"));
+                if (dolar.has("@ct:default")){
+                    partidaId = dolar.getString("$");
+                    partidaTextID.setText(partidaId);
+                    partidaNum = partidaId;
+                }
+
+                Log.d("partidaID", dolar.getString("$"));
+
+            }
+
+
+            for (int i = 0; i < parentArray.length(); i++) {
+                doc = new Documents();
+
+                JSONObject balance = parentArray.getJSONObject(i);
+                dolar = balance.getJSONObject("ct:Balance");
+                doc.setBalance(dolar.getString("$"));
+                testArray[i] = Double.parseDouble(dolar.getString("$"));
+                Double posledno = testArray[parentArray.length()-1];
+                tekushtoSaldo.setText(doc.getBalance() + "лв.");
+                Log.d("balance", dolar.getString("$"));
+                Log.d("Double Balance", String.valueOf(testArray[i]));
+
+                JSONObject amount = parentArray.getJSONObject(i);
+                dolar = amount.getJSONObject("ft:Amount");
+                doc.setAmount(dolar.getString("$"));
+
+
+                JSONObject forwardBalance = parentArray.getJSONObject(i);
+                dolar = forwardBalance.getJSONObject("ft:Type");
+                doc.setForwardBalance(dolar.getString("$"));
+                String test = dolar.getString("$");
+                Log.d("forwardBalance", dolar.getString("$"));
+
+                if(test.equals("ForwardBalance")) {
+                    saldoNachalo.setText(doc.getBalance() + "лв.");
+                }
+
+                saldoKraq.setText(posledno.toString() + "лв.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
     public void documentJSONParse () {
 
         tekushtoSaldo = (TextView) findViewById(R.id.tekushtoSaldo);
