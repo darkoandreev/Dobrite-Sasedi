@@ -51,6 +51,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
     private MaterialSearchView searchView;
     private TextView partida, propertyRefs, saldoPartidi, holderAccountText;
     private int cnt = 0;
+    private String isActive;
 
     ArrayList<PartidiInfo> arrayOfDocuments = new ArrayList<PartidiInfo>();
 
@@ -65,29 +66,30 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
 
         searchView = (MaterialSearchView) findViewById(R.id.searchBar);
 
-        partidaList = (ListView) findViewById(R.id.partidaList);
-        final MyPartidiAdapter adapter = new MyPartidiAdapter(this, arrayOfDocuments);
-        partidaList.setAdapter(adapter);
 
-        adapter.notifyDataSetChanged();
-
-        partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DocumentsTask task = new DocumentsTask(PartidiView.this);
-                task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidi[position] + "/statement"});
-                partidaList.setClickable(false);
-            }
-        });
+            partidaList = (ListView) findViewById(R.id.partidaList);
+            final MyPartidiAdapter adapter = new MyPartidiAdapter(this, arrayOfDocuments);
+            partidaList.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
 
 
-        partidiJSONParse();
-        searchItems();
-        sortPartidi(adapter);
-        sortImot(adapter);
-        sortSaldo(adapter);
+            partidaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    DocumentsTask task = new DocumentsTask(PartidiView.this);
+                    task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidi[position] + "/statement"});
+                    partidaList.setClickable(false);
+                }
+            });
 
+
+            partidiJSONParse();
+            searchItems();
+            sortPartidi(adapter);
+            sortImot(adapter);
+            sortSaldo(adapter);
     }
+
 
     //Search items by string in listview
     public void searchItems () {
@@ -104,6 +106,10 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                 MyPartidiAdapter adapter = new MyPartidiAdapter(PartidiView.this, arrayOfDocuments);
                 partidaList.setAdapter(adapter);
 
+                sortSaldo(adapter);
+                sortPartidi(adapter);
+                sortImot(adapter);
+
             }
         });
 
@@ -118,7 +124,7 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
                 if(newText != null && !newText.isEmpty()) {
                     final ArrayList<PartidiInfo> foundList = new ArrayList<>();
                     for(PartidiInfo info  : arrayOfDocuments) {
-                        if(info.getPartidaNomer().contains(newText) || info.getPartidaBalance().contains(newText) || info.getPartidaPropertyRefs().contains(newText))
+                        if(info.getHolderAccount().toLowerCase().contains(newText) || info.getPartidaNomer().toLowerCase().contains(newText.toLowerCase()) || info.getPartidaBalance().toLowerCase().contains(newText.toLowerCase()) || info.getPartidaPropertyRefs().toLowerCase().contains(newText.toLowerCase()))
                             foundList.add(info);
                     }
 
@@ -164,10 +170,14 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
 
                 switch (cnt) {
                     case 1: partida.setText("Партида↑");
+                        propertyRefs.setText("Имот");
+                        saldoPartidi.setText("Салдо");
                         sortItemsASC(adapter, newFoundList);
                         break;
 
                     case 2: partida.setText("Партида↓");
+                        propertyRefs.setText("Имот");
+                        saldoPartidi.setText("Салдо");
                         sortItemsDSC(adapter, newFoundList2);
 
                         cnt = 0;
@@ -192,10 +202,14 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
 
                 switch(cnt) {
                     case 1: saldoPartidi.setText("Салдо↑");
+                        propertyRefs.setText("Имот");
+                        partida.setText("Партида");
                         sortSaldoASC(adapter, newFoundList);
                         break;
 
                     case 2: saldoPartidi.setText("Салдо↓");
+                        propertyRefs.setText("Имот");
+                        partida.setText("Партида");
                         sortSaldoDSC(adapter, newFoundList2);
                         cnt = 0;
                         break;
@@ -217,10 +231,14 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
 
                 switch(cnt) {
                     case 1: propertyRefs.setText("Имот↑");
+                        saldoPartidi.setText("Салдо");
+                        partida.setText("Партида");
                         sortItemsASC(adapter, newFoundList);
                         break;
 
                     case 2: propertyRefs.setText("Имот↓");
+                        saldoPartidi.setText("Салдо");
+                        partida.setText("Партида");
                         sortItemsDSC(adapter, newFoundList2);
                         cnt = 0;
                         break;
@@ -390,65 +408,69 @@ public class PartidiView extends AppCompatActivity implements AdapterView.OnItem
             JSONObject accountObject = parentObject.getJSONObject("cssc:AccountsWithUser");
             JSONArray parentArray = accountObject.getJSONArray("cssc:Account");
 
-            partidi = new String[parentArray.length()];
+                partidi = new String[parentArray.length()];
+                int cnt = 0;
 
-            for (int i = 0; i < parentArray.length(); i++) {
+                for (int i = 0; i < parentArray.length(); i++) {
 
-                JSONObject dolar;
-                JSONArray dolarArray;
-                PartidiInfo info = new PartidiInfo();
+                    JSONObject dolar;
+                    JSONArray dolarArray;
+                    PartidiInfo info = new PartidiInfo();
 
-                JSONObject holderAccountArray = parentArray.getJSONObject(i);
-                dolar = holderAccountArray.getJSONObject("cssc:Holder");
-                info.setHolderAccount(dolar.getString("$"));
-                Log.d("Titulqr:", dolar.getString("$"));
-
-
-
-                JSONObject partidaNomerObject = parentArray.getJSONObject(i);
-                dolarArray = partidaNomerObject.getJSONArray("cssc:Uid");
-
-                JSONObject active = partidaNomerObject.getJSONObject("ct:Active");
-                Log.d("Active", active.getString("$"));
+                    JSONObject holderAccountArray = parentArray.getJSONObject(i);
+                    dolar = holderAccountArray.getJSONObject("cssc:Holder");
+                    info.setHolderAccount(dolar.getString("$"));
+                    Log.d("Titulqr:", dolar.getString("$"));
 
 
-                for (int j = 0; j < dolarArray.length(); j++) {
+                    JSONObject partidaNomerObject = parentArray.getJSONObject(i);
+                    dolarArray = partidaNomerObject.getJSONArray("cssc:Uid");
 
-                    dolar = dolarArray.getJSONObject(j);
-                    info.setPartidaNomer(dolar.getString("$"));
-                    partidaNomerJson = dolar.getString("$");
-                    partidi[i] = partidaNomerJson;
-                    //partidaNomer.setText(info.getPartidaNomer());
-                    Log.d("NomerPartida", dolar.getString("$"));
+                    JSONObject active = partidaNomerObject.getJSONObject("ct:Active");
+                    isActive = active.getString("$");
 
-                }
+                    Log.d("Active", isActive);
 
+                    if(isActive.equals("true")) {
+                        for (int j = 0; j < dolarArray.length(); j++) {
 
-                JSONObject partidaBalanceObject = parentArray.getJSONObject(i);
-                dolar = partidaBalanceObject.getJSONObject("ct:Balance");
-                info.setPartidaBalance(dolar.getString("$"));
-                // partidaBalance.setText(info.getPartidaBalance());
-                Log.d("Balance", dolar.getString("$"));
+                            dolar = dolarArray.getJSONObject(j);
+                            info.setPartidaNomer(dolar.getString("$"));
+                            partidaNomerJson = dolar.getString("$");
+                            partidi[cnt] = partidaNomerJson;
+                            //partidaNomer.setText(info.getPartidaNomer());
+                            Log.d("NomerPartida", dolar.getString("$"));
 
-                JSONObject partidaPropertyRefsObject = parentArray.getJSONObject(i);
-                if (!partidaPropertyRefsObject.has("cssc:PropertyRefs")) {
-                    info.setPartidaPropertyRefs("Неактивна");
-                } else {
-                    JSONArray refArray = partidaPropertyRefsObject.getJSONArray("cssc:PropertyRefs");
-                    for (int k = 0; k < refArray.length(); k++) {
-                        dolar = refArray.getJSONObject(k);
-                        JSONObject refObject = dolar.getJSONObject("ct:Ref");
-                        JSONObject uIDObject = refObject.getJSONObject("ct:Uid");
-                        if (uIDObject.has("@ct:id-type")) {
-                            info.setPartidaPropertyRefs(uIDObject.getString("$"));
                         }
-                        Log.d("Refs:", uIDObject.getString("$"));
+
+
+                        JSONObject partidaBalanceObject = parentArray.getJSONObject(i);
+                        dolar = partidaBalanceObject.getJSONObject("ct:Balance");
+                        info.setPartidaBalance(dolar.getString("$"));
+                        // partidaBalance.setText(info.getPartidaBalance());
+                        Log.d("Balance", dolar.getString("$"));
+
+                        JSONObject partidaPropertyRefsObject = parentArray.getJSONObject(i);
+                        if (!partidaPropertyRefsObject.has("cssc:PropertyRefs")) {
+
+                        } else {
+                            JSONArray refArray = partidaPropertyRefsObject.getJSONArray("cssc:PropertyRefs");
+                            for (int k = 0; k < refArray.length(); k++) {
+                                dolar = refArray.getJSONObject(k);
+                                JSONObject refObject = dolar.getJSONObject("ct:Ref");
+                                JSONObject uIDObject = refObject.getJSONObject("ct:Uid");
+                                if (uIDObject.has("@ct:id-type")) {
+                                    info.setPartidaPropertyRefs(uIDObject.getString("$"));
+                                }
+                                Log.d("Refs:", uIDObject.getString("$"));
+
+                            }
+                        }
+
+                            arrayOfDocuments.add(info);
+                       cnt++;
                     }
                 }
-
-                arrayOfDocuments.add(info);
-            }
-
 
         } catch(Exception e){
             e.printStackTrace();

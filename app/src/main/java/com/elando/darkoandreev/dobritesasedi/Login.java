@@ -3,6 +3,8 @@ package com.elando.darkoandreev.dobritesasedi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -118,6 +120,7 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
     private SpotsDialog progressDialog;
     private AlertDialog.Builder alertDialog;
 
+
     public RetrieveFeedTask(Context context, String username, String password) {
         this.user = username;
         this.pass = password;
@@ -182,8 +185,24 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
         progressDialog.show();
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
     @Override
     protected void onPostExecute(ArrayList<PartidiInfo> partidiInfos) {
+
+        if(!isNetworkAvailable()) {
+            progressDialog.dismiss();
+            alertDialog.setTitle("Грешка")
+                    .setMessage("Няма интернет конекция")
+                    .setIcon(R.drawable.icon_error)
+                    .setPositiveButton(android.R.string.yes, null)
+                    .show();
+        }
 
         if (statusCode == 200) {
             super.onPostExecute(partidiInfos);
@@ -199,7 +218,8 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
             Intent intent = new Intent(this.context, PartidiView.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
-        } else {
+        } else if(statusCode == 401) {
+
             progressDialog.dismiss();
             alertDialog.setTitle("Грешка")
                         .setMessage("Невалидно потребителско име и/или парола")
@@ -207,7 +227,8 @@ class RetrieveFeedTask extends AsyncTask<String, String, ArrayList<PartidiInfo>>
                         .setPositiveButton(android.R.string.yes, null)
                     .show();
 
-            //Toast.makeText(this.context, "Невалидно потребителско име или парола", Toast.LENGTH_LONG).show();
         }
+
+
     }
 }

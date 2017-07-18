@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -58,6 +59,8 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     private int fromYear, fromMonth, fromDay, toYear, toMonth, toDay;
     private DatePickerDialog to_date, from_date;
     private String nachalna, kraina;
+    private AlertDialog.Builder alertDialog;
+    private Toolbar toolbar;
 
 
     TextView tekushtoSaldo, nachalnaData, krainaData, saldoNachalo, saldoKraq, textView12, userIDText, textView11, statusTypeForward, partidaTextID;
@@ -95,7 +98,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         super.onConfigurationChanged(newConfig);
 
         setContentView(client_documents);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.documents_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.documents_toolbar);
         setSupportActionBar(toolbar);
         listView = (ListView) findViewById(R.id.documentsList);
 
@@ -129,7 +132,7 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
         if(item.getItemId() == R.id.refresh_id) {
             MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
             listView.setAdapter(adapter);
-
+            documentJSONParse();
             clickItemHandler(listView, arrayOfDocuments);
         }
 
@@ -215,8 +218,29 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
 
                     Log.d("To date: ", toDateString);
 
-                    CalendarDocumentsTask task = new CalendarDocumentsTask(ClientDocuments.this);
-                    task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidaNum + "/statement?startDate=" + fromDateString + "&endDate=" + toDateString});
+                    alertDialog = new AlertDialog.Builder(ClientDocuments.this);
+
+                    try {
+                        if (!(fromDateString.compareTo(toDateString) <= 0)) {
+                            alertDialog.setTitle("Календарна грешка")
+                                    .setMessage("Въведете коректен период")
+                                    .setIcon(R.drawable.icon_error)
+                                    .setPositiveButton(android.R.string.yes, null)
+                                    .show();
+                            Toast.makeText(ClientDocuments.this, "Въведете коректен период", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            CalendarDocumentsTask task = new CalendarDocumentsTask(ClientDocuments.this);
+                            task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + partidaNum + "/statement?startDate=" + fromDateString + "&endDate=" + toDateString});
+                        }
+                    } catch (Exception e) {
+                        alertDialog.setTitle("Календарна грешка")
+                                .setMessage("Не фигурират такива дати")
+                                .setIcon(R.drawable.icon_error)
+                                .setPositiveButton(android.R.string.yes, null)
+                                .show();
+                        Toast.makeText(ClientDocuments.this, "Не фигурират такива дати", Toast.LENGTH_LONG).show();
+                    }
 
 
                     /*
@@ -283,9 +307,10 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
                 InvoicesTask invoiceTask = new InvoicesTask(ClientDocuments.this);
                 if (list.get(position).getForwardBalance().equals("Payment")) {
                     task.execute(new String[]{"http://vrod.dobritesasedi.bg/rest/accounts/" + documents.getPartidaID() + "/payments/" + list.get(position).getDocumentNumber()});
-                } else {
+                } else if(list.get(position).getForwardBalance().equals("Invoice")) {
                     invoiceTask.execute(new String[]{"http://vrod.dobritesasedi.bg//rest/accounts/" + documents.getPartidaID() + "/invoices/" + list.get(position).getDocumentNumber()});
                 }
+
             }
         });
     }
@@ -794,6 +819,100 @@ class CalendarDocumentsTask extends AsyncTask<String, String, ArrayList<Document
             super.onPostExecute(newDocuments);
         }
     }
+
+    class InvoicesTask extends AsyncTask<String, String, ArrayList<InvoicesInfo>> {
+        private Context context;
+        public String finalJsonInvoices;
+        private ProgressDialog progressDialog;
+
+        public InvoicesTask (Context context) {
+            this.context = context.getApplicationContext();
+            progressDialog = new ProgressDialog(context);
+
+        }
+
+        String unm, pass;
+        @Override
+        protected ArrayList<InvoicesInfo> doInBackground(String... urls) {
+
+            SharedPreferences sp1 = context.getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+            unm = sp1.getString("username", null);
+            pass = sp1.getString("password", null);
+
+            String credentials = unm + ":" + pass;
+
+
+            String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
+
+            String s = "";
+            for (String url : urls) {
+                DefaultHttpClient client = new DefaultHttpClient();
+                StringBuilder builder = new StringBuilder();
+                HttpGet httpGet = new HttpGet(url);
+                httpGet.setHeader("Authorization", "Basic " + credBase64);
+                httpGet.setHeader("Accept", "application/json;q=0.9,*/*;q=0.8");
+                httpGet.setHeader("Accept-Encoding", "gzip, deflate");
+                httpGet.setHeader("Content-Type", "application/json");
+
+                try {
+                    HttpResponse execute = client.execute(httpGet);
+                    StatusLine statusLine = execute.getStatusLine();
+                    int statusCode = statusLine.getStatusCode();
+
+                    if(statusCode == 200) {
+                        InputStream content = execute.getEntity().getContent();
+
+                        String status = execute.getStatusLine().toString();
+                        Log.d("Status", status);
+
+                        BufferedReader bufferReader = new BufferedReader(new InputStreamReader(content));
+                        StringBuffer buffer = new StringBuffer();
+
+
+                        while ((s = bufferReader.readLine()) != null) {
+                            buffer.append(s);
+                            Log.d("Response", String.valueOf(builder));
+                        }
+
+                        finalJsonInvoices = buffer.toString();
+
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return null;
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog.setMessage("Loading...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<InvoicesInfo> invoices) {
+
+            progressDialog.dismiss();
+
+            Intent intent = new Intent(this.context, InvoicesView.class);
+            intent.putExtra("finalInvoicesJson", finalJsonInvoices);
+            intent.putExtra("username", unm);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+
+            super.onPostExecute(invoices);
+        }
+    }
 }
 
 
@@ -892,101 +1011,7 @@ class PaymentsTask extends AsyncTask<String, String, ArrayList<PaymentsInfo>> {
     }
 }
 
-class InvoicesTask extends AsyncTask<String, String, ArrayList<InvoicesInfo>> {
-    private Context context;
-    public String finalJsonInvoices;
-    private ProgressDialog progressDialog;
 
-    public InvoicesTask (Context context) {
-        this.context = context.getApplicationContext();
-        progressDialog = new ProgressDialog(context);
-
-    }
-
-    String unm, pass;
-    @Override
-    protected ArrayList<InvoicesInfo> doInBackground(String... urls) {
-
-        SharedPreferences sp1 = context.getSharedPreferences("Login", Context.MODE_PRIVATE);
-
-        unm = sp1.getString("username", null);
-        pass = sp1.getString("password", null);
-
-        String credentials = unm + ":" + pass;
-
-
-        String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
-
-        String s = "";
-        for (String url : urls) {
-            DefaultHttpClient client = new DefaultHttpClient();
-            StringBuilder builder = new StringBuilder();
-            HttpGet httpGet = new HttpGet(url);
-            httpGet.setHeader("Authorization", "Basic " + credBase64);
-            httpGet.setHeader("Accept", "application/json;q=0.9,*/*;q=0.8");
-            httpGet.setHeader("Accept-Encoding", "gzip, deflate");
-            httpGet.setHeader("Content-Type", "application/json");
-
-            try {
-                HttpResponse execute = client.execute(httpGet);
-                StatusLine statusLine = execute.getStatusLine();
-                int statusCode = statusLine.getStatusCode();
-
-                if(statusCode == 200) {
-                    InputStream content = execute.getEntity().getContent();
-
-                    String status = execute.getStatusLine().toString();
-                    Log.d("Status", status);
-
-                    BufferedReader bufferReader = new BufferedReader(new InputStreamReader(content));
-                    StringBuffer buffer = new StringBuffer();
-
-
-                    while ((s = bufferReader.readLine()) != null) {
-                        buffer.append(s);
-                        Log.d("Response", String.valueOf(builder));
-                    }
-
-                    finalJsonInvoices = buffer.toString();
-
-                }
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        return null;
-
-    }
-
-    @Override
-    protected void onPreExecute() {
-        progressDialog.setMessage("Loading...");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        super.onPreExecute();
-    }
-
-    @Override
-    protected void onPostExecute(ArrayList<InvoicesInfo> invoices) {
-
-
-        progressDialog.dismiss();
-
-        Intent intent = new Intent(this.context, InvoicesView.class);
-        intent.putExtra("finalInvoicesJson", finalJsonInvoices);
-        intent.putExtra("username", unm);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-
-
-        super.onPostExecute(invoices);
-    }
-}
 
 
 

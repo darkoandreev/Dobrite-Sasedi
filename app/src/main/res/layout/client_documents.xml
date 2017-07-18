@@ -121,27 +121,25 @@
         android:id="@+id/titulqrID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_toEndOf="@+id/textView22"
+        android:layout_toRightOf="@+id/textView22"
         android:maxLines="2"
         android:textAllCaps="false"
         android:textColor="#000000"
-        android:textSize="16sp"
-        android:layout_alignBaseline="@+id/textView2"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_toRightOf="@+id/textView22"
-        android:layout_toEndOf="@+id/textView22" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tekushtoSaldo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="#000000"
-        android:textSize="16sp"
         android:layout_alignBaseline="@+id/textView3"
         android:layout_alignBottom="@+id/textView3"
         android:layout_alignLeft="@+id/titulqrID"
-        android:layout_alignStart="@+id/titulqrID" />
+        android:layout_alignStart="@+id/titulqrID"
+        android:textColor="#000000"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/grupa"
@@ -158,49 +156,45 @@
         android:id="@+id/nachalnaData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="#000000"
-        android:textSize="16sp"
         android:layout_alignBaseline="@+id/textView6"
         android:layout_alignBottom="@+id/textView6"
+        android:layout_toEndOf="@+id/grupa"
         android:layout_toRightOf="@+id/grupa"
-        android:layout_toEndOf="@+id/grupa" />
+        android:textColor="#000000"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/krainaData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="#000000"
-        android:textSize="16sp"
         android:layout_alignBaseline="@+id/textView7"
         android:layout_alignBottom="@+id/textView7"
+        android:layout_toEndOf="@+id/grupa"
         android:layout_toRightOf="@+id/grupa"
-        android:layout_toEndOf="@+id/grupa" />
+        android:textColor="#000000"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/saldoNachalo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="#000000"
-        android:textSize="16sp"
         android:layout_alignBaseline="@+id/textView8"
         android:layout_alignBottom="@+id/textView8"
         android:layout_alignLeft="@+id/saldoVKraq"
-        android:layout_alignStart="@+id/saldoVKraq" />
+        android:layout_alignStart="@+id/saldoVKraq"
+        android:textColor="#000000"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/saldoVKraq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="#000000"
-        android:textSize="16sp"
         android:layout_alignBaseline="@+id/textView10"
         android:layout_alignBottom="@+id/textView10"
+        android:layout_toEndOf="@+id/grupa"
         android:layout_toRightOf="@+id/grupa"
-        android:layout_toEndOf="@+id/grupa" />
+        android:textColor="#000000"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textView21"
@@ -249,12 +243,11 @@
         android:id="@+id/partidaID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="#000"
-        android:textSize="16sp"
         android:layout_alignBaseline="@+id/user"
         android:layout_alignBottom="@+id/user"
+        android:layout_toEndOf="@+id/grupa"
         android:layout_toRightOf="@+id/grupa"
-        android:layout_toEndOf="@+id/grupa" />
+        android:textColor="#000"
+        android:textSize="16sp" />
 
 </RelativeLayout>

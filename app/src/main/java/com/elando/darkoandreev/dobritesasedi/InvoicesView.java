@@ -40,6 +40,7 @@ public class InvoicesView extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.invoices_toolbar);
         setSupportActionBar(toolbar);
 
+
         invoicesListView = (ListView) findViewById(R.id.invoicesList);
 
         MyInvoicesAdapter invoicesAdapter = new MyInvoicesAdapter(this, arrayOfInvoices);
@@ -131,6 +132,16 @@ public class InvoicesView extends AppCompatActivity {
                 info.setDokumentInvoices(dolar.getString("$"));
                 dokumentInvoiceText.setText(info.getDokumentInvoices());
                 Log.d("Dokument", dolar.getString("$"));
+
+                Toolbar toolbar = (Toolbar) findViewById(R.id.invoices_toolbar);
+                setSupportActionBar(toolbar);
+                if(info.getDokumentInvoices().endsWith("z")) {
+                    toolbar.setTitle("Протокол");
+                }
+                if(info.getDokumentInvoices().endsWith("d")) {
+                    toolbar.setTitle("Проформа фактура");
+                }
+
 
                 JSONObject applied = invoicesArray.getJSONObject(j);
                 dolar = applied.getJSONObject("ft:Applied");
