@@ -59,7 +59,6 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     private String[] issueDateArray;
     private int fromYear, fromMonth, fromDay, toYear, toMonth, toDay;
     private DatePickerDialog to_date, from_date;
-    private String nachalna, kraina;
     private AlertDialog.Builder alertDialog;
     private Toolbar toolbar;
 
@@ -110,7 +109,6 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
             clickItemHandler(listView, arrayOfDocuments);
 
         } else {
-            orienationJSONParse();
             MyDocumentsAdapter mAdapter = new MyDocumentsAdapter(this, arrayOfCalendarDocuments);
             listView.setAdapter(mAdapter);
             clickItemHandler(listView, arrayOfCalendarDocuments);
@@ -134,10 +132,14 @@ public class ClientDocuments extends AppCompatActivity implements AdapterView.On
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(item.getItemId() == R.id.refresh_id) {
+            orienationJSONParse();
+            saldoNachalo.setText(doc.getBalance());
+
             MyDocumentsAdapter adapter = new MyDocumentsAdapter(this, arrayOfDocuments);
             listView.setAdapter(adapter);
+
             clickItemHandler(listView, arrayOfDocuments);
-            nachalnaData.setText(documents.getNachalnaData());
+
         }
 
         if (item.getItemId() == R.id.logout_id) {
